@@ -10,7 +10,7 @@ window.env = {
   "TMPDIR": "/var/folders/ny/nq7tn57s55l_76rp20nf0b3w0000gn/T/",
   "npm_config_global_prefix": "/opt/homebrew",
   "COLOR": "1",
-  "TERM_SESSION_ID": "3e185744-b91e-4d47-bb72-84341a99dcf3",
+  "TERM_SESSION_ID": "dc4306a2-7581-42e8-8c6a-46af66c0e3f7",
   "npm_config_noproxy": "",
   "npm_config_local_prefix": "/Users/tom/PythonProjects2024/ffl_companion/react_apps/fantasy_tracker",
   "NVM_DIR": "/Users/tom/.nvm",

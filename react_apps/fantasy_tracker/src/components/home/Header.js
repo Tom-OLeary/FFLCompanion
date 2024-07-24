@@ -9,16 +9,16 @@ import MenuDrawer from "../MenuDrawer";
 
 
 export default function Header(props) {
-    // const [data, setData] = useState([])
-    // let url = props.url + "breakdowns/"
-    // useEffect(() => {
-    //     fetch(url)
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             console.log(json);
-    //             setData(json)
-    //         })
-    // }, []);
+    const [data, setData] = useState([])
+    let url = props.url + "breakdown/"
+    useEffect(() => {
+        fetch(url)
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+                setData(json)
+            })
+    }, []);
     const PaperItem = styled(Paper)(({ theme }) => ({
       width: "100%",
       height: "75%",
@@ -35,31 +35,31 @@ export default function Header(props) {
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>
                         Years Active
-                        <div>15</div>
+                        <div>{data.years_active}</div>
                     </div>
                 </PaperItem>
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>
                         Active Members
-                        <div>12</div>
+                        <div>{data.active_members}</div>
                     </div>
                 </PaperItem>
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>
                         Total Members
-                        <div>26</div>
+                        <div>{data.total_members}</div>
                     </div>
                 </PaperItem>
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>
                         Unique Champions
-                        <div>5</div>
+                        <div>{data.unique_champions}</div>
                     </div>
                 </PaperItem>
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>
                         Projected Prize Pool
-                        <div>$3000</div>
+                        <div>{data.prize_pool}</div>
                     </div>
                 </PaperItem>
             </Stack>

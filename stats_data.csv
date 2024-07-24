@@ -1,0 +1,159 @@
+,team_owner_id,team_name,wins,losses,draws,total_points,total_points_against,ppg,pag,net_rating,regular_season_standing,final_season_standing,made_playoffs,made_finals,won_finals,acquisitions,drops,injured_reserve_count,moves,trades,season_start_year,league_name,league_id
+0,9,"Dow, Thanks For CJ",9,3,0,1433.5,1245.5,119.5,103.8,15,0,1,True,True,True,0,0,0,0,0,2009,Norton,3
+1,10,Look At My TD'S,7,5,0,1242.5,1122.0,103.5,93.5,10,0,2,True,True,False,0,0,0,0,0,2009,Norton,3
+2,1,LETS GO PACKERS!!,7,5,0,1208.5,1264.5,100.7,105.4,-4,0,3,True,False,False,0,0,0,0,0,2009,Norton,3
+3,7,Deangelo gives me daps,7,5,0,1310.5,1222.5,109.2,101.9,7,0,4,True,False,False,0,0,0,0,0,2009,Norton,3
+4,19,Forgetting Brand Marshall,6,6,0,1364.0,1347.0,113.7,112.3,1,0,5,True,False,False,0,0,0,0,0,2009,Norton,3
+5,4,NOT COMING IN LAST!,5,6,1,1299.0,1341.0,108.3,111.8,-3,0,6,True,False,False,0,0,0,0,0,2009,Norton,3
+6,8,The Young Duds,4,7,1,1142.0,1206.5,95.2,100.5,-5,0,7,False,False,False,0,0,0,0,0,2009,Norton,3
+7,14,My Poop is Ronnie + Brown,6,6,0,1297.0,1264.0,108.1,105.3,2,0,8,False,False,False,0,0,0,0,0,2009,Norton,3
+8,22,Onside Dick,5,7,0,1166.5,1169.5,97.2,97.5,0,0,9,False,False,False,0,0,0,0,0,2009,Norton,3
+9,16,It Aint Easy Being Cheesy,3,9,0,1088.0,1369.0,90.7,114.1,-23,0,10,False,False,False,0,0,0,0,0,2009,Norton,3
+10,8,KC Cheifs superbowlchamps,8,3,1,1341.0,1163.0,111.8,96.9,14,0,1,True,True,True,0,0,0,0,0,2010,Norton,4
+11,15,Rodgers On Demand,9,3,0,1206.0,966.5,100.5,80.5,20,0,2,True,True,False,0,0,0,0,0,2010,Norton,4
+12,10,. .,7,5,0,1225.5,1155.5,102.1,96.3,5,0,3,True,False,False,0,0,0,0,0,2010,Norton,4
+13,1,OPPERATION DOWSCHWITZ,7,5,0,1261.5,1288.5,105.1,107.4,-2,0,4,True,False,False,0,0,0,0,0,2010,Norton,4
+14,9,Nuts and Bolts I Got Screwed,6,6,0,1356.0,1289.0,113.0,107.4,5,0,5,True,False,False,0,0,0,0,0,2010,Norton,4
+15,14,Tommy Boy,5,6,1,1241.5,1281.5,103.5,106.8,-3,0,6,True,False,False,0,0,0,0,0,2010,Norton,4
+16,16,Wilfork You Up,3,9,0,1147.0,1354.5,95.6,112.9,-17,0,7,False,False,False,0,0,0,0,0,2010,Norton,4
+17,19,ONE MORE WIN PLZ!!!!,7,5,0,1055.5,1102.0,88.0,91.8,-3,0,8,False,False,False,0,0,0,0,0,2010,Norton,4
+18,22,The Race For 4th,4,8,0,1154.5,1183.0,96.2,98.6,-2,0,9,False,False,False,0,0,0,0,0,2010,Norton,4
+19,4,99 Problems But AP Ain't one!,3,9,0,1098.0,1303.0,91.5,108.6,-17,0,10,False,False,False,0,0,0,0,0,2010,Norton,4
+20,21,the Calvinists,6,6,0,1331.0,1264.0,110.9,105.3,5,0,1,True,True,True,0,0,0,0,0,2011,Norton,5
+21,9,It's Tebow Time,9,3,0,1359.0,1192.5,113.3,99.4,13,0,2,True,True,False,0,0,0,0,0,2011,Norton,5
+22,14,The Daily Show,8,4,0,1446.0,1291.5,120.5,107.6,12,0,3,True,False,False,0,0,0,0,0,2011,Norton,5
+23,15,Rodgers On Demand,9,3,0,1403.5,1212.5,117.0,101.0,15,0,4,True,False,False,0,0,0,0,0,2011,Norton,5
+24,10,The Jackson 5,5,7,0,1101.5,1193.0,91.8,99.4,-7,0,5,True,False,False,0,0,0,0,0,2011,Norton,5
+25,1,TEAM AMERICA,5,7,0,1248.0,1370.0,104.0,114.2,-10,0,6,True,False,False,0,0,0,0,0,2011,Norton,5
+26,22,Play With My Johnson,4,8,0,1190.5,1345.0,99.2,112.1,-12,0,7,False,False,False,0,0,0,0,0,2011,Norton,5
+27,8,Run DMC,6,6,0,1228.5,1225.0,102.4,102.1,0,0,8,False,False,False,0,0,0,0,0,2011,Norton,5
+28,19,The Gentlemen's Club,5,7,0,1153.5,1270.5,96.1,105.9,-9,0,9,False,False,False,0,0,0,0,0,2011,Norton,5
+29,16,Wilfork You Up,3,9,0,1134.5,1232.0,94.5,102.7,-8,0,10,False,False,False,0,0,0,0,0,2011,Norton,5
+30,8,Run Jamaal Run!,10,2,0,1480.5,1182.0,123.4,98.5,24,0,1,True,True,True,0,0,0,0,0,2012,Norton,6
+31,18,Tootsie Sproles,8,3,1,1398.5,1280.0,116.5,106.7,9,0,2,True,True,False,0,0,0,0,0,2012,Norton,6
+32,9,Party Like A Gronk Star,8,3,1,1334.0,1139.5,111.2,95.0,16,0,3,True,False,False,0,0,0,0,0,2012,Norton,6
+33,15,Rodgers On Demand,8,4,0,1208.0,1189.0,100.7,99.1,1,0,4,True,False,False,0,0,0,0,0,2012,Norton,6
+34,5,David Akers Blows,4,8,0,1266.5,1331.5,105.5,111.0,-5,0,5,True,False,False,0,0,0,0,0,2012,Norton,6
+35,22,ABC Easy As RG3,5,6,1,1243.5,1270.0,103.6,105.8,-2,0,6,True,False,False,0,0,0,0,0,2012,Norton,6
+36,10,Forgetting Brandon Marshal,5,6,1,1242.5,1272.5,103.5,106.0,-2,0,7,False,False,False,0,0,0,0,0,2012,Norton,6
+37,14,The Practice Squad,2,10,0,1164.0,1392.5,97.0,116.0,-19,0,8,False,False,False,0,0,0,0,0,2012,Norton,6
+38,21,ainteasy beingbreezy,5,7,0,1127.5,1234.0,94.0,102.8,-8,0,9,False,False,False,0,0,0,0,0,2012,Norton,6
+39,1,T.Adam Barnes,3,9,0,1073.0,1247.0,89.4,103.9,-14,0,10,False,False,False,0,0,0,0,0,2012,Norton,6
+40,8,Run Jamaal Run!,9,3,0,1372.74,1254.08,114.4,104.5,9,0,1,True,True,True,0,0,0,0,0,2013,Norton,7
+41,21,The Calvanist Strikes Back,7,5,0,1386.8,1382.72,115.6,115.2,0,0,2,True,True,False,0,0,0,0,0,2013,Norton,7
+42,5,Looking For Molly,7,5,0,1359.38,1278.38,113.3,106.5,6,0,3,True,False,False,0,0,0,0,0,2013,Norton,7
+43,1,T.Adam Barnes,7,5,0,1335.3,1169.54,111.3,97.5,13,0,4,True,False,False,0,0,0,0,0,2013,Norton,7
+44,14,The Practice Squad,5,7,0,1351.36,1354.76,112.6,112.9,0,0,5,True,False,False,0,0,0,0,0,2013,Norton,7
+45,18,Wayne Enterprises,6,6,0,1292.24,1417.04,107.7,118.1,-10,0,6,True,False,False,0,0,0,0,0,2013,Norton,7
+46,9,I'm Mike James Bitch,3,9,0,1235.9,1341.12,103.0,111.8,-8,0,7,False,False,False,0,0,0,0,0,2013,Norton,7
+47,22,Why So Serious?,6,6,0,1364.06,1242.04,113.7,103.5,10,0,8,False,False,False,0,0,0,0,0,2013,Norton,7
+48,10,The Real Slim Shady,4,8,0,1205.36,1337.76,100.4,111.5,-11,0,9,False,False,False,0,0,0,0,0,2013,Norton,7
+49,15,Rodgers On Demand,6,6,0,1136.38,1262.08,94.7,105.2,-10,0,10,False,False,False,0,0,0,0,0,2013,Norton,7
+50,5,Edward Forte Hands,8,4,0,1538.08,1279.36,128.2,106.6,21,0,1,True,True,True,0,0,0,0,0,2014,Norton,8
+51,9,Downtown Antonio Brown,8,4,0,1305.38,1290.24,108.8,107.5,1,0,2,True,True,False,0,0,0,0,0,2014,Norton,8
+52,10,drew brees blows,8,4,0,1326.68,1219.1,110.6,101.6,9,0,3,True,False,False,0,0,0,0,0,2014,Norton,8
+53,21,HotCheetos AndTuckies,7,5,0,1358.44,1292.42,113.2,107.7,5,0,4,True,False,False,0,0,0,0,0,2014,Norton,8
+54,11,Game... Blouses...,5,7,0,1168.46,1314.92,97.4,109.6,-12,0,5,True,False,False,0,0,0,0,0,2014,Norton,8
+55,1,T.ADAM BARNES,7,5,0,1339.6,1262.74,111.6,105.2,6,0,6,True,False,False,0,0,0,0,0,2014,Norton,8
+56,14,The Practice Squad,6,6,0,1290.58,1277.18,107.5,106.4,1,0,7,False,False,False,0,0,0,0,0,2014,Norton,8
+57,15,How I Lucked Your Mother,2,10,0,1265.92,1510.04,105.5,125.8,-20,0,8,False,False,False,0,0,0,0,0,2014,Norton,8
+58,12,Down With The Brothas,5,7,0,1252.02,1292.8,104.3,107.7,-3,0,9,False,False,False,0,0,0,0,0,2014,Norton,8
+59,8,WhatDoesJonFox Say?ManNiNiNing,4,8,0,1282.48,1388.84,106.9,115.7,-8,0,10,False,False,False,0,0,0,0,0,2014,Norton,8
+60,9,Your Face When You See My Team,8,4,0,1324.24,1275.84,110.4,106.3,4,0,1,True,True,True,0,0,0,0,0,2015,Norton,9
+61,8,They're Brothers?,7,4,1,1443.72,1304.54,120.3,108.7,11,0,2,True,True,False,0,0,0,0,0,2015,Norton,9
+62,14,The Practice Squad,7,5,0,1312.74,1210.42,109.4,100.9,8,0,3,True,False,False,0,0,0,0,0,2015,Norton,9
+63,12,Clausens Cronies,6,5,1,1290.5,1316.44,107.5,109.7,-2,0,4,True,False,False,0,0,0,0,0,2015,Norton,9
+64,15,Every Punters Nightmare,5,7,0,1311.86,1371.52,109.3,114.3,-5,0,5,True,False,False,0,0,0,0,0,2015,Norton,9
+65,3,The Pickle Smokers,6,6,0,1283.74,1275.82,107.0,106.3,0,0,6,True,False,False,0,0,0,0,0,2015,Norton,9
+66,21,EspnScoring DoesntLie,5,7,0,1252.18,1350.5,104.3,112.5,-8,0,7,False,False,False,0,0,0,0,0,2015,Norton,9
+67,5,The Pickle Parkers,6,6,0,1296.66,1383.18,108.1,115.3,-7,0,8,False,False,False,0,0,0,0,0,2015,Norton,9
+68,10,Wham Bam Thank You Cam,5,7,0,1301.62,1280.5,108.5,106.7,1,0,9,False,False,False,0,0,0,0,0,2015,Norton,9
+69,1,T.Adam Barnes,4,8,0,1279.82,1328.32,106.7,110.7,-4,0,10,False,False,False,0,0,0,0,0,2015,Norton,9
+70,10,Rodgers On Demand,11,1,0,1414.64,1245.62,117.9,103.8,14,0,1,True,True,True,0,0,0,0,0,2016,Norton,10
+71,22,",!,,(-.-),,!,",6,6,0,1262.28,1319.78,105.2,110.0,-4,0,2,True,True,False,0,0,0,0,0,2016,Norton,10
+72,15,Rob Levine Heavy Hitter,11,1,0,1464.62,1264.58,122.1,105.4,16,0,3,True,False,False,0,0,0,0,0,2016,Norton,10
+73,21,The Grave digger,6,6,0,1381.5,1338.52,115.1,111.5,3,0,4,True,False,False,0,0,0,0,0,2016,Norton,10
+74,12,Clausens Cronies,4,8,0,1371.52,1382.38,114.3,115.2,0,0,5,True,False,False,0,0,0,0,0,2016,Norton,10
+75,14,The Practice Squad,5,7,0,1370.4,1480.12,114.2,123.3,-9,0,6,True,False,False,0,0,0,0,0,2016,Norton,10
+76,1,T.Adam Barnes,5,7,0,1261.64,1249.92,105.1,104.2,1,0,7,False,False,False,0,0,0,0,0,2016,Norton,10
+77,9,Bill Cosby's Sleeper Picks,3,9,0,1195.14,1325.34,99.6,110.4,-10,0,8,False,False,False,0,0,0,0,0,2016,Norton,10
+78,8,He can't even Reed,5,7,0,1254.9,1326.64,104.6,110.6,-6,0,9,False,False,False,0,0,0,0,0,2016,Norton,10
+79,5,The Pickle Parkers,4,8,0,1215.18,1258.92,101.3,104.9,-3,0,10,False,False,False,0,0,0,0,0,2016,Norton,10
+80,10,Rodgers On Demand,8,4,0,1384.48,1243.84,115.4,103.7,11,0,1,True,True,True,0,0,0,0,0,2017,Norton,11
+81,8,Run Jamaal Run,7,5,0,1201.32,1187.32,100.1,98.9,1,0,2,True,True,False,0,0,0,0,0,2017,Norton,11
+82,21,Run STOVE Run,7,5,0,1328.68,1267.46,110.7,105.6,5,0,3,True,False,False,0,0,0,0,0,2017,Norton,11
+83,22,Cunt Punters,7,5,0,1178.32,1190.58,98.2,99.2,-1,0,4,True,False,False,0,0,0,0,0,2017,Norton,11
+84,15,Rob Levine Heavy Hitter,6,6,0,1276.78,1121.24,106.4,93.4,13,0,5,True,False,False,0,0,0,0,0,2017,Norton,11
+85,12,Clausens Cronies,5,7,0,1184.34,1190.04,98.7,99.2,0,0,6,True,False,False,0,0,0,0,0,2017,Norton,11
+86,17,We Love White Women,4,8,0,1156.36,1300.02,96.4,108.3,-12,0,7,False,False,False,0,0,0,0,0,2017,Norton,11
+87,1,T.Adam Barnes,7,5,0,1175.46,1260.18,98.0,105.0,-7,0,8,False,False,False,0,0,0,0,0,2017,Norton,11
+88,9,I'm Stu Feiner and You're Not!,4,8,0,1161.42,1261.78,96.8,105.1,-8,0,9,False,False,False,0,0,0,0,0,2017,Norton,11
+89,13,The Pickle Parkers,5,7,0,1130.4,1155.1,94.2,96.3,-2,0,10,False,False,False,0,0,0,0,0,2017,Norton,11
+90,9,John Clayton's Ponytail,11,1,0,1679.58,1280.94,140.0,106.7,33,0,1,True,True,True,0,0,0,0,0,2018,Norton,12
+91,22,Dammit !,8,4,0,1375.0,1364.3,114.6,113.7,0,0,2,True,True,False,0,0,0,0,0,2018,Norton,12
+92,15,Rob Levine Heavy Hitter,7,5,0,1368.08,1324.52,114.0,110.4,3,0,3,True,False,False,0,0,0,0,0,2018,Norton,12
+93,21,tom killed Me,9,3,0,1482.72,1334.5,123.6,111.2,12,0,4,True,False,False,0,0,0,0,0,2018,Norton,12
+94,10,Rodgers On Demand,6,6,0,1517.92,1437.72,126.5,119.8,6,0,5,True,False,False,0,0,0,0,0,2018,Norton,12
+95,17,Mr. Levine The Meme God,5,7,0,1268.26,1437.32,105.7,119.8,-14,0,6,True,False,False,0,0,0,0,0,2018,Norton,12
+96,2,Team Rafi,6,6,0,1467.34,1369.36,122.3,114.1,8,0,7,False,False,False,0,0,0,0,0,2018,Norton,12
+97,8,Beating me will be a Brees,3,9,0,1338.7,1510.14,111.6,125.8,-14,0,8,False,False,False,0,0,0,0,0,2018,Norton,12
+98,6,Cookin up Grahams,4,8,0,1316.1,1383.16,109.7,115.3,-5,0,9,False,False,False,0,0,0,0,0,2018,Norton,12
+99,1,T.Adam Barnes,1,11,0,1090.04,1461.78,90.8,121.8,-31,0,10,False,False,False,0,0,0,0,0,2018,Norton,12
+100,21,Nuts and Bolts,7,5,0,1300.36,1180.76,108.4,98.4,10,0,1,True,True,True,0,0,0,0,0,2019,Norton,13
+101,2,Team Steele,7,5,0,1212.26,1267.82,101.0,105.7,-4,0,2,True,True,False,0,0,0,0,0,2019,Norton,13
+102,17,My Team Is Brutal,10,2,0,1326.06,1231.26,110.5,102.6,7,0,3,True,False,False,0,0,0,0,0,2019,Norton,13
+103,9,Hold My Johnson,8,4,0,1325.48,1128.2,110.5,94.0,16,0,4,True,False,False,0,0,0,0,0,2019,Norton,13
+104,1,T.Adam Barnes,5,7,0,1231.14,1243.02,102.6,103.6,-1,0,5,True,False,False,0,0,0,0,0,2019,Norton,13
+105,22,Hot Chubb Time Machine,6,6,0,1220.66,1232.12,101.7,102.7,-1,0,6,True,False,False,0,0,0,0,0,2019,Norton,13
+106,15,The Benchwarmers,3,9,0,1161.5,1321.32,96.8,110.1,-13,0,7,False,False,False,0,0,0,0,0,2019,Norton,13
+107,14,The Practice Squad,6,6,0,1143.52,1226.88,95.3,102.2,-6,0,8,False,False,False,0,0,0,0,0,2019,Norton,13
+108,8,LeVenmo Request Me Now,3,9,0,1166.8,1229.5,97.2,102.5,-5,0,9,False,False,False,0,0,0,0,0,2019,Norton,13
+109,10,I got Screwed,5,7,0,1147.6,1174.5,95.6,97.9,-2,0,10,False,False,False,0,0,0,0,0,2019,Norton,13
+110,10,Jamal Murray's Instagram,8,5,0,1240.96,1121.0,95.5,86.2,9,0,1,True,True,True,0,0,0,0,0,2020,Norton,14
+111,20,NIGELS NIGHTMARE,8,5,0,1351.78,1306.5,104.0,100.5,3,0,2,True,True,False,0,0,0,0,0,2020,Norton,14
+112,14,The Practice Squad,8,5,0,1451.48,1330.32,111.7,102.3,9,0,3,True,False,False,0,0,0,0,0,2020,Norton,14
+113,17,Sage Steele,8,5,0,1350.14,1296.56,103.9,99.7,4,0,4,True,False,False,0,0,0,0,0,2020,Norton,14
+114,8,LeVenmo Request Me Now,7,6,0,1356.54,1281.4,104.3,98.6,5,0,5,True,False,False,0,0,0,0,0,2020,Norton,14
+115,22,Doris Burke,8,5,0,1188.32,1197.12,91.4,92.1,0,0,6,True,False,False,0,0,0,0,0,2020,Norton,14
+116,9,Feast Mode,6,7,0,1193.14,1196.0,91.8,92.0,0,0,7,False,False,False,0,0,0,0,0,2020,Norton,14
+117,21,Injured Reserves,5,8,0,1266.88,1333.46,97.5,102.6,-5,0,8,False,False,False,0,0,0,0,0,2020,Norton,14
+118,2,Team Steele,4,9,0,1330.46,1322.02,102.3,101.7,0,0,9,False,False,False,0,0,0,0,0,2020,Norton,14
+119,5,THE KING OF TALBOT,7,6,0,1234.1,1323.14,94.9,101.8,-6,0,10,False,False,False,0,0,0,0,0,2020,Norton,14
+120,15,I'm Feelin' Thielen,5,8,0,1326.12,1422.06,102.0,109.4,-7,0,11,False,False,False,0,0,0,0,0,2020,Norton,14
+121,1,T.Adam Barnes,4,9,0,1188.46,1348.8,91.4,103.8,-12,0,12,False,False,False,0,0,0,0,0,2020,Norton,14
+122,1,T.Adam Barnes,9,5,0,1605.98,1461.5,114.7,104.4,10,0,1,True,True,True,0,0,0,0,0,2021,Norton,15
+123,20,Team Glynn,9,5,0,1395.18,1271.04,99.7,90.8,8,0,2,True,True,False,0,0,0,0,0,2021,Norton,15
+124,15,Miller Lite Is Good For You,9,5,0,1484.78,1460.78,106.1,104.3,1,0,3,True,False,False,0,0,0,0,0,2021,Norton,15
+125,21,Monday night Screwjob,8,6,0,1565.36,1394.16,111.8,99.6,12,0,4,True,False,False,0,0,0,0,0,2021,Norton,15
+126,8,Playoff Lenny!!!,8,6,0,1355.88,1317.34,96.8,94.1,2,0,5,True,False,False,0,0,0,0,0,2021,Norton,15
+127,22,",!,,(-.-),,!,",8,6,0,1450.68,1376.2,103.6,98.3,5,0,6,True,False,False,0,0,0,0,0,2021,Norton,15
+128,9,John Clayton's Ponytail,4,10,0,1261.8,1459.42,90.1,104.2,-14,0,7,False,False,False,0,0,0,0,0,2021,Norton,15
+129,2,Team Steele,7,7,0,1318.88,1285.16,94.2,91.8,2,0,8,False,False,False,0,0,0,0,0,2021,Norton,15
+130,5,King of Miller Lites,6,8,0,1224.14,1323.38,87.4,94.5,-7,0,9,False,False,False,0,0,0,0,0,2021,Norton,15
+131,14,The Practice Squad,3,11,0,1321.36,1482.32,94.4,105.9,-11,0,10,False,False,False,0,0,0,0,0,2021,Norton,15
+132,10,Jamal Murray's Instagram,6,8,0,1395.26,1432.8,99.7,102.3,-2,0,11,False,False,False,0,0,0,0,0,2021,Norton,15
+133,17,We Are Garbage,7,7,0,1327.7,1442.9,94.8,103.1,-8,0,12,False,False,False,0,0,0,0,0,2021,Norton,15
+134,8,Team Ayahuasca,8,6,0,1295.42,1303.5,92.5,93.1,0,0,1,True,True,True,0,0,0,0,0,2022,Norton,16
+135,22,",!,,(-.-),,!,",9,5,0,1384.46,1218.9,98.9,87.1,11,0,2,True,True,False,0,0,0,0,0,2022,Norton,16
+136,9,John Clayton's Ponytail,9,5,0,1473.42,1279.26,105.2,91.4,13,0,3,True,False,False,0,0,0,0,0,2022,Norton,16
+137,15,Miller Lite Is Good For You,9,5,0,1419.9,1262.7,101.4,90.2,11,0,4,True,False,False,0,0,0,0,0,2022,Norton,16
+138,21,AUSTIN 3:16,8,6,0,1426.44,1390.92,101.9,99.4,2,0,5,True,False,False,0,0,0,0,0,2022,Norton,16
+139,10,AB's Swimming Lessons,7,7,0,1338.0,1449.46,95.6,103.5,-8,0,6,True,False,False,0,0,0,0,0,2022,Norton,16
+140,14,The Practice Squad,5,9,0,1257.08,1437.06,89.8,102.6,-12,0,7,False,False,False,0,0,0,0,0,2022,Norton,16
+141,17,Celtics in 4,7,7,0,1239.72,1341.64,88.6,95.8,-7,0,8,False,False,False,0,0,0,0,0,2022,Norton,16
+142,1,T.Adam Barnes,6,8,0,1162.08,1316.38,83.0,94.0,-11,0,9,False,False,False,0,0,0,0,0,2022,Norton,16
+143,20,Team Preston,6,8,0,1421.02,1343.56,101.5,96.0,5,0,10,False,False,False,0,0,0,0,0,2022,Norton,16
+144,2,Bronco County Nerds,5,9,0,1240.72,1250.72,88.6,89.3,0,0,11,False,False,False,0,0,0,0,0,2022,Norton,16
+145,5,King of Miller Lites,5,9,0,1254.74,1318.9,89.6,94.2,-4,0,12,False,False,False,0,0,0,0,0,2022,Norton,16
+146,14,The Practice Squad,10,4,0,1527.8,1259.78,109.1,90.0,19,0,1,True,True,True,0,0,0,0,0,2023,Norton,2
+147,21,Mr relevant,7,7,0,1395.68,1374.36,99.7,98.2,1,0,2,True,True,False,0,0,0,0,0,2023,Norton,2
+148,22,",!,,(-.-),,!,",9,5,0,1294.08,1224.8,92.4,87.5,4,0,3,True,False,False,0,0,0,0,0,2023,Norton,2
+149,10,Pit Not the Palace,10,4,0,1481.02,1291.44,105.8,92.2,13,0,4,True,False,False,0,0,0,0,0,2023,Norton,2
+150,9,John Clayton's Ponytail,7,7,0,1409.94,1341.1,100.7,95.8,4,0,5,True,False,False,0,0,0,0,0,2023,Norton,2
+151,5,King of Miller Lites,9,5,0,1337.1,1304.14,95.5,93.2,2,0,6,True,False,False,0,0,0,0,0,2023,Norton,2
+152,1,T.Adam Barnes,5,9,0,1288.4,1334.32,92.0,95.3,-3,0,7,False,False,False,0,0,0,0,0,2023,Norton,2
+153,20,Team Tessier,5,9,0,1335.94,1491.76,95.4,106.6,-11,0,8,False,False,False,0,0,0,0,0,2023,Norton,2
+154,8,Team Ayahuasca,7,7,0,1349.1,1445.0,96.4,103.2,-6,0,9,False,False,False,0,0,0,0,0,2023,Norton,2
+155,15,Callum's College Fund,4,10,0,1200.64,1449.3,85.8,103.5,-17,0,10,False,False,False,0,0,0,0,0,2023,Norton,2
+156,2,No More Pancakes,5,9,0,1303.24,1374.04,93.1,98.1,-5,0,11,False,False,False,0,0,0,0,0,2023,Norton,2
+157,17,Gotta Take A Pitts,6,8,0,1324.26,1357.16,94.6,96.9,-2,0,12,False,False,False,0,0,0,0,0,2023,Norton,2
