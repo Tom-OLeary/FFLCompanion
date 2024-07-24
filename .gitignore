@@ -1,0 +1,9 @@
+venv
+.idea
+.DS_STORE
+ffl_companion/local.py
+db.sqlite3
+__pycache__/
+env
+ffl_companion/db_commands.py
+.env
