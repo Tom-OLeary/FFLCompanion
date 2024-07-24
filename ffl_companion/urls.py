@@ -14,9 +14,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+# from homepage import views as homepage_views
+from ffl_companion.views import serve_react
+
+django_app_patterns = [
+    path('admin/', admin.site.urls),
+    # path('', homepage_views.home_index, name="homepage"),
+    # path("projects/", include("projects.urls")),
+    # path("resume/", include("resume.urls")),
+    path("api/", include("api.urls")),
+]
+react_patterns = [
+    path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
+]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    *django_app_patterns,
+    *react_patterns,
 ]
+
