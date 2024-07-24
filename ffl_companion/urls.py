@@ -29,7 +29,8 @@ django_app_patterns = [
     path("api/", include("api.urls")),
 ]
 react_patterns = [
-    path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
+    path("", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
+    # path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
 ]
 
 urlpatterns = [
