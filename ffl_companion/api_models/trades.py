@@ -2,6 +2,7 @@ from collections import defaultdict
 from dataclasses import dataclass, fields
 
 from django.db import models
+from django.db.models import QuerySet
 
 from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScoring
 from ffl_companion.api_models.owner import TeamOwner
@@ -40,36 +41,43 @@ class Trade(models.Model):
     league = models.ForeignKey(LeagueSettings, on_delete=models.CASCADE, related_name="trades")
     trade_date = models.DateField(null=True)
 
-    def get_trade_comparison(self):
+    def get_trade_comparison(self) -> dict:
         # TODO currently does not support players traded multiple times
         # logic assumes players traded once
-        owner_one_received = self.owner_one_received.all()
-        owner_two_received = self.owner_two_received.all()
-        owner_one_players, owner_two_players = [], []
 
-        results = defaultdict(StatTotals)
-        for player in owner_one_received:
-            player_stats = player.season_totals(year=self.season_year, fields=LeagueScoring.ALL_FIELDS, trade_date=self.trade_date)[0]
-            player_stats.pop("player_id")
-            results[self.owner_one.name] += StatTotals(**player_stats)
-            owner_one_players.append(player.name)
-
-        for player in owner_two_received:
-            player_stats = player.season_totals(year=self.season_year, fields=LeagueScoring.ALL_FIELDS, trade_date=self.trade_date)[0]
-            player_stats.pop("player_id")
-            results[self.owner_two.name] += StatTotals(**player_stats)
-            owner_two_players.append(player.name)
+        results: dict[str, any] = {}
+        results[self.owner_one.name], owner_one_players = self._get_owner_totals(self.owner_one_received.all())
+        results[self.owner_two.name], owner_two_players = self._get_owner_totals(self.owner_two_received.all())
 
         scoring = self.league.scoring.all()
-        final_results = {k: v.__dict__ for k, v in results.items()}
-        for key, stats in final_results.items():
-            total_points = 0
-            for score in scoring:
-                stat_name = score.stat_name
-                total_points += stats[stat_name] * score.point_value
+        for key, stats in results.items():
+            results[key]["total_points"] = round(sum(stats[score.stat_name] * score.point_value for score in scoring), 2)
 
-            final_results[key]["total_points"] = round(total_points, 2)
+        results[self.owner_one.name]["players_received"] = owner_one_players
+        results[self.owner_two.name]["players_received"] = owner_two_players
+        results["winner"] = None
 
-        final_results[self.owner_one.name]["players_received"] = owner_one_players
-        final_results[self.owner_two.name]["players_received"] = owner_two_players
-        return final_results
+        owner_one_total = results[self.owner_one.name]["total_points"]
+        owner_two_total = results[self.owner_two.name]["total_points"]
+        if abs(owner_one_total - owner_two_total) > 100:
+            if owner_one_total > owner_two_total:
+                results["winner"] = self.owner_one.name
+            else:
+                results["winner"] = self.owner_two.name
+
+        return results
+
+    def _get_owner_totals(self, players: QuerySet) -> tuple:
+        totals = StatTotals()
+        players_received = []
+        for player in players:
+            player_stats = player.season_totals(
+                year=self.season_year,
+                fields=LeagueScoring.ALL_FIELDS,
+                trade_date=self.trade_date,
+            )[0]
+            player_stats.pop("player_id")
+            totals += StatTotals(**player_stats)
+            players_received.append(player.name)
+
+        return totals.__dict__, players_received
