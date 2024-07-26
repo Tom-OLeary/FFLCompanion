@@ -1,13 +1,17 @@
-from dataclasses import dataclass
+from collections import defaultdict
+from dataclasses import dataclass, field
 
-from django.db.models import QuerySet
+import pandas as pd
+from django.db.models import QuerySet, Sum, Count, Case, When, F
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from api.api_util import get_queryset_filters, split_and_strip
-from api.fantasy_tracker.nfl_serializers import PlayerRequestSerializer, PlayerSerializer, TeamOwnerSerializer
+from api.fantasy_tracker.nfl_serializers import PlayerRequestSerializer, PlayerSerializer, TeamOwnerSerializer, \
+    ReigningChampsSerializer
+from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import NFLPlayer
@@ -124,3 +128,47 @@ class LeagueBreakdownView(GenericAPIView):
             owners = owners.filter(name=league_name)
 
         return Response(LeagueBreakdown(leagues=leagues, owners=owners).data, status=status.HTTP_200_OK)
+
+
+class LeagueLeadersView(GenericAPIView):
+    queryset = FantasyTeamStats.objects.all()
+
+    @staticmethod
+    def _get_highest_total(df: pd.DataFrame, key: str) -> pd.DataFrame:
+        highest_total = df[df[key] == df[key].max()]
+        if int(highest_total.count()["team_owner__id"]) > 1:
+            highest_total = highest_total.sort_values(by="years_count", ascending=False)
+        return highest_total
+
+    def get(self, request):
+        reigning_champs = self.get_queryset().filter(won_finals=True, is_current_season=False).order_by("-season_start_year")
+        stats = self.get_queryset().values("team_owner__id").annotate(
+            points_sum=Sum("total_points"),
+            years_count=Count("team_owner__id"),
+            titles_sum=Count(Case(When(won_finals=True, then=1))),
+            wins_sum=Sum("wins"),
+            owner_name=F("team_owner__name"),
+            is_active=F("team_owner__is_active"),
+        )
+        stats_df = pd.DataFrame(stats)
+        stats_df["wins_yr"] = round(stats_df["wins_sum"] / stats_df["years_count"], 2)
+        stats_df["points_yr"] = round(stats_df["points_sum"] / stats_df["years_count"], 2)
+
+        most_titles = self._get_highest_total(stats_df, "titles_sum")
+        most_points_py = self._get_highest_total(stats_df, "points_yr")
+        most_wins_py = self._get_highest_total(stats_df, "wins_yr")
+
+        results = {
+            "most_titles_owner": most_titles.iloc[0].owner_name,
+            "most_titles_count": int(most_titles.iloc[0].titles_sum),
+            "total_points_py_owner": most_points_py.iloc[0].owner_name,
+            "total_points_py": float(most_points_py.iloc[0].points_yr),  # py = per year
+            "total_points_yrs_in_league": int(most_points_py.iloc[0].years_count),
+            "total_wins_py_owner": most_wins_py.iloc[0].owner_name,
+            "total_wins_py": float(most_wins_py.iloc[0].wins_yr),
+            "total_wins_yrs_in_league": int(most_wins_py.iloc[0].years_count),
+            "reigning_champs": ReigningChampsSerializer(reigning_champs, many=True).data,
+            "full_results": stats_df.to_dict("records"),
+        }
+        return Response(results, status=status.HTTP_200_OK)
+

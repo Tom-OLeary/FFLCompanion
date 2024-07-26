@@ -1,10 +1,17 @@
 import os
+from datetime import datetime
 
 import pandas as pd
 from django.conf import settings
+from django.core.validators import MaxValueValidator
 from django.db import models
+from django.db.models import QuerySet, Sum
 
+from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
+from ffl_companion.api_models.league_settings import LeagueSettings
+from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.api_models.owner import TeamOwner
+from ffl_companion.util import format_date_str
 
 
 class NFLPlayerModelManager(models.Manager):
@@ -54,6 +61,7 @@ class NFLPlayer(models.Model):
     class StatTypeChoices(models.TextChoices):
         PROJECTION = "projection"
         LIVE = "live"
+        # WEEKLY = "weekly"
 
     class PositionChoices(models.TextChoices):
         QB = "QB"
@@ -83,6 +91,7 @@ class NFLPlayer(models.Model):
 
     stat_type = models.CharField(max_length=255, choices=StatTypeChoices.choices, default=StatTypeChoices.PROJECTION)
     season_start_year = models.IntegerField(default=2024)
+    # stats_date = models.DateField(null=True, blank=True)
 
     # draft tracking
     is_available = models.BooleanField(default=True)
@@ -95,3 +104,254 @@ class NFLPlayer(models.Model):
             self.is_available = False
 
         super().save(*args, **kwargs)
+
+
+class Roster(models.Model):
+    class Meta:
+        db_table = "rosters"
+        unique_together = (("team_owner_id", "roster_year"),)
+
+    team_owner = models.ForeignKey(TeamOwner, on_delete=models.SET_NULL, null=True, related_name="team_rosters")
+    # player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name="player_rosters")
+    roster_year = models.IntegerField(default=2024)
+    league = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, related_name="settings_rosters")
+
+
+class PlayerManager(models.Manager):
+    def import_missing_players(self, data: list):
+        for d in data:
+            team_abbr, year = d.pop("team"), d.pop("year")
+            nfl_team = NFLTeam.objects.get(abbreviation=team_abbr, season_year=year)
+            player = self.create(**d)
+            if nfl_team not in player.nfl_teams.all():
+                player.nfl_teams.add(nfl_team)
+
+
+class Player(models.Model):
+    class Meta:
+        db_table = "players"
+        unique_together = (("name", "position"),)
+
+    name = models.CharField(max_length=255, null=False, blank=False)
+    position = models.CharField(max_length=3, null=False, blank=False, choices=PositionChoices.choices)
+    nfl_teams = models.ManyToManyField(NFLTeam, related_name="team_players")
+    rosters = models.ManyToManyField(Roster, related_name="roster_players")
+
+    objects = PlayerManager()
+
+    @classmethod
+    def stats_by_year(cls, year: int, player_ids: list) -> QuerySet:
+        return cls.objects.filter(stats_weekly__season_start_year=year, player_id__in=player_ids)
+
+    def weekly_stats_by_year(self, year: int) -> QuerySet:
+        return self.stats_weekly.filter(season_start_year=year)
+
+    def season_totals(self, year: int, fields: list) -> QuerySet:
+        sum_totals = {f"total_{f}": Sum(f) for f in fields}
+        return self.stats_weekly.filter(season_start_year=year).values("player_id").annotate(**sum_totals)
+
+
+class PlayerStatsManager(models.Manager):
+    MAPPINGS = {
+        "passing": {
+            "Player": "player_name",
+            "Rate": "pass_rating",
+            "Att": "pass_attempts",
+            "Day": "day_of_week",
+            "Week": "game_week",
+            "Date": "game_date",
+            "Team": "team",
+            "Opp": "opponent",
+            "Cmp": "pass_completions",
+            "Cmp%": "pass_completion_pct",
+            "Yds": "pass_yds",
+            "TD": "pass_td",
+            "Int": "interceptions",
+            "Pos.": "position",
+        },
+        "receiving": {
+            "Player": "player_name",
+            "Yds": "receiving_yards",
+            "Tgt": "targets",
+            "Day": "day_of_week",
+            "Week": "game_week",
+            "Date": "game_date",
+            "Team": "team",
+            "Opp": "opponent",
+            "Rec": "receptions",
+            "TD": "receiving_td",
+            "Pos.": "position"
+        },
+        "rushing": {
+            "Player": "player_name",
+            "Yds": "rush_yds",
+            "Att": "rush_attempts",
+            "Day": "day_of_week",
+            "Week": "game_week",
+            "Date": "game_date",
+            "Team": "team",
+            "Opp": "opponent",
+            "TD": "rush_td",
+            "Pos.": "position"
+        },
+    }
+
+    TEAM_MAPPING = {
+        "NYG": "NYG",
+        "PHI": "PHI",
+        "HOU": "HOU",
+        "CHI": "CHI",
+        "CIN": "CIN",
+        "SEA": "SEA",
+        "SFO": "SF",
+        "IND": "IND",
+        "LAR": "LAR",
+        "TAM": "TB",
+        "CAR": "CAR",
+        "ATL": "ATL",
+        "DET": "DET",
+        "MIA": "MIA",
+        "PIT": "PIT",
+        "DAL": "DAL",
+        "DEN": "DEN",
+        "NOR": "NO",
+        "LVR": "LV",
+        "BUF": "BUF",
+        "KAN": "KC",
+        "BAL": "BAL",
+        "NWE": "NE",
+        "GNB": "GB",
+        "WAS": "WAS",
+        "CLE": "CLE",
+        "ARI": "ARI",
+        "MIN": "MIN",
+        "LAC": "LAC",
+        "TEN": "TEN",
+        "JAX": "JAX",
+        "NYJ": "NYJ"
+    }
+
+    def import_csv_data(self, path: str, stat_type: str, year: int):
+        key_mapping = self.MAPPINGS[stat_type]
+
+        data = pd.read_csv(path).to_dict("records")
+        for d in data:
+            row = {key_mapping[k]: d[k] for k in key_mapping}
+            team_abbr = row.pop("team")
+            if isinstance(team_abbr, float):
+                continue
+            team = self.TEAM_MAPPING[team_abbr]
+            try:
+                NFLTeam.objects.get(abbreviation=team, season_year=year)
+            except NFLTeam.DoesNotExist:
+                print("STATS IMPORT TEAM NOT FOUND", year, team)
+                continue
+
+            player_name = row.pop("player_name")
+            position = row.pop("position")
+            try:
+                player = Player.objects.get(name=player_name, position=position)
+            except Player.DoesNotExist:
+                print("STATS IMPORT Player not found", player_name, position)
+                continue
+
+            row["player"] = player
+            row["game_date"] = format_date_str(row["game_date"])
+            row["season_start_year"] = year
+
+            try:
+                self.get(player=player, season_start_year=year, game_week=row["game_week"])
+            except PlayerStatsWeekly.DoesNotExist:
+                self.create(**row)
+            else:
+                self.filter(player=player, season_start_year=year, game_week=row["game_week"]).update(**row)
+
+    def find_missing(self, data: list, stat_type: str, year: int):
+        key_mapping = self.MAPPINGS[stat_type]
+
+        players_not_found = []
+        for d in data:
+            row = {key_mapping[k]: d[k] for k in key_mapping}
+            team_abbr = row.pop("team")
+            if isinstance(team_abbr, float):
+                continue
+
+            team = self.TEAM_MAPPING[team_abbr]
+            player_name = row.pop("player_name")
+            position = row.pop("position")
+            try:
+                Player.objects.get(name=player_name, position=position)
+            except Player.DoesNotExist:
+                print("Player not found", player_name, position)
+                players_not_found.append({"name": player_name, "position": position, "team": team, "year": year})
+
+        return players_not_found
+
+
+class PlayerStatsWeekly(models.Model):
+    class Meta:
+        db_table = "player_stats_weekly"
+        unique_together = (("player_id", "season_start_year", "game_week"),)
+
+    PASSING = [
+        "pass_yds",
+        "pass_td",
+        "pass_attempts",
+        "pass_completions",
+        "interceptions",
+    ]
+    RECEIVING = [
+        "targets",
+        "receptions",
+        "receiving_yards",
+        "receiving_td",
+    ]
+    RUSHING = [
+        "rush_yds",
+        "rush_td",
+        "rush_attempts",
+    ]
+
+    player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="stats_weekly")
+    season_start_year = models.IntegerField(default=2024, db_index=True)
+    day_of_week = models.CharField(max_length=9, choices=WeekdayChoices.choices, default=WeekdayChoices.SUN)
+    game_date = models.DateField(null=False, blank=False)
+    game_week = models.IntegerField(null=False, blank=False, validators=[MaxValueValidator(18)])
+    opponent = models.CharField(max_length=3, null=False, blank=False)
+
+    # passing
+    pass_yds = models.IntegerField(default=0)
+    pass_td = models.IntegerField(default=0)
+    pass_attempts = models.IntegerField(default=0)
+    pass_completions = models.IntegerField(default=0)
+    interceptions = models.IntegerField(default=0)
+    pass_completion_pct = models.FloatField(default=0.0)
+    pass_rating = models.FloatField(default=0.0)
+
+    # rushing
+    rush_yds = models.IntegerField(default=0)
+    rush_td = models.IntegerField(default=0)
+    rush_attempts = models.IntegerField(default=0)
+
+    # receiving
+    targets = models.IntegerField(default=0)
+    receptions = models.IntegerField(default=0)
+    receiving_yards = models.IntegerField(default=0)
+    receiving_td = models.IntegerField(default=0)
+
+    objects = PlayerStatsManager()
+
+    @property
+    def fantasy_points(self):
+        """Calculate total fantasy points for this player during given week"""
+        roster = self.player.rosters.filter(roster_year=self.season_start_year).first()
+        if roster is None:
+            return 0
+
+        total = 0
+        scoring = roster.league.scoring.all()
+        for s in scoring:
+            stat_value = getattr(self, s.stat_name)
+            total += stat_value * s.point_value
+
+        return total

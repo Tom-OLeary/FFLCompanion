@@ -73,14 +73,13 @@ class FantasyTeamStats(models.Model):
     league_name = models.CharField(max_length=50)
     league = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, blank=True, related_name="league_stats")
 
+    is_current_season = models.BooleanField(default=False)
+
     objects = FantasyTeamStatsManager()
 
     def save(self, *args, **kwargs):
-        # TODO make these league specific
         if not self.made_playoffs:
-            if self.season_start_year <= 2019 and self.final_season_standing <= 4:
-                self.made_playoffs = True
-            elif self.season_start_year > 2019 and self.final_season_standing <= 6:
+            if self.final_season_standing <= self.league.playoff_teams:
                 self.made_playoffs = True
 
         if not self.made_finals and self.final_season_standing <= 2:

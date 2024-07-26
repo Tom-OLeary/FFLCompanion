@@ -25,3 +25,21 @@ class LeagueSettings(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class LeagueScoring(models.Model):
+    class Meta:
+        db_table = "league_scoring"
+        unique_together = (("scoring_type", "stat_name"),)
+
+    class ScoringTypeChoices(models.TextChoices):
+        PASSING = "passing"
+        RUSHING = "rushing"
+        RECEIVING = "receiving"
+        DEF = "defense"
+        MISC = "misc"
+        KICKING = "kicking"
+
+    scoring_type = models.CharField(max_length=50, choices=ScoringTypeChoices.choices)
+    stat_name = models.CharField(max_length=50)
+    point_value = models.FloatField(default=0.0)
+    league_settings = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, related_name="scoring")
