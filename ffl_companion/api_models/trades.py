@@ -1,4 +1,3 @@
-from collections import defaultdict
 from dataclasses import dataclass, fields
 
 from django.db import models
@@ -32,7 +31,6 @@ class Trade(models.Model):
     class Meta:
         db_table = "trades"
 
-    # players are considered received, and will have been traded to their current owner
     season_year = models.IntegerField(default=0)
     owner_one = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_one_trades", null=True)
     owner_two = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_two_trades", null=True)
@@ -81,3 +79,16 @@ class Trade(models.Model):
             players_received.append(player.name)
 
         return totals.__dict__, players_received
+
+    def __getitem__(self, owner: TeamOwner):
+        _owner = "owner_one"
+        if owner == self.owner_two:
+            _owner = "owner_two"
+
+        return {
+            "season_year": self.season_year,
+            "owner_name": owner.name,
+            "players_received": getattr(self, f"{_owner}_received").all(),
+            "league": self.league,
+            "trade_date": self.trade_date,
+        }
