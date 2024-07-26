@@ -1,10 +1,11 @@
 import os
-from datetime import datetime
+from datetime import datetime, date
+from typing import Union
 
 import pandas as pd
 from django.conf import settings
 from django.core.validators import MaxValueValidator
-from django.db import models
+from django.db import models, IntegrityError
 from django.db.models import QuerySet, Sum
 
 from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
@@ -122,7 +123,11 @@ class PlayerManager(models.Manager):
         for d in data:
             team_abbr, year = d.pop("team"), d.pop("year")
             nfl_team = NFLTeam.objects.get(abbreviation=team_abbr, season_year=year)
-            player = self.create(**d)
+            try:
+                player = self.create(**d)
+            except IntegrityError:
+                player = self.get(**d)
+
             if nfl_team not in player.nfl_teams.all():
                 player.nfl_teams.add(nfl_team)
 
@@ -146,9 +151,13 @@ class Player(models.Model):
     def weekly_stats_by_year(self, year: int) -> QuerySet:
         return self.stats_weekly.filter(season_start_year=year)
 
-    def season_totals(self, year: int, fields: list) -> QuerySet:
-        sum_totals = {f"total_{f}": Sum(f) for f in fields}
-        return self.stats_weekly.filter(season_start_year=year).values("player_id").annotate(**sum_totals)
+    def season_totals(self, year: int, fields: list, trade_date: Union[str, date] = None) -> QuerySet:
+        sum_totals = {f: Sum(f) for f in fields}
+        stats_filter = {"season_start_year": year}
+        if trade_date:
+            stats_filter["game_date__gte"] = trade_date
+
+        return self.stats_weekly.filter(**stats_filter).values("player_id").annotate(**sum_totals)
 
 
 class PlayerStatsManager(models.Manager):

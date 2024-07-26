@@ -39,6 +39,26 @@ class LeagueScoring(models.Model):
         MISC = "misc"
         KICKING = "kicking"
 
+    PASSING = [
+        "pass_yds",
+        "pass_td",
+        "interceptions",
+        # "two_pt_conversions",
+    ]
+    RECEIVING = [
+        "receiving_yards",
+        "receiving_td",
+        "receptions",
+        # "two_pt_receptions",
+    ]
+    RUSHING = [
+        "rush_yds",
+        "rush_td",
+        # "two_pt_rush",
+    ]
+
+    ALL_FIELDS = [*PASSING, *RECEIVING, *RUSHING]
+
     scoring_type = models.CharField(max_length=50, choices=ScoringTypeChoices.choices)
     stat_name = models.CharField(max_length=50)
     point_value = models.FloatField(default=0.0)

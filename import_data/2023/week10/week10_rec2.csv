@@ -1,0 +1,30 @@
+﻿Rk,Player,Yds,Tgt,Day,G#,Week,Date,Age,Team,,Opp,Result,Tgt,Rec,Yds,Y/R,TD,Ctch%,Y/Tgt,1D,Succ%,Pos.
+201,Tank Bigsby,0,1,Sun,9,10,11/12/23,22-074,JAX,,SFO,L 3-34,1,0,0,,0,0,0,,0,RB
+202,Michael Carter,0,1,Sun,9,10,11/12/23,24-189,NYJ,@,LVR,L 12-16,1,0,0,,0,0,0,,0,RB
+203,Dalvin Cook,0,1,Sun,9,10,11/12/23,28-094,NYJ,@,LVR,L 12-16,1,0,0,,0,0,0,0,0,RB
+204,Jamison Crowder,0,1,Sun,10,10,11/12/23,30-148,WAS,@,SEA,L 26-29,1,0,0,,0,0,0,,0,WR
+205,Jahan Dotson,0,2,Sun,10,10,11/12/23,23-235,WAS,@,SEA,L 26-29,2,0,0,,0,0,0,,0,WR
+206,Darrynton Evans,0,2,Thu,10,10,11/9/23,25-123,CHI,,CAR,W 16-13,2,0,0,,0,0,0,,0,RB
+207,Gerald Everett,0,2,Sun,9,10,11/12/23,29-140,LAC,,DET,L 38-41,2,0,0,,0,0,0,,0,TE
+208,Deonte Harty,0,1,Mon,10,10,11/13/23,25-344,BUF,,DEN,L 22-24,1,0,0,,0,0,0,,0,WR
+209,Elijah Higgins,0,1,Sun,10,10,11/12/23,23-016,ARI,,ATL,W 25-23,1,0,0,,0,0,0,,0,TE
+210,Isaiah Hodgins,0,2,Sun,10,10,11/12/23,25-022,NYG,@,DAL,L 17-49,2,0,0,,0,0,0,,0,WR
+211,Xavier Hutchinson,0,1,Sun,9,10,11/12/23,23-164,HOU,@,CIN,W 30-27,1,0,0,,0,0,0,0,0,WR
+212,Jalin Hyatt,0,1,Sun,10,10,11/12/23,22-048,NYG,@,DAL,L 17-49,1,0,0,,0,0,0,,0,WR
+213,Andrei Iosivas,0,1,Sun,9,10,11/12/23,24-028,CIN,,HOU,L 27-30,1,0,0,,0,0,0,,0,WR
+214,Van Jefferson,0,1,Sun,10,10,11/12/23,27-109,ATL,@,ARI,L 23-25,1,0,0,,0,0,0,,0,WR
+215,Lucas Krull,0,1,Mon,9,10,11/13/23,25-125,DEN,@,BUF,W 24-22,1,0,0,,0,0,0,,0,TE
+216,Marvin Mims,0,1,Mon,9,10,11/13/23,21-239,DEN,@,BUF,W 24-22,1,0,0,,0,0,0,,0,WR
+217,Zach Pascal,0,1,Sun,10,10,11/12/23,28-329,ARI,,ATL,W 25-23,1,0,0,,0,0,0,,0,WR
+218,James Proche,0,1,Sun,9,10,11/12/23,27-052,CLE,@,BAL,W 33-31,1,0,0,,0,0,0,,0,WR
+219,Patrick Ricard,0,1,Sun,10,10,11/12/23,29-169,BAL,,CLE,L 31-33,1,0,0,,0,0,0,,0,FB
+220,Luke Schoonmaker,0,1,Sun,9,10,11/12/23,25-045,DAL,,NYG,W 49-17,1,0,0,,0,0,0,,0,TE
+221,Stone Smartt,0,3,Sun,9,10,11/12/23,25-039,LAC,,DET,L 38-41,3,0,0,,0,0,0,,0,TE
+222,Brenton Strange,0,1,Sun,9,10,11/12/23,22-320,JAX,,SFO,L 3-34,1,0,0,,0,0,0,,0,TE
+223,Cedric Tillman,0,3,Sun,9,10,11/12/23,23-207,CLE,@,BAL,W 33-31,3,0,0,,0,0,0,,0,WR
+224,Mitchell Wilcox,0,1,Sun,9,10,11/12/23,27-005,CIN,,HOU,L 27-30,1,0,0,,0,0,0,,0,TE
+225,Joe Mixon,-1,3,Sun,9,10,11/12/23,27-111,CIN,,HOU,L 27-30,3,2,-1,-0.5,0,66.7,-0.3,0,0,RB
+226,Chase Edmonds,-2,1,Sun,9,10,11/12/23,27-213,TAM,,TEN,W 20-6,1,1,-2,-2,0,100,-2,0,0,RB
+227,Derrick Henry,-4,1,Sun,9,10,11/12/23,29-312,TEN,@,TAM,L 6-20,1,1,-4,-4,0,100,-4,0,0,RB
+228,Saquon Barkley,-5,3,Sun,10,10,11/12/23,26-276,NYG,@,DAL,L 17-49,3,1,-5,-5,0,33.3,-1.7,0,0,RB
+,,,,,,,,,,,,,,,,,,,,,,

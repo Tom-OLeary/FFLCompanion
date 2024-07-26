@@ -5,6 +5,7 @@ from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScori
 from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.api_models.player import NFLPlayer, Roster, Player, PlayerStatsWeekly
 from ffl_companion.api_models.owner import TeamOwner
+from ffl_companion.api_models.trades import Trade
 
 admin.site.register(NFLPlayer)
 admin.site.register(TeamOwner)
@@ -15,3 +16,5 @@ admin.site.register(LeagueScoring)
 admin.site.register(Roster)
 admin.site.register(Player)
 admin.site.register(PlayerStatsWeekly)
+admin.site.register(Trade)
+
