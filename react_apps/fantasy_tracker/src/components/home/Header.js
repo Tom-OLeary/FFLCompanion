@@ -19,18 +19,17 @@ export default function Header(props) {
                 setData(json)
             })
     }, []);
+
     const PaperItem = styled(Paper)(({ theme }) => ({
       width: "100%",
       height: "75%",
-      backgroundColor: "#cfc00e",
+      backgroundColor: "#ac7e01",
       padding: theme.spacing(2),
       ...theme.typography.body2,
     }));
 
     return (
         <header>
-            {/*<MenuDrawer />*/}
-            <h1 id="headerTitle">Leaderboard</h1>
             <Stack direction="row" spacing={2}>
                 <PaperItem elevation={20} square={false}>
                     <div className={"mid-header"}>

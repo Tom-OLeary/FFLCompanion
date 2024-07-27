@@ -9,21 +9,11 @@ import env from "react-dotenv";
 // import MenuDrawer from "./components/MenuDrawer";
 import React from "react";
 
-function Home() {
-    let url = (env.NODE_ENV === 'production') ? 'https://www.troleary.com/api/' : 'http://127.0.0.1:8000/api/'
-    // if (env.NODE_ENV === 'development') {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
-    // else if (env.NODE_ENV === 'production') {
-    //   url = 'https://www.troleary.com/api/'
-    // }
-    // else {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
+function Home(props) {
 
   return (
     <>
-        <Header url={url}/>
+        <Header url={props.url}/>
         {/*<SpacingGrid />*/}
         {/*<GridTest url={url} />*/}
         {/*<DataGrid />*/}

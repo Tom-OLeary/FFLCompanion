@@ -7,3 +7,4 @@ __pycache__/
 env
 ffl_companion/db_commands.py
 .env
+node_modules

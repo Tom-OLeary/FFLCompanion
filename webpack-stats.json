@@ -1,0 +1,16 @@
+{
+  "status": "done",
+  "assets": {
+    "frontend-11e6bd75eb4111fa37d7.js": {
+      "name": "frontend-11e6bd75eb4111fa37d7.js",
+      "path": "/Users/tom/PythonProjects2024/ffl_companion/frontend/static/frontend/frontend-11e6bd75eb4111fa37d7.js",
+      "publicPath": "static/frontend/frontend-11e6bd75eb4111fa37d7.js"
+    }
+  },
+  "chunks": {
+    "frontend": [
+      "frontend-11e6bd75eb4111fa37d7.js"
+    ]
+  },
+  "publicPath": "static/frontend/"
+}

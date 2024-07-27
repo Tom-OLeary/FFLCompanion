@@ -7,33 +7,40 @@ import env from "react-dotenv";
 // import TeamCard from "./components/TeamCard";
 // import SpacingGrid from "./components/SpacingGrid";
 // import MenuDrawer from "./components/MenuDrawer";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Routes, Route } from 'react-router-dom';
 import Home from "./components/Home";
 import MenuDrawer from "./components/MenuDrawer";
 import Projection from "./components/Projection";
+import LeaderPanel from "./components/LeaderPanel";
 
 function App() {
     let url = (env.NODE_ENV === 'production') ? 'https://www.troleary.com/api/' : 'http://127.0.0.1:8000/api/'
-    // if (env.NODE_ENV === 'development') {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
-    // else if (env.NODE_ENV === 'production') {
-    //   url = 'https://www.troleary.com/api/'
-    // }
-    // else {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
+    // const [data, setData] = useState([])
+    // useEffect(() => {
+    // fetch(url + 'leagues/1/')
+    //     .then(res => res.json())
+    //     .then(json => {
+    //         console.log(json);
+    //         setData(json)
+    //     })
+    // }, []);
 
-  return (
-    <>
-        <MenuDrawer />
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="projections" element={<Projection />} />
-        </Routes>
-    </>
-  );
+    return (
+        <>
+            <div className={"column-three"}>
+                <MenuDrawer/>
+                {/*<div id="headerTitle" >{data.name}</div>*/}
+                <div id="headerTitle">Norton</div>
+
+                <LeaderPanel/>
+            </div>
+            <Routes>
+                <Route path="/" element={<Home url={url} />} />
+                <Route path="projections" element={<Projection url={url} />} />
+            </Routes>
+        </>
+    );
 }
 
 export default App;

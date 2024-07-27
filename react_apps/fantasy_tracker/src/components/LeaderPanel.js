@@ -21,7 +21,7 @@ import SportsFootballIcon from '@mui/icons-material/SportsFootball';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useNavigate } from 'react-router-dom';
 
-const drawerWidth = 275;
+const drawerWidth = 475;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -42,23 +42,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
-
 const DrawerHeader = styled('header')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -68,7 +51,7 @@ const DrawerHeader = styled('header')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function MenuDrawer() {
+export default function LeaderPanel() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -82,47 +65,34 @@ export default function MenuDrawer() {
   };
 
   const handleMenuSelection = (index) => {
-      handleDrawerClose()
-      switch (index) {
-          case 0:
-            navigate('/projections');
-            break;
-          case 1:
-            navigate('/projections');
-            break;
-          case 2:
-            navigate('/projections');
-            break;
-          case 3:
-            navigate('/projections');
-            break;
-          default:
-              navigate(`/`);
-      }
+    //   switch (index) {
+    //       case 0:
+    //         navigate('/projections');
+    //         break;
+    //       default:
+    //           navigate(`/`);
+    //   }
+    //   console.log("CLICKED", index)
   };
 
-  const menuItems = [
-      '2024 Projections',
-      'Team Stats',
-      'Trade Ratings',
-      'Rosters (coming soon)',
-      'Home',
-  ]
+  // const panelItems = [
+  //
+  // ]
 
   return (
-      <div style={{ marginBottom: 1}}>
-        <Toolbar className={"top-description"}>
+      <div style={{ marginBottom: 1 }} >
+        <Toolbar className={"top-description-2"} >
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge="start"
+            edge="end"
             sx={{ mr: 2, ...(open && { display: 'none' }), color: "whitesmoke" }}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" color={"whitesmoke"}>
-            Menu
+            Rankings
           </Typography>
         </Toolbar>
       <Drawer
@@ -132,24 +102,23 @@ export default function MenuDrawer() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
-              backgroundColor: 'gray',
           },
         }}
         variant="persistent"
-        anchor="left"
+        anchor="right"
         open={open}
       >
-        <DrawerHeader style={{ marginTop: .5, marginBottom: .5, height: "5%" }}>
+        <DrawerHeader style={{ marginTop: .5, marginBottom: .5, height: "5%"}}>
           <IconButton onClick={handleDrawerClose} >
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider style={{ backgroundColor: 'black' }} />
+        <Divider />
         <List >
-          {menuItems.map((text, index) => (
-            <ListItem key={text} disablePadding style={{ color: 'whitesmoke' }}>
+          {['2024 Projections', 'Team Stats', 'Rosters (coming soon)'].map((text, index) => (
+            <ListItem key={text} disablePadding>
               <ListItemButton onClick={() => handleMenuSelection(index)}>
-                <ListItemIcon style={{ color: 'whitesmoke' }}>
+                <ListItemIcon>
                     {
                         index === 0 ? <QueryStatsIcon />
                             : index === 1 ? <SportsFootballIcon />
@@ -161,7 +130,7 @@ export default function MenuDrawer() {
             </ListItem>
           ))}
         </List>
-        <Divider style={{ backgroundColor: 'black' }} />
+        <Divider />
         {/*<List>*/}
         {/*  {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
         {/*    <ListItem key={text} disablePadding>*/}
@@ -175,7 +144,10 @@ export default function MenuDrawer() {
         {/*  ))}*/}
         {/*</List>*/}
       </Drawer>
-      <Main open={open} />
-      </div>
+      <Main open={open}>
+        {/*<DrawerHeader />*/}
+      </Main>
+          </div>
+    // </Box>
   );
 }

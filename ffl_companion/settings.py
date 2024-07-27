@@ -41,7 +41,17 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'ffl_companion',
     'api',
+    'frontend',
+    'webpack_loader',
 ]
+
+WEBPACK_LOADER = {
+  "DEFAULT": {
+    "BUNDLE_DIR_NAME": "frontend/",
+    "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json")
+  }
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -67,7 +77,8 @@ ROOT_URLCONF = 'ffl_companion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["react_apps/fantasy_tracker/build/"],
+        # 'DIRS': ["react_apps/fantasy_tracker/build/"],
+        'DIRS': ["react_apps/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,10 +146,12 @@ REACT_FANTASY_TRACKER_BUILD_PATH = "react_apps/fantasy_tracker/build"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "react_apps/fantasy_tracker/build/static"),
+    os.path.join(BASE_DIR, "frontend/static/"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

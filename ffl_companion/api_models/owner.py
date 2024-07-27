@@ -1,7 +1,31 @@
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+from ffl_companion.api_models.league_settings import LeagueSettings
 
 
 class TeamOwnerManager(models.Manager):
+    def create_owner(self, email=None, name=None, password=None, **extra_fields):
+        now = timezone.now()
+        if email:
+            email = UserManager.normalize_email(email)
+
+        owner = self.model(
+            email=email,
+            name=name,
+            is_active=True,
+            is_superuser=False,
+            last_login=now,
+            **extra_fields,
+        )
+        owner.set_password(password)
+        owner.save(using=self._db)
+        return owner
+
     def import_owners(self, owners: dict):
         to_import = []
         for owner, row in owners.items():
@@ -11,7 +35,9 @@ class TeamOwnerManager(models.Manager):
         self.bulk_create(to_import)
 
 
-class TeamOwner(models.Model):
+class TeamOwner(AbstractBaseUser):
+    USERNAME_FIELD = "name"
+
     class Meta:
         db_table = "owners"
         unique_together = (("league_name", "name"),)
@@ -23,6 +49,7 @@ class TeamOwner(models.Model):
     is_active = models.BooleanField(default=False)
     image = models.FilePathField(path="/img", null=True, blank=True)
     league_name = models.CharField(max_length=50)
+    password = models.CharField(_("password"), max_length=128, default="password")
 
     objects = TeamOwnerManager()
 
@@ -49,3 +76,14 @@ class TeamOwner(models.Model):
     @property
     def trades(self):
         return [t[self] for t in [*self.owner_one_trades.all(), *self.owner_two_trades.all()]]
+
+    def set_password(self, password):
+        self.password = make_password(password=password)
+        self.save()
+
+    def get_league_settings(self):
+        league = LeagueSettings.objects.filter(name=self.league_name).first()
+        if not league:
+            raise AttributeError(f"{self.name} owner has no attribute 'league_name'")
+
+        return {"name": league.name, "league_id": league.league_id}

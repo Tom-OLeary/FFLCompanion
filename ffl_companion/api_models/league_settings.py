@@ -1,5 +1,13 @@
 from django.db import models
 
+from ffl_companion.config import App
+
+
+class LeagueSettingsManager(models.Manager):
+    def get_queryset(self):
+        """Pre Filter for current league only"""
+        return super().get_queryset().filter(**App.config(self.__class__.__name__))
+
 
 class LeagueSettings(models.Model):
     class Meta:
@@ -11,6 +19,11 @@ class LeagueSettings(models.Model):
     playoff_teams = models.IntegerField(default=6)
     entry_price = models.IntegerField(default=0)
     member_count = models.IntegerField(default=0)
+    league_host = models.CharField(max_length=255, null=True)
+    league_host_url = models.CharField(max_length=255, null=True)
+    league_id = models.CharField(max_length=255, null=True)
+
+    objects = LeagueSettingsManager()
 
     def __str__(self):
         return self.name
@@ -20,7 +33,7 @@ class LeagueSettings(models.Model):
         return self.entry_price * self.member_count
 
     def save(self, *args, **kwargs):
-        if not self.member_count:
+        if not self.member_count and self.pk:
             self.member_count = self.league_stats.count()
 
         super().save(*args, **kwargs)

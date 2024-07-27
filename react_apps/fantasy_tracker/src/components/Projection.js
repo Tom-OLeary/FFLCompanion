@@ -10,23 +10,13 @@ import env from "react-dotenv";
 import React from "react";
 import GridTest from "./projections/GridTest";
 
-function Projection() {
-    let url = (env.NODE_ENV === 'production') ? 'https://www.troleary.com/api/' : 'http://127.0.0.1:8000/api/'
-    // if (env.NODE_ENV === 'development') {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
-    // else if (env.NODE_ENV === 'production') {
-    //   url = 'https://www.troleary.com/api/'
-    // }
-    // else {
-    //   url = 'http://127.0.0.1:8000/api/'
-    // }
+function Projection(props) {
 
   return (
     <>
         {/*<Header />*/}
         {/*<SpacingGrid />*/}
-        <GridTest url={url} />
+        <GridTest url={props.url} />
         {/*<DataGrid />*/}
         {/*<Sheet url={url} />*/}
         {/*<Footer />*/}

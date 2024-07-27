@@ -110,8 +110,8 @@ class LeagueBreakdown:
 
         return {
             "years_active": self.leagues.count(),
-            "active_members": self.owners.filter(is_active=True).count(),
-            "total_members": _most_recent.member_count,
+            "active_members": _most_recent.member_count,
+            "total_members": self.owners.count(),
             "unique_champions": len(set(c[0] for c in _champions)),
             "prize_pool": _most_recent.prize_pool,
         }
