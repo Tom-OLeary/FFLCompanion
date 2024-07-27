@@ -15,7 +15,7 @@ from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.config import App
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def serve_react(request, html_path, document_root=None):
     path = posixpath.normpath(html_path).lstrip("/")
     fullpath = Path(safe_join(document_root, path))

@@ -32,11 +32,11 @@ django_app_patterns = [
     # path("resume/", include("resume.urls")),
     path("api/", include("api.urls")),
 ]
-# react_patterns = [
-#     # path("", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
-#     # path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}, name="home"),
-#     re_path(r"^home/$", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""})
-# ]
+react_patterns = [
+    path("", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
+    # path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}, name="home"),
+    # re_path(r"^home/$", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""})
+]
 
 login_patterns = [
     # path('', views.sign_in, name='login'),
@@ -44,9 +44,9 @@ login_patterns = [
 ]
 
 urlpatterns = [
-    re_path(r"^home/$", include("frontend.urls")),
+    # path("", include("frontend.urls")),
     *django_app_patterns,
-    # *react_patterns,
+    *react_patterns,
     *login_patterns,
 ]
 

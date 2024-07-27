@@ -77,8 +77,7 @@ ROOT_URLCONF = 'ffl_companion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': ["react_apps/fantasy_tracker/build/"],
-        'DIRS': ["react_apps/"],
+        'DIRS': ["react_apps/fantasy_tracker/build/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
