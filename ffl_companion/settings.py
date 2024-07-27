@@ -77,7 +77,7 @@ ROOT_URLCONF = 'ffl_companion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["react_apps/fantasy_tracker/build/"],
+        'DIRS': ["react_apps/fantasy_tracker/build/", "static"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,7 +145,7 @@ REACT_FANTASY_TRACKER_BUILD_PATH = "react_apps/fantasy_tracker/build"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/static/"),
+    os.path.join(BASE_DIR, "react_apps/fantasy_tracker/build/"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
