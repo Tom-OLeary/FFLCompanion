@@ -22,7 +22,7 @@ export default function GridTest(props) {
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'mid-header'})}
 
     return (
-        <div style={{ height: 650, marginRight: 50, marginLeft: 50, marginBottom: 50, backgroundColor: "darkgrey"}}>
+        <div style={{ height: 650, marginRight: 50, marginLeft: 50, marginBottom: 50, marginTop: 50, backgroundColor: "darkgrey"}}>
           <DataGrid
               rows={data}
               columns={columns}

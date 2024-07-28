@@ -21,14 +21,14 @@
 
   header {
     padding: 0;
-    height: 200px;
-    /*background: url(../img/blog_header.png);*/
-    /*margin: 80px;*/
-    margin: 10px 50px 80px;
+    height: 100px;
+    margin: 20px 50px 10px;
   }
-  .paper-image {
-    background: url(../img/Pest.png);
-  }
+  /*.paper-image {*/
+  /*  background: url(../img/Pest.png);*/
+  /*  background-size: cover;*/
+  /*  height: 200px;*/
+  /*}*/
   .column-three {
     column-count: 3;
     -webkit-column-count: 3;

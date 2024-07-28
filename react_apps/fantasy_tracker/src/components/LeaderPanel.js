@@ -17,11 +17,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import SportsFootballIcon from '@mui/icons-material/SportsFootball';
-import GroupsIcon from '@mui/icons-material/Groups';
 import { useNavigate } from 'react-router-dom';
+import LinkIcon from '@mui/icons-material/Link';
+import NotesIcon from '@mui/icons-material/Notes';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
-const drawerWidth = 475;
+const drawerWidth = 375;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -75,9 +77,7 @@ export default function LeaderPanel() {
     //   console.log("CLICKED", index)
   };
 
-  // const panelItems = [
-  //
-  // ]
+  const panelItems = ['League Home', 'Requests', 'Notes', 'Links']
 
   return (
       <div style={{marginBottom: 1}}>
@@ -93,7 +93,7 @@ export default function LeaderPanel() {
                       <MenuIcon/>
                   </IconButton>
                   <Typography variant="h6" noWrap component="div" color={"whitesmoke"}>
-                      Rankings
+                      Resources
                   </Typography>
               </Toolbar>
           </div>
@@ -117,14 +117,15 @@ export default function LeaderPanel() {
               </DrawerHeader>
               <Divider/>
               <List>
-                  {['2024 Projections', 'Team Stats', 'Rosters (coming soon)'].map((text, index) => (
+                  {panelItems.map((text, index) => (
                       <ListItem key={text} disablePadding>
                           <ListItemButton onClick={() => handleMenuSelection(index)}>
                               <ListItemIcon>
                                   {
-                                      index === 0 ? <QueryStatsIcon/>
-                                          : index === 1 ? <SportsFootballIcon/>
-                                              : <GroupsIcon/>
+                                      index === 0 ? <FmdGoodIcon/>
+                                          : index === 1 ? <QuestionAnswerIcon/>
+                                              : index === 2 ? <NotesIcon/>
+                                                  : <LinkIcon/>
                                   }
                               </ListItemIcon>
                               <ListItemText primary={text}/>

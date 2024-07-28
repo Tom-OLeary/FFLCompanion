@@ -8,12 +8,14 @@ import env from "react-dotenv";
 // import SpacingGrid from "./components/SpacingGrid";
 // import MenuDrawer from "./components/MenuDrawer";
 import React from "react";
+import Temp2 from "./Temp2";
 
 function Home(props) {
 
   return (
     <>
         <Header url={props.url}/>
+        <Temp2 />
         {/*<SpacingGrid />*/}
         {/*<GridTest url={url} />*/}
         {/*<DataGrid />*/}

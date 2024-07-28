@@ -20,6 +20,9 @@ import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import SportsFootballIcon from '@mui/icons-material/SportsFootball';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { useNavigate } from 'react-router-dom';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import HomeIcon from '@mui/icons-material/Home';
+import LoginIcon from '@mui/icons-material/Login';
 
 const drawerWidth = 275;
 
@@ -81,20 +84,20 @@ export default function MenuDrawer() {
     setOpen(false);
   };
 
-  const handleMenuSelection = (index) => {
+  const handleMenuSelection = (element) => {
       handleDrawerClose()
-      switch (index) {
+      switch (element) {
           case 0:
             navigate('/projections');
             break;
-          case 1:
-            navigate('/projections');
-            break;
-          case 2:
-            navigate('/projections');
-            break;
+          // case 1:
+          //   navigate('/stats');
+          //   break;
+          // case 2:
+          //   navigate('/trades');
+          //   break;
           case 3:
-            navigate('/projections');
+            navigate('/home');
             break;
           case 'Load League':
             navigate('/');
@@ -158,7 +161,10 @@ export default function MenuDrawer() {
                     {
                         index === 0 ? <QueryStatsIcon />
                             : index === 1 ? <SportsFootballIcon />
-                                : <GroupsIcon />
+                                : index === 2 ? <SwapVertIcon />
+                                    : index === 3 ? <GroupsIcon />
+                                        : index === 4 ? <HomeIcon />
+                                            : <GroupsIcon />
                     }
                 </ListItemIcon>
                 <ListItemText primary={text} />
@@ -167,13 +173,16 @@ export default function MenuDrawer() {
           ))}
         </List>
         <Divider style={{ backgroundColor: 'black' }} />
-        <List>
+        <List style={{ position: 'absolute', bottom: 0 }}>
           {['Load League'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+            <ListItem key={text} disablePadding style={{ color: 'whitesmoke' }}>
               <ListItemButton onClick={() => handleMenuSelection(text)}>
-                {/*<ListItemIcon>*/}
-                {/*  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
-                {/*</ListItemIcon>*/}
+                <ListItemIcon style={{ color: 'whitesmoke' }}>
+                  {
+                      text === 'Load League' ? <LoginIcon />
+                          : <LoginIcon />
+                  }
+                </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>

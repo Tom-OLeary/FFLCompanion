@@ -23,8 +23,9 @@ export default function Header(props) {
 
     const PaperItem = styled(Paper)(({theme}) => ({
         width: "100%",
+        // height: 400,
         height: "75%",
-        backgroundColor: "#ac7e01",
+        backgroundColor: "#dd9e00",
         padding: theme.spacing(2),
         ...theme.typography.body2,
     }));
@@ -34,6 +35,9 @@ export default function Header(props) {
             <div className={"paper-stack"}>
                 <Stack direction="row" spacing={2}>
                     <PaperItem elevation={20} square={false}>
+                        {/*<div className={"paper-image"}>*/}
+                        {/*</div>*/}
+                        {/*<br/>*/}
                         <div className={"mid-header"}>
                             Years Active
                             <div>{data.years_active}</div>
@@ -59,7 +63,7 @@ export default function Header(props) {
                     </PaperItem>
                     <PaperItem elevation={20} square={false}>
                         <div className={"mid-header"}>
-                            Projected Prize Pool
+                            Prize Pool
                             <div>{data.prize_pool}</div>
                         </div>
                     </PaperItem>

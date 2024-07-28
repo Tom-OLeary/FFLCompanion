@@ -32,6 +32,7 @@
     "react-scripts": "5.0.1",
     "react-spreadsheet": "^0.9.5",
     "rewire": "^6.0.0",
+    "sass": "^1.77.8",
     "scheduler": "^0.23.2",
     "stream": "npm:stream-browserify",
     "stream-browserify": "^3.0.0",

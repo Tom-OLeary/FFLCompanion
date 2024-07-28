@@ -14,6 +14,7 @@ import Projection from "./components/Projection";
 import LeaderPanel from "./components/LeaderPanel";
 import env from 'react-dotenv';
 import Login from "./components/Login";
+import TEMP from "./components/TEMP";
 
 function App() {
     // console.log(env.API_URL)
@@ -33,14 +34,18 @@ function App() {
             <div className={"column-three"}>
                 <MenuDrawer/>
                 {/*<div id="headerTitle" >{data.name}</div>*/}
-                <div id="headerTitle">Norton</div>
+                {/*<div id="headerTitle">Norton</div>*/}
 
                 <LeaderPanel/>
+                {/*<TEMP />*/}
             </div>
             <Routes>
                 <Route path="/" element={<Login url={url} />} />
                 <Route path="home" element={<Home url={url} />} />
                 <Route path="projections" element={<Projection url={url} />} />
+                {/*<Route path="stats" element={<TeamStat url={url} />} />*/}
+                {/*<Route path="trades" element={<Trade url={url} />} />*/}
+
             </Routes>
         </>
     );
