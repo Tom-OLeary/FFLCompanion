@@ -26,6 +26,9 @@
     /*margin: 80px;*/
     margin: 10px 50px 80px;
   }
+  .paper-image {
+    background: url(../img/Pest.png);
+  }
   .column-three {
     column-count: 3;
     -webkit-column-count: 3;

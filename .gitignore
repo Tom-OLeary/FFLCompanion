@@ -8,3 +8,5 @@ env
 ffl_companion/db_commands.py
 .env
 node_modules
+ffl_companion/api_models/static
+react_apps/fantasy_tracker/src/img

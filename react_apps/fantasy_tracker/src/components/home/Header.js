@@ -6,14 +6,13 @@ import '../../css/Header.css';
 import Paper from "@mui/material/Paper";
 import {styled} from "@mui/material/styles";
 import {Stack} from "@mui/material";
-import MenuDrawer from "../MenuDrawer";
 
 
 export default function Header(props) {
     const [data, setData] = useState([])
-    let url = props.url + "breakdown/"
+    let endpoint = props.url + "breakdown/"
     useEffect(() => {
-        fetch(url)
+        fetch(endpoint)
             .then(res => res.json())
             .then(json => {
                 console.log(json);
