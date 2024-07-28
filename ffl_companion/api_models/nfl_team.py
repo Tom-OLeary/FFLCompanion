@@ -1,11 +1,10 @@
 import pandas as pd
 from django.db import models
 
-from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.choices import TeamChoices
 
 
-class NFLTeamManager(BaseModelManager):
+class NFLTeamManager(models.Manager):
     KEY_MAPPING = {
         "Name": "name",
         "Abbreviation": "abbreviation",
@@ -25,7 +24,7 @@ class NFLTeamManager(BaseModelManager):
         self.bulk_create(to_import)
 
 
-class NFLTeam(BaseModel):
+class NFLTeam(models.Model):
     class Meta:
         db_table = "nfl_teams"
         unique_together = (("abbreviation", "season_year"),)

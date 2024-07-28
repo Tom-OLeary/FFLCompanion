@@ -16,7 +16,7 @@ from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.util import format_date_str
 
 
-class NFLPlayerModelManager(BaseModelManager):
+class NFLPlayerModelManager(models.Manager):
     KEY_MAP = {
         "Name": "name",
         "Pos": "position",
@@ -55,7 +55,7 @@ class NFLPlayerModelManager(BaseModelManager):
         print(f"Successfully imported {len(to_import)} players")
 
 
-class NFLPlayer(BaseModel):
+class NFLPlayer(models.Model):
     class Meta:
         db_table = "nfl_players"
         unique_together = (("name", "position", "team", "season_start_year", "stat_type"),)
