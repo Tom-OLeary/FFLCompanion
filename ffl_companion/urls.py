@@ -23,7 +23,7 @@ from ffl_companion import views
 # from account.forms import LoginForm # optional form to pass to view
 
 # from homepage import views as homepage_views
-from ffl_companion.views import serve_react, LoginForm
+from ffl_companion.views import serve_react, LoginForm, AppLoginView
 
 django_app_patterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -39,7 +39,7 @@ react_patterns = [
 ]
 
 login_patterns = [
-    # path('', views.sign_in, name='login'),
+    path('login/', AppLoginView.as_view(), name='login'),
     path('logout/', views.sign_out, name='logout'),
 ]
 

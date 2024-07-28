@@ -3,6 +3,7 @@ from dataclasses import dataclass, fields
 from django.db import models
 from django.db.models import QuerySet
 
+from ffl_companion.api_models.base import BaseModel, BaseModelManager
 from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScoring
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import Player
@@ -27,7 +28,11 @@ class StatTotals:
         return self
 
 
-class Trade(models.Model):
+class TradeModelManager(BaseModelManager):
+    pass
+
+
+class Trade(BaseModel):
     class Meta:
         db_table = "trades"
 
@@ -38,6 +43,8 @@ class Trade(models.Model):
     owner_two_received = models.ManyToManyField(Player, related_name="owner_two_received")
     league = models.ForeignKey(LeagueSettings, on_delete=models.CASCADE, related_name="trades")
     trade_date = models.DateField(null=True)
+
+    objects = TradeModelManager()
 
     def get_trade_comparison(self) -> dict:
         # TODO currently does not support players traded multiple times

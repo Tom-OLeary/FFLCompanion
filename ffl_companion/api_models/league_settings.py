@@ -1,15 +1,13 @@
 from django.db import models
 
-from ffl_companion.config import App
+from ffl_companion.api_models.base import BaseModelManager, BaseModel
 
 
-class LeagueSettingsManager(models.Manager):
-    def get_queryset(self):
-        """Pre Filter for current league only"""
-        return super().get_queryset().filter(**App.config(self.__class__.__name__))
+class LeagueSettingsManager(BaseModelManager):
+    pass
 
 
-class LeagueSettings(models.Model):
+class LeagueSettings(BaseModel):
     class Meta:
         db_table = "league_settings"
         unique_together = (("name", "setting_year"),)

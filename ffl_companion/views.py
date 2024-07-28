@@ -5,14 +5,23 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
+from django.http import JsonResponse
 from django.utils._os import safe_join
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.static import serve as static_serve
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.config import App
+from ffl_companion.serializers import LoginSerializer
 
 
 # @login_required(login_url='login')
@@ -28,6 +37,33 @@ def serve_react(request, html_path, document_root=None):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=65)
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
+
+
+class AppLoginView(GenericAPIView):
+    queryset = TeamOwner.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data["username"]
+        password = serializer.validated_data["password"]
+        try:
+            owner = TeamOwner.objects.get(name=user)
+        except TeamOwner.DoesNotExist:
+            return Response({"error": "User Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if check_password(password, owner.password):
+            login(request, owner)
+            try:
+                initiate_app(owner)
+            except AttributeError:
+                return Response({"error": "User League Not Found"}, status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response("ok", status=status.HTTP_200_OK)
 
 
 def sign_in(request):
@@ -75,4 +111,4 @@ def sign_out(request):
 
 
 def initiate_app(owner: TeamOwner):
-    App.set("LeagueSettingsManager", owner.get_league_settings())
+    App.set(owner.league_name)

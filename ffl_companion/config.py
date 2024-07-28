@@ -19,24 +19,30 @@
 
 
 class App:
-    __conf = {
-        "LeagueSettingsManager": {
-            "league_id": "",
-            "name": "Demo",
-        }
-    }
-    __setters = ["LeagueSettingsManager"]
+    __KEY = "dataset"
+    # __conf = {
+    #     "LeagueSettingsManager": {
+    #         "league_id": "",
+    #         "name": "Demo",
+    #     }
+    # }
+    __conf = {__KEY: "Demo"}
+    # __setters = ["LeagueSettingsManager"]
+    __UNLOCK = False
 
     @staticmethod
-    def config(name):
-        return App.__conf.get(name, {})
+    def config():
+        if App.__UNLOCK:
+            return {}
+        return App.__conf
 
     @staticmethod
-    def set(name, value):
-        if name in App.__setters:
-            App.__conf[name] = value
-        else:
-            raise NameError("Name not accepted in set() method")
+    def set(value):
+        App.__conf[App.__KEY] = value
+        # if name in App.__setters:
+        #     App.__conf[name] = value
+        # else:
+        #     raise NameError("Name not accepted in set() method")
 
     # @staticmethod
     # def global_filter():
@@ -44,8 +50,9 @@ class App:
 
     @staticmethod
     def unlock():
-        for k in App.__setters:
-            App.__conf[k] = {}
+        App.__UNLOCK = True
+        # for k in App.__setters:
+        #     App.__conf[k] = {}
 
     # @classmethod
     # def __getitem__(cls, item):

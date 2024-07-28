@@ -25,12 +25,13 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,17 +42,34 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'ffl_companion',
     'api',
-    'frontend',
-    'webpack_loader',
+    # 'rest_framework.authtoken'
 ]
 
-WEBPACK_LOADER = {
-  "DEFAULT": {
-    "BUNDLE_DIR_NAME": "frontend/",
-    "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json")
-  }
-}
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
+# CORS_ALLOW_METHODS = (
+#     "DELETE",
+#     "GET",
+#     "OPTIONS",
+#     "PATCH",
+#     "POST",
+#     "PUT",
+# )
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -62,10 +80,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'ffl_companion.middleware.MyMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_ALL_ORIGINS = True
+# APPEND_SLASH = False
 
 REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -77,7 +102,7 @@ ROOT_URLCONF = 'ffl_companion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["react_apps/fantasy_tracker/build/", "static"],
+        'DIRS': ["react_apps/fantasy_tracker/build/"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,12 +170,12 @@ REACT_FANTASY_TRACKER_BUILD_PATH = "react_apps/fantasy_tracker/build"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "react_apps/fantasy_tracker/build/"),
+    os.path.join(BASE_DIR, "react_apps/fantasy_tracker/build/static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home/'
+# LOGIN_URL = 'login'
+# LOGIN_REDIRECT_URL = 'home/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

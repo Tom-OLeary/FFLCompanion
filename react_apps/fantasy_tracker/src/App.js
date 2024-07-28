@@ -2,7 +2,6 @@ import './App.css';
 // import Header from "./components/Header";
 // import Sheet from "./components/Sheet";
 // import DataGrid from "./components/DataGrid";
-import env from "react-dotenv";
 // import GridTest from "./components/GridTest";
 // import TeamCard from "./components/TeamCard";
 // import SpacingGrid from "./components/SpacingGrid";
@@ -13,8 +12,11 @@ import Home from "./components/Home";
 import MenuDrawer from "./components/MenuDrawer";
 import Projection from "./components/Projection";
 import LeaderPanel from "./components/LeaderPanel";
+import env from 'react-dotenv';
+import Login from "./components/Login";
 
 function App() {
+    // console.log(env.API_URL)
     let url = (env.NODE_ENV === 'production') ? 'https://www.troleary.com/api/' : 'http://127.0.0.1:8000/api/'
     // const [data, setData] = useState([])
     // useEffect(() => {
@@ -36,7 +38,8 @@ function App() {
                 <LeaderPanel/>
             </div>
             <Routes>
-                <Route path="/" element={<Home url={url} />} />
+                <Route path="/" element={<Login url={url} />} />
+                <Route path="home" element={<Home url={url} />} />
                 <Route path="projections" element={<Projection url={url} />} />
             </Routes>
         </>

@@ -1,14 +1,15 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import PermissionsMixin, UserManager
+from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.league_settings import LeagueSettings
 
 
-class TeamOwnerManager(models.Manager):
+class TeamOwnerManager(BaseModelManager):
     def create_owner(self, email=None, name=None, password=None, **extra_fields):
         now = timezone.now()
         if email:
@@ -35,7 +36,7 @@ class TeamOwnerManager(models.Manager):
         self.bulk_create(to_import)
 
 
-class TeamOwner(AbstractBaseUser):
+class TeamOwner(AbstractBaseUser, BaseModel):
     USERNAME_FIELD = "name"
 
     class Meta:
@@ -87,3 +88,4 @@ class TeamOwner(AbstractBaseUser):
             raise AttributeError(f"{self.name} owner has no attribute 'league_name'")
 
         return {"name": league.name, "league_id": league.league_id}
+

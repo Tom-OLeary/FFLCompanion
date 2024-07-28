@@ -97,7 +97,7 @@ export default function MenuDrawer() {
             navigate('/projections');
             break;
           default:
-              navigate(`/`);
+              navigate(`/home`);
       }
   };
 

@@ -2,12 +2,13 @@ import pandas as pd
 
 from django.db import models
 
+from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.import_handlers.validators import FantasyTeamImport
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 
 
-class FantasyTeamStatsManager(models.Manager):
+class FantasyTeamStatsManager(BaseModelManager):
     IMPORT_MAPPING = {
         "RK": "rank",
         "TEAM": "team",
@@ -37,7 +38,7 @@ class FantasyTeamStatsManager(models.Manager):
         self.bulk_create(to_import)
 
 
-class FantasyTeamStats(models.Model):
+class FantasyTeamStats(BaseModel):
     class Meta:
         db_table = "fantasy_team_stats"
         unique_together = (("team_owner", "season_start_year"),)
