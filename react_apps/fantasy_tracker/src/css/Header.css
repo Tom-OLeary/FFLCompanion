@@ -39,7 +39,7 @@
   }
 
   #headerTitle {
-    font-size: 100px;
+    font-size: 75px;
     font-family: 'Roboto Thin', sans-serif;
     color: #f9f9fa;
     padding: 0;
@@ -74,23 +74,33 @@
   .ul-description li{
     padding: 1px;
   }
-  .grid-container-2 {
-    margin: 40px;
-    /*background: url(../img/container4.jpeg) left;*/
-    grid-template-areas:
-      'left left middle middle middle middle';
+  .leader-panel {
+    position:absolute;
+    top:0;
+    right:0;
   }
-  .grid-container-2 p {
-    margin-left: 50px;
-    padding: 8px;
-    color: bl;
+  .menu-drawer {
+    position:absolute;
+    top:0;
+    left:0;
   }
-  .grid-container-3 {
-    display: grid;
-    grid-template-areas:
-    'left middle middle right';
-    margin-bottom: 25px;
-  }
+  /*.grid-container-2 {*/
+  /*  margin: 40px;*/
+  /*  !*background: url(../img/container4.jpeg) left;*!*/
+  /*  grid-template-areas:*/
+  /*    'left left middle middle middle middle';*/
+  /*}*/
+  /*.grid-container-2 p {*/
+  /*  margin-left: 50px;*/
+  /*  padding: 8px;*/
+  /*  color: bl;*/
+  /*}*/
+  /*.grid-container-3 {*/
+  /*  display: grid;*/
+  /*  grid-template-areas:*/
+  /*  'left middle middle right';*/
+  /*  margin-bottom: 25px;*/
+  /*}*/
   .left,
   .middle,
   .right {
@@ -147,6 +157,9 @@
     font-family: "Roboto", sans-serif;
     font-size: 20px;
     -webkit-text-stroke-width: thin;
+  }
+  .paper-stack {
+    margin-top: 40px;
   }
   /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
  /* @media (max-width: 620px) {*/

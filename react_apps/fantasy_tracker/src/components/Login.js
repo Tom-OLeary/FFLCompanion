@@ -21,16 +21,8 @@ function Login (props) {
     } = useForm();
 
     const onSubmit = (data) => {
-
         url = url + "username=" + data.username + "&password=" + data.password;
         fetchData();
-        // const userData = JSON.parse(localStorage.getItem(data.email));
-        // if (userData) { // getItem can return actual value or null
-        //     url = url + "username=" + userData.username + "&password=" + userData.password;
-        //     fetchData();
-        // } else {
-        //     console.log("Input data not found");
-        // }
     };
     return (
         <>

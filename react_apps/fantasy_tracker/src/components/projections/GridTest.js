@@ -15,6 +15,7 @@ export default function GridTest(props) {
                 console.log(json);
                 setData(json)
             })
+            .catch(err => console.log(err));
     }, []);
 
     const columns = []

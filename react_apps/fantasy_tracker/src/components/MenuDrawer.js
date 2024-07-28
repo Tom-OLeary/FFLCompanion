@@ -114,7 +114,8 @@ export default function MenuDrawer() {
 
   return (
       <div style={{ marginBottom: 1}}>
-        <Toolbar className={"top-description"}>
+          <div className={"menu-drawer"}>
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -128,6 +129,7 @@ export default function MenuDrawer() {
             Menu
           </Typography>
         </Toolbar>
+          </div>
       <Drawer
         sx={{
           width: drawerWidth,
