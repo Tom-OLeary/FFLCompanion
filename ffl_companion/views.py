@@ -49,8 +49,11 @@ class AppLoginView(GenericAPIView):
         user = serializer.validated_data["username"]
         password = serializer.validated_data["password"]
         try:
+            App.unlock()
             owner = TeamOwner.objects.get(name=user)
+            App.lock()
         except TeamOwner.DoesNotExist:
+            App.lock()
             return Response({"error": "User Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         if check_password(password, owner.password):
@@ -75,13 +78,9 @@ def sign_in(request):
         return render(request, 'login.html', {'form': form})
     elif request.method == 'POST':
         form = LoginForm(request.POST)
-
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            # user = authenticate(request, username=username, password=password)
-            # print("kkkkkkkkkkkkk", request)
-            # if user is not None:
             try:
                 owner = TeamOwner.objects.get(name=username)
             except TeamOwner.DoesNotExist:
@@ -111,4 +110,6 @@ def sign_out(request):
 
 
 def initiate_app(owner: TeamOwner):
+    """Sets global database filter for this owner's league"""
+    App.lock()
     App.set(owner.league_name)

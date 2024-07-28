@@ -37,7 +37,11 @@ class LeagueSettings(BaseModel):
         super().save(*args, **kwargs)
 
 
-class LeagueScoring(models.Model):
+class LeagueScoringManager(BaseModelManager):
+    pass
+
+
+class LeagueScoring(BaseModel):
     class Meta:
         db_table = "league_scoring"
         unique_together = (("scoring_type", "stat_name"),)
@@ -74,3 +78,5 @@ class LeagueScoring(models.Model):
     stat_name = models.CharField(max_length=50)
     point_value = models.FloatField(default=0.0)
     league_settings = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, related_name="scoring")
+
+    objects = LeagueScoringManager()

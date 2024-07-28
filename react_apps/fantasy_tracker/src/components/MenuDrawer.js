@@ -96,6 +96,9 @@ export default function MenuDrawer() {
           case 3:
             navigate('/projections');
             break;
+          case 'Load League':
+            navigate('/');
+            break;
           default:
               navigate(`/home`);
       }
@@ -162,18 +165,18 @@ export default function MenuDrawer() {
           ))}
         </List>
         <Divider style={{ backgroundColor: 'black' }} />
-        {/*<List>*/}
-        {/*  {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
-        {/*    <ListItem key={text} disablePadding>*/}
-        {/*      <ListItemButton>*/}
-        {/*        <ListItemIcon>*/}
-        {/*          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
-        {/*        </ListItemIcon>*/}
-        {/*        <ListItemText primary={text} />*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  ))}*/}
-        {/*</List>*/}
+        <List>
+          {['Load League'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => handleMenuSelection(text)}>
+                {/*<ListItemIcon>*/}
+                {/*  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
+                {/*</ListItemIcon>*/}
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Drawer>
       <Main open={open} />
       </div>

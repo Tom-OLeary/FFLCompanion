@@ -1,5 +1,4 @@
-from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import pandas as pd
 from django.db.models import QuerySet, Sum, Count, Case, When, F
@@ -15,6 +14,7 @@ from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import NFLPlayer
+from ffl_companion.config import App
 
 
 class PlayerListView(GenericAPIView):
@@ -80,7 +80,7 @@ class TeamOwnerListView(GenericAPIView):
     queryset = TeamOwner.objects.all()
 
     def get(self, request):
-        owners = self.get_queryset()
+        owners = self.get_queryset()  # TODO test config filter
         return Response(TeamOwnerSerializer(owners, many=True).data, status=status.HTTP_200_OK)
 
 
@@ -94,7 +94,7 @@ class TeamOwnerDetailView(GenericAPIView):
         responses={"200": TeamOwnerSerializer},
     )
     def get(self, request, *args, **kwargs):
-        owner = self.get_object()
+        owner = self.get_object()  # TODO test config filter
         return Response(TeamOwnerSerializer(owner).data, status=status.HTTP_200_OK)
 
 
@@ -121,7 +121,8 @@ class LeagueBreakdownView(GenericAPIView):
     queryset = LeagueSettings.objects.all()
 
     def get(self, request):
-        leagues = self.get_queryset().order_by("-setting_year")
+        # using self.get_queryset would ignore App config filter
+        leagues = LeagueSettings.objects.order_by("-setting_year")
         owners = TeamOwner.objects.all()
         if league_name := request.GET.get("name"):
             leagues = leagues.filter(name=league_name)
@@ -141,6 +142,7 @@ class LeagueLeadersView(GenericAPIView):
         return highest_total
 
     def get(self, request):
+        # TODO test config filter
         reigning_champs = self.get_queryset().filter(won_finals=True, is_current_season=False).order_by("-season_start_year")
         stats = self.get_queryset().values("team_owner__id").annotate(
             points_sum=Sum("total_points"),

@@ -125,7 +125,7 @@ class Roster(BaseModel):
     objects = RosterModelManager()
 
 
-class PlayerManager(BaseModelManager):
+class PlayerManager(models.Manager):
     def import_missing_players(self, data: list):
         for d in data:
             team_abbr, year = d.pop("team"), d.pop("year")
@@ -139,7 +139,7 @@ class PlayerManager(BaseModelManager):
                 player.nfl_teams.add(nfl_team)
 
 
-class Player(BaseModel):
+class Player(models.Model):
     class Meta:
         db_table = "players"
         unique_together = (("name", "position"),)
