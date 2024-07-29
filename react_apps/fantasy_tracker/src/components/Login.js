@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import "../App.css";
-import axios from "axios";
 import {json, useNavigate} from "react-router-dom";
 
 function Login (props) {
@@ -12,6 +11,7 @@ function Login (props) {
         fetch(url)
             .then(res => res.json())
             .then(json => { (json === "ok") ? navigate('/home') : console.log(json.error); })
+            .catch(err => console.log(err));
     }
 
     const {

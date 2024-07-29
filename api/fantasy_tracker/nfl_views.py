@@ -9,12 +9,12 @@ from rest_framework.response import Response
 
 from api.api_util import get_queryset_filters, split_and_strip
 from api.fantasy_tracker.nfl_serializers import PlayerRequestSerializer, PlayerSerializer, TeamOwnerSerializer, \
-    ReigningChampsSerializer
+    ReigningChampsSerializer, LeagueSettingsRequestSerializer, LeagueSettingsSerializer, TradeSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import NFLPlayer
-from ffl_companion.config import App
+from ffl_companion.api_models.trades import Trade
 
 
 class PlayerListView(GenericAPIView):
@@ -174,3 +174,32 @@ class LeagueLeadersView(GenericAPIView):
         }
         return Response(results, status=status.HTTP_200_OK)
 
+
+class LeagueSettingsView(GenericAPIView):
+    queryset = LeagueSettings.objects.all()
+
+    def get(self, request):
+        serializer = LeagueSettingsRequestSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+
+        if serializer.validated_data.get("get_url", False):
+            # TODO using self.get_queryset ignored App config filter, figure out why
+            league = LeagueSettings.objects.order_by("-setting_year").first()
+            return Response(LeagueSettingsSerializer(league).data, status=status.HTTP_200_OK)
+
+        # TODO future update for additional filters
+        return Response([], status=status.HTTP_200_OK)
+
+
+class TradesView(GenericAPIView):
+    queryset = Trade.objects.all()
+
+    def get(self, request):
+        # TODO test config filter
+        trades = Trade.objects.all()
+        results = []
+        for t in trades:
+            results.append(t.get_trade_comparison())
+        # serializer = TradeSerializer(trades, many=True)
+        # return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(results, status=status.HTTP_200_OK)

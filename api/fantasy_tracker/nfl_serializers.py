@@ -1,8 +1,10 @@
 from rest_framework import serializers
 
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
+from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import NFLPlayer
+from ffl_companion.api_models.trades import Trade
 
 
 class PlayerRequestSerializer(serializers.Serializer):
@@ -48,3 +50,19 @@ class ReigningChampsSerializer(serializers.ModelSerializer):
         fields = ["team_name", "season_start_year", "owner_name"]
 
     owner_name = serializers.PrimaryKeyRelatedField(source="team_owner.name", required=False, default=None, read_only=True)
+
+
+class LeagueSettingsRequestSerializer(serializers.Serializer):
+    get_url = serializers.BooleanField(required=False)
+
+
+class LeagueSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LeagueSettings
+        exclude = []
+
+
+class TradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trade
+        exclude = []

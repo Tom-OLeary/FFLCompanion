@@ -55,14 +55,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
-# CORS_ALLOW_METHODS = (
-#     "DELETE",
-#     "GET",
-#     "OPTIONS",
-#     "PATCH",
-#     "POST",
-#     "PUT",
-# )
 CORS_ALLOW_HEADERS = (
     "accept",
     "authorization",
@@ -81,11 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'ffl_companion.middleware.MyMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_ALL_ORIGINS = True
-# APPEND_SLASH = False
 
 REST_FRAMEWORK = {
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -175,11 +164,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-# LOGIN_URL = 'login'
-# LOGIN_REDIRECT_URL = 'home/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# AUTH_USER_MODEL = "owner.TeamOwner"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 App.lock()

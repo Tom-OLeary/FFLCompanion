@@ -22,6 +22,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import NotesIcon from '@mui/icons-material/Notes';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import {useEffect, useState} from "react";
 
 const drawerWidth = 375;
 
@@ -53,10 +54,32 @@ const DrawerHeader = styled('header')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function LeaderPanel() {
+export default function LeaderPanel(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const [data, setData] = useState([]);
+  let endpoint = props.url + "leagues/?get_url=true"
+    // useEffect(() => {
+    //     fetch(endpoint)
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             console.log(json);
+    //             setData(json);
+    //         })
+    //         .catch(err => console.log(err));
+    // }, []);
+
+  const fetchLeague = () => {
+      fetch(endpoint)
+          .then(res => res.json())
+          .then(json => {
+              console.log(json);
+              setData(json);
+          })
+          .catch(err => console.log(err));
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -67,15 +90,27 @@ export default function LeaderPanel() {
   };
 
   const handleMenuSelection = (index) => {
-    //   switch (index) {
-    //       case 0:
-    //         navigate('/projections');
-    //         break;
-    //       default:
-    //           navigate(`/`);
-    //   }
-    //   console.log("CLICKED", index)
+      // todo fix fetchLeague not completing before button click
+      fetchLeague();
+      switch (index) {
+          case 0:
+              window.open(data.league_host_url, '_blank').focus()
+              break;
+          // case 1:
+          //     navigate(`requests`);
+          //     break;
+          // case 2:
+          //     navigate(`notes`);
+          //   break;
+          // case 3:
+          //     navigate(`links`);
+          //   break;
+          default:
+              navigate(`home`);
+      }
+      console.log("CLICKED", index)
   };
+
 
   const panelItems = ['League Home', 'Requests', 'Notes', 'Links']
 

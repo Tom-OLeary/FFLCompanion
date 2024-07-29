@@ -1,0 +1,14 @@
+.card-column {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-gap: 30px;
+    -webkit-column-gap: 30px;
+    -moz-column-gap: 30px;
+    column-rule: 2px none #e11717;
+    -webkit-column-rule: 2px none #e11717;
+    -moz-column-rule: 2px none #e11717;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}

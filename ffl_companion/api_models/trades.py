@@ -70,7 +70,20 @@ class Trade(BaseModel):
             else:
                 results["winner"] = self.owner_two.name
 
-        return results
+        final_results = {
+            "winner": results["winner"],
+            "details": [
+                {
+                    "team_owner": self.owner_one.name,
+                    **results[self.owner_one.name],
+                },
+                {
+                    "team_owner": self.owner_two.name,
+                    **results[self.owner_two.name],
+                },
+            ]
+        }
+        return final_results
 
     def _get_owner_totals(self, players: QuerySet) -> tuple:
         totals = StatTotals()

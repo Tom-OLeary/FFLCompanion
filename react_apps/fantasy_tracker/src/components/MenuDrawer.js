@@ -93,9 +93,9 @@ export default function MenuDrawer() {
           // case 1:
           //   navigate('/stats');
           //   break;
-          // case 2:
-          //   navigate('/trades');
-          //   break;
+          case 2:
+            navigate('/trades');
+            break;
           case 3:
             navigate('/home');
             break;
