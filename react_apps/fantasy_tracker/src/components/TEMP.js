@@ -8,7 +8,7 @@
 // import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 // import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // import { useNavigate } from 'react-router-dom';
-// import '../css/Temp.scss';
+// import '../css/LeaderBoard.scss';
 //
 // const drawerWidth = 775;
 //

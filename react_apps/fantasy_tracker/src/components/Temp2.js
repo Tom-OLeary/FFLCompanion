@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../css/Temp.scss';
+import '../css/LeaderBoard.scss';
 
 export default function Temp2() {
 

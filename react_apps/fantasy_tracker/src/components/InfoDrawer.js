@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -16,17 +13,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import { useNavigate } from 'react-router-dom';
 import LinkIcon from '@mui/icons-material/Link';
 import NotesIcon from '@mui/icons-material/Notes';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Main from "../menuMain";
 
 const drawerWidth = 275;
-
 
 const DrawerHeader = styled('header')(({ theme }) => ({
   display: 'flex',
@@ -85,9 +80,7 @@ export default function InfoDrawer(props) {
           default:
               navigate(`home`);
       }
-      console.log("CLICKED", index)
   };
-
 
   const panelItems = ['League Home', 'Requests', 'Notes', 'Links']
 
