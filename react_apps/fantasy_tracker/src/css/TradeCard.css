@@ -12,3 +12,122 @@
     margin-left: 50px;
     margin-right: 50px;
 }
+
+.trade-loser {
+    scale: 6;
+    margin-top: 75px;
+    margin-bottom: 25px;
+    color: #a60a0a;
+}
+.trade-winner {
+    scale: 6;
+    margin-top: 75px;
+    margin-bottom: 25px;
+    color: #37b804;
+}
+.trade-draw {
+    scale: 6;
+    margin-top: 75px;
+    margin-bottom: 25px;
+    color: #c6bc11;
+}
+.div-icon {
+    text-align: center;
+}
+.winner-title {
+    color: whitesmoke;
+    margin-top: 25px;
+}
+.winner-result {
+    text-align: center;
+    color: #2aabd2;
+    margin-top: 95px;
+    font-size: 50px;
+}
+
+.card-body {
+    text-align: center;
+    color: #d30b0b;
+    margin-bottom: 5px;
+    font-family: "Trirong", sans-serif;
+}
+
+.card-players {
+    text-align: center;
+    color: #6cd30b;
+    font-family: "Audiowide", sans-serif;
+}
+
+.help-text {
+    position: absolute;
+    right: 0;
+}
+
+.card-summary {
+    text-align: center;
+    color: #031b40;
+}
+
+.date-title {
+    text-align: center;
+    color: whitesmoke;
+}
+
+@media only screen and (min-width: 960px)  and (max-width: 1140px){
+
+    body { min-width:960px; }
+
+    .trade-loser {
+        scale: 5;
+    }
+    .trade-winner {
+        scale: 5;
+    }
+    .trade-draw {
+        scale: 5;
+    }
+    .winner-result {
+        font-size: 40px;
+    }
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+    body { min-width:768px; }
+
+    .trade-loser {
+        scale: 4;
+    }
+    .trade-winner {
+        scale: 4;
+    }
+    .trade-draw {
+        scale: 4;
+    }
+    .winner-result {
+        font-size: 30px;
+    }
+
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+    body {
+        min-width: 480px;
+    }
+
+    .trade-loser {
+        scale: 3;
+    }
+    .trade-winner {
+        scale: 3;
+    }
+    .trade-draw {
+        scale: 3;
+    }
+    .winner-result {
+        font-size: 20px;
+    }
+}
+

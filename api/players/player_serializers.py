@@ -23,6 +23,4 @@ class PlayerRequestSerializer(serializers.Serializer):
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = NFLPlayer
-        exclude = []
-
-    fantasy_team_name = serializers.PrimaryKeyRelatedField(source="fantasy_team.team_name", required=False, default=None, read_only=True)
+        exclude = ["fantasy_team"]

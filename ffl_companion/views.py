@@ -24,7 +24,6 @@ from ffl_companion.config import App
 from ffl_companion.serializers import LoginSerializer
 
 
-# @login_required(login_url='login')
 def serve_react(request, html_path, document_root=None):
     path = posixpath.normpath(html_path).lstrip("/")
     fullpath = Path(safe_join(document_root, path))

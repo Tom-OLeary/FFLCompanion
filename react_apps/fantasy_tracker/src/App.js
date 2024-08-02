@@ -16,6 +16,7 @@ import env from 'react-dotenv';
 import Login from "./components/Login";
 import TEMP from "./components/TEMP";
 import Trade from "./components/trades/Trade";
+import TeamStats from "./TeamStats";
 
 function App() {
     // console.log(env.API_URL)
@@ -35,7 +36,7 @@ function App() {
                 <Route path="/" element={<Login url={url} />} />
                 <Route path="home" element={<Home url={url} />} />
                 <Route path="projections" element={<Projection url={url} />} />
-                {/*<Route path="stats" element={<TeamStat url={url} />} />*/}
+                <Route path="stats" element={<TeamStats url={url} />} />
                 <Route path="trades" element={<Trade url={url} />} />
 
             </Routes>

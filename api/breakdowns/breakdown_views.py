@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
+from api.breakdowns.breakdown_serializers import YearlyStatsSerializer
+from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
 
@@ -40,3 +42,12 @@ class LeagueBreakdownView(GenericAPIView):
             owners = owners.filter(name=league_name)
 
         return Response(LeagueBreakdown(leagues=leagues, owners=owners).data, status=status.HTTP_200_OK)
+
+
+class YearlyStatsView(GenericAPIView):
+    queryset = FantasyTeamStats.objects.all()
+
+    def get(self, request):
+        stats = FantasyTeamStats.objects.all()
+        serializer = YearlyStatsSerializer(stats, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

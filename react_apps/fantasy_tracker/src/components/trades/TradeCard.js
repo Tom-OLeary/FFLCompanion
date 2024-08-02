@@ -2,7 +2,6 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
@@ -10,22 +9,17 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
+import SwapVerticalCircleIcon from '@mui/icons-material/SwapVerticalCircle';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import '../../css/Header.css';
-
+import '../../css/TradeCard.css';
 
 const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
+  const {expand, ...other} = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})(({theme, expand}) => ({
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
   marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
@@ -35,97 +29,169 @@ const ExpandMore = styled((props) => {
 
 
 export default function TradeCard(props) {
-    const [expanded, setExpanded] = React.useState(false);
-    const handleExpandClick = () => {
-      setExpanded(!expanded);
-  };
-    // season_year = models.IntegerField(default=0)
-    // owner_one = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_one_trades", null=True)
-    // owner_two = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_two_trades", null=True)
-    // owner_one_received = models.ManyToManyField(Player, related_name="owner_one_received")
-    // owner_two_received = models.ManyToManyField(Player, related_name="owner_two_received")
-    // league = models.ForeignKey(LeagueSettings, on_delete=models.CASCADE, related_name="trades")
-    // trade_date = models.DateField(null=True)
 
-    return (
-        <Card sx={{ maxWidth: 500 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {props.data.name}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={props.data.winner}
-        subheader={props.data.trade_date}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {props.data.details[0].team_owner}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Best & Worst:</Typography>
-          <Typography paragraph>
-            AREA 2
-          </Typography>
-          <Typography paragraph>
-            AREA 3
-          </Typography>
-          <Typography paragraph>
-            AREA 4
-          </Typography>
-          <Typography>
-            AREA 5
-          </Typography>
-        </CardContent>
-              {/*          <FormControl component="fieldset">*/}
-              {/*  <FormLabel component="legend">spacing</FormLabel>*/}
-              {/*  <RadioGroup*/}
-              {/*    name="spacing"*/}
-              {/*    aria-label="spacing"*/}
-              {/*    value={spacing.toString()}*/}
-              {/*    onChange={handleChange}*/}
-              {/*    row*/}
-              {/*  >*/}
-              {/*    {["worst", "best"].map((value) => (*/}
-              {/*      <FormControlLabel*/}
-              {/*        key={value}*/}
-              {/*        value={value.toString()}*/}
-              {/*        control={<Radio />}*/}
-              {/*        label={value.toString()}*/}
-              {/*      />*/}
-              {/*    ))}*/}
-              {/*  </RadioGroup>*/}
-              {/*</FormControl>*/}
-      </Collapse>
-    </Card>
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  const teamOne = props.data.details[0]
+  const teamTwo = props.data.details[1]
+
+  return (
+      <div>
+        <Card sx={{maxWidth: 500}}>
+          <CardHeader
+              avatar={
+                <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
+                  1
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon/>
+                </IconButton>
+              }
+              title={teamOne.team_name}
+              subheader={teamOne.team_owner}
+          />
+          <h1 className={"card-body"}>
+            {teamOne.total_points}
+          </h1>
+          <div className={"card-players"}>
+            {teamOne.players_received.map((player, index) => (<div>{player}</div>))}
+          </div>
+          <CardContent>
+            <div className={"div-icon"}>
+              {
+                (props.data.winner === teamOne.team_owner) ? <SwapVerticalCircleIcon className={"trade-winner"}/>
+                    : (props.data.winner === teamTwo.teamOwner)
+                        ? <SwapVerticalCircleIcon className={"trade-loser"}/>
+                          : <SwapVerticalCircleIcon className={"trade-draw"}/>
+              }
+            </div>
+          </CardContent>
+          <CardActions disableSpacing>
+            <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+            >
+              <ExpandMoreIcon/>
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <div className={"card-summary"}>
+              <CardContent>
+                <Typography>
+                  Pass Yards: {teamOne.pass_yds}
+                </Typography>
+                <Typography>
+                  Pass TD: {teamOne.pass_td}
+                </Typography>
+                <Typography paragraph>
+                  Interceptions: {teamOne.interceptions}
+                </Typography>
+                <Typography>
+                  Rec Yards: {teamOne.receiving_yards}
+                </Typography>
+                <Typography>
+                  Rec TD: {teamOne.receiving_td}
+                </Typography>
+                <Typography paragraph>
+                  Receptions: {teamOne.receptions}
+                </Typography>
+                <Typography>
+                  Rush Yards: {teamOne.rush_yds}
+                </Typography>
+                <Typography>
+                  Rush TD: {teamOne.rush_td}
+                </Typography>
+              </CardContent>
+            </div>
+          </Collapse>
+        </Card>
+        <h1 className={"date-title"}>{props.data.trade_date}</h1>
+        <h1 className={"date-title"}>{props.data.winner}</h1>
+        <div className={"div-icon"}>
+          <h1 className={"winner-title"}> {
+            (props.data.winner) ? <div className={"winner-result"}>{props.data.winner} </div>
+                : <div className={"winner-result"}>DRAW</div>}
+          </h1>
+          <SyncAltIcon style={{fontSize: 75, color: red[500]}}/>
+        </div>
+        <Card>
+          <CardHeader
+              avatar={
+                <Avatar sx={{bgcolor: red[500]}} aria-label="recipe">
+                  2
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <MoreVertIcon/>
+                </IconButton>
+              }
+              title={teamTwo.team_name}
+              subheader={teamTwo.team_owner}
+          />
+          <h1 className={"card-body"}>
+            {teamTwo.total_points}
+          </h1>
+          <div className={"card-players"}>
+            {teamTwo.players_received.map((player, index) => (<div>{player}</div>))}
+          </div>
+          <CardContent>
+            <div className={"div-icon"}>
+              {
+                (props.data.winner === teamTwo.team_owner) ? <SwapVerticalCircleIcon className={"trade-winner"}/>
+                    : (props.data.winner === teamOne.teamOwner)
+                        ? <SwapVerticalCircleIcon className={"trade-loser"}/>
+                          : <SwapVerticalCircleIcon className={"trade-draw"}/>
+              }
+            </div>
+          </CardContent>
+          <CardActions disableSpacing>
+            <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+            >
+              <ExpandMoreIcon/>
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <div className={"card-summary"}>
+              <CardContent>
+                <Typography>
+                  Pass Yards: {teamTwo.pass_yds}
+                </Typography>
+                <Typography>
+                  Pass TD: {teamTwo.pass_td}
+                </Typography>
+                <Typography paragraph>
+                  Interceptions: {teamTwo.interceptions}
+                </Typography>
+                <Typography>
+                  Rec Yards: {teamTwo.receiving_yards}
+                </Typography>
+                <Typography>
+                  Rec TD: {teamTwo.receiving_td}
+                </Typography>
+                <Typography paragraph>
+                  Receptions: {teamTwo.receptions}
+                </Typography>
+                <Typography>
+                  Rush Yards: {teamTwo.rush_yds}
+                </Typography>
+                <Typography>
+                  Rush TD: {teamTwo.rush_td}
+                </Typography>
+              </CardContent>
+            </div>
+          </Collapse>
+        </Card>
+      </div>
   )
 }

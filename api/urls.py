@@ -3,7 +3,7 @@ from django.urls import re_path
 from api.trades.trade_views import TradesView
 from api.leagues.league_views import LeagueSettingsView
 from api.leaders.leader_views import LeagueLeadersView
-from api.breakdowns.breakdown_views import LeagueBreakdownView
+from api.breakdowns.breakdown_views import LeagueBreakdownView, YearlyStatsView
 from api.owners.owner_views import TeamOwnerListView, TeamOwnerDetailView
 from api.players.player_views import PlayerListView, PlayerDetailView
 
@@ -17,5 +17,5 @@ urlpatterns = [
     re_path(r"^leagues/$", LeagueSettingsView.as_view()),
     # re_path(r"^leagues/(?P<league_id>[0-9]+)/$", TeamOwnerDetailView.as_view()),
     re_path(r"^trades/$", TradesView.as_view()),
-
+    re_path(r"^stats/$", YearlyStatsView.as_view()),
 ]

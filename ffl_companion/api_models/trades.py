@@ -59,7 +59,10 @@ class Trade(BaseModel):
             results[key]["total_points"] = round(sum(stats[score.stat_name] * score.point_value for score in scoring), 2)
 
         results[self.owner_one.name]["players_received"] = owner_one_players
+        results[self.owner_one.name]["team_name"] = self.owner_one.team_stats.get(season_start_year=self.season_year).team_name
+
         results[self.owner_two.name]["players_received"] = owner_two_players
+        results[self.owner_two.name]["team_name"] = self.owner_two.team_stats.get(season_start_year=self.season_year).team_name
         results["winner"] = None
 
         owner_one_total = results[self.owner_one.name]["total_points"]
@@ -72,6 +75,7 @@ class Trade(BaseModel):
 
         final_results = {
             "winner": results["winner"],
+            "trade_date": self.trade_date,
             "details": [
                 {
                     "team_owner": self.owner_one.name,
