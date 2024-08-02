@@ -1,7 +1,11 @@
 from django.urls import re_path
 
-from api.fantasy_tracker.nfl_views import PlayerListView, PlayerDetailView, TeamOwnerListView, TeamOwnerDetailView, \
-    LeagueBreakdownView, LeagueLeadersView, LeagueSettingsView, TradesView
+from api.trades.trade_views import TradesView
+from api.leagues.league_views import LeagueSettingsView
+from api.leaders.leader_views import LeagueLeadersView
+from api.breakdowns.breakdown_views import LeagueBreakdownView
+from api.owners.owner_views import TeamOwnerListView, TeamOwnerDetailView
+from api.players.player_views import PlayerListView, PlayerDetailView
 
 urlpatterns = [
     re_path(r"^players/$", PlayerListView.as_view()),
