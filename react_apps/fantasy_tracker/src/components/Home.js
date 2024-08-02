@@ -16,11 +16,6 @@ function Home(props) {
     <>
         <Header url={props.url}/>
         <Temp2 />
-        {/*<SpacingGrid />*/}
-        {/*<GridTest url={url} />*/}
-        {/*<DataGrid />*/}
-        {/*<Sheet url={url} />*/}
-        {/*<Footer />*/}
     </>
   );
 }

@@ -23,27 +23,10 @@ import NotesIcon from '@mui/icons-material/Notes';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import {useEffect, useState} from "react";
+import Main from "../menuMain";
 
-const drawerWidth = 375;
+const drawerWidth = 275;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  }),
-);
 
 const DrawerHeader = styled('header')(({ theme }) => ({
   display: 'flex',
@@ -54,22 +37,13 @@ const DrawerHeader = styled('header')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function LeaderPanel(props) {
+export default function InfoDrawer(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   let endpoint = props.url + "leagues/?get_url=true"
-    // useEffect(() => {
-    //     fetch(endpoint)
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             console.log(json);
-    //             setData(json);
-    //         })
-    //         .catch(err => console.log(err));
-    // }, []);
 
   const fetchLeague = () => {
       fetch(endpoint)
@@ -92,9 +66,12 @@ export default function LeaderPanel(props) {
   const handleMenuSelection = (index) => {
       // todo fix fetchLeague not completing before button click
       fetchLeague();
+      handleDrawerClose();
       switch (index) {
           case 0:
-              window.open(data.league_host_url, '_blank').focus()
+              let hostUrl = data["league_host_url"];
+              if (!hostUrl) { hostUrl = 'https://www.espn.com/fantasy/' }
+              window.open(hostUrl, '_blank').focus();
               break;
           // case 1:
           //     navigate(`requests`);
@@ -128,7 +105,7 @@ export default function LeaderPanel(props) {
                       <MenuIcon/>
                   </IconButton>
                   <Typography variant="h6" noWrap component="div" color={"whitesmoke"}>
-                      Resources
+                      App Info
                   </Typography>
               </Toolbar>
           </div>
@@ -139,6 +116,7 @@ export default function LeaderPanel(props) {
                   '& .MuiDrawer-paper': {
                       width: drawerWidth,
                       boxSizing: 'border-box',
+                      backgroundColor: 'gray',
                   },
               }}
               variant="persistent"
@@ -150,12 +128,12 @@ export default function LeaderPanel(props) {
                       {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                   </IconButton>
               </DrawerHeader>
-              <Divider/>
+              <Divider style={{ backgroundColor: 'black' }} />
               <List>
                   {panelItems.map((text, index) => (
-                      <ListItem key={text} disablePadding>
+                      <ListItem key={text} disablePadding style={{color: 'whitesmoke'}}>
                           <ListItemButton onClick={() => handleMenuSelection(index)}>
-                              <ListItemIcon>
+                              <ListItemIcon style={{ color: 'whitesmoke' }}>
                                   {
                                       index === 0 ? <FmdGoodIcon/>
                                           : index === 1 ? <QuestionAnswerIcon/>
@@ -168,24 +146,10 @@ export default function LeaderPanel(props) {
                       </ListItem>
                   ))}
               </List>
-              <Divider/>
-              {/*<List>*/}
-              {/*  {['All mail', 'Trash', 'Spam'].map((text, index) => (*/}
-              {/*    <ListItem key={text} disablePadding>*/}
-              {/*      <ListItemButton>*/}
-              {/*        <ListItemIcon>*/}
-              {/*          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}*/}
-              {/*        </ListItemIcon>*/}
-              {/*        <ListItemText primary={text} />*/}
-              {/*      </ListItemButton>*/}
-              {/*    </ListItem>*/}
-              {/*  ))}*/}
-              {/*</List>*/}
+            <Divider style={{ backgroundColor: 'black' }} />
           </Drawer>
           <Main open={open}>
-              {/*<DrawerHeader />*/}
           </Main>
       </div>
-      // </Box>
   );
 }

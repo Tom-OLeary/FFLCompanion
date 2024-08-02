@@ -1,5 +1,5 @@
 import React from "react";
-import StatTable from "./components/stats/StatTable";
+import StatTable from "./stats/StatTable";
 
 function TeamStats(props) {
 

@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from "react";
 import '../../css/Header.css';
-
-// import Select from "react-dropdown-select";
-// import Spreadsheet from "react-spreadsheet";
 import Paper from "@mui/material/Paper";
 import {styled} from "@mui/material/styles";
 import {Stack} from "@mui/material";
@@ -23,7 +20,6 @@ export default function Header(props) {
 
     const PaperItem = styled(Paper)(({theme}) => ({
         width: "100%",
-        // height: 400,
         height: "75%",
         backgroundColor: "#dd9e00",
         padding: theme.spacing(2),
@@ -35,9 +31,6 @@ export default function Header(props) {
             <div className={"paper-stack"}>
                 <Stack direction="row" spacing={2}>
                     <PaperItem elevation={20} square={false}>
-                        {/*<div className={"paper-image"}>*/}
-                        {/*</div>*/}
-                        {/*<br/>*/}
                         <div className={"mid-header"}>
                             Years Active
                             <div>{data.years_active}</div>

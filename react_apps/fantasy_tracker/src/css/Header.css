@@ -11,12 +11,9 @@
   body {
     padding: 0;
     font-family: 'Montserrat', serif;
-    /*background-color: #252525;*/
     height: 100%;
     margin: 0;
     background: linear-gradient(0deg, #0a0a0a 1%, #121111 28%, #313030 80%) no-repeat fixed;
-    /*background: linear-gradient(0deg, #100f0f 0%, #000 16%, #191919 84%) no-repeat fixed;*/
-    /*background: linear-gradient(0deg, #3f0303 0%, #000 61%, #191919 100%) no-repeat fixed;*/
   }
 
   header {
@@ -24,11 +21,6 @@
     height: 100px;
     margin: 20px 50px 10px;
   }
-  /*.paper-image {*/
-  /*  background: url(../img/Pest.jpg);*/
-  /*  background-size: cover;*/
-  /*  height: 200px;*/
-  /*}*/
   .column-three {
     column-count: 3;
     -webkit-column-count: 3;
@@ -48,19 +40,7 @@
     padding: 0;
     margin-bottom: 20px;
     text-align: center;
-    /*mix-blend-mode: color-burn;*/
   }
-
-  /* The grid container */
-  /*.grid-container,*/
-  /*.grid-container-2 {*/
-  /*  display: grid;*/
-  /*  grid-template-areas:*/
-  /*    'middle middle middle right right';*/
-  /*  !*background: url(../img/water-bg.jpeg);*!*/
-  /*  background-size: cover;*/
-  /*  margin-bottom: 25px;*/
-  /*}*/
   .top-description {
     padding: 20px;
   }
@@ -87,23 +67,6 @@
     top:0;
     left:0;
   }
-  /*.grid-container-2 {*/
-  /*  margin: 40px;*/
-  /*  !*background: url(../img/container4.jpeg) left;*!*/
-  /*  grid-template-areas:*/
-  /*    'left left middle middle middle middle';*/
-  /*}*/
-  /*.grid-container-2 p {*/
-  /*  margin-left: 50px;*/
-  /*  padding: 8px;*/
-  /*  color: bl;*/
-  /*}*/
-  /*.grid-container-3 {*/
-  /*  display: grid;*/
-  /*  grid-template-areas:*/
-  /*  'left middle middle right';*/
-  /*  margin-bottom: 25px;*/
-  /*}*/
   .left,
   .middle,
   .right {
