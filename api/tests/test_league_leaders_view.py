@@ -1,7 +1,7 @@
 from rest_framework import status
 
-from api.tests.fixtures import LEAGUE_SETTINGS, TEAM_OWNERS, FANTASY_TEAM_STATS
-from api.tests.util import BaseTestCase
+from api.tests.util.fixtures import LEAGUE_SETTINGS, TEAM_OWNERS, FANTASY_TEAM_STATS
+from api.tests.util.util import BaseTestCase
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
@@ -45,19 +45,17 @@ class TestLeagueLeadersView(BaseTestCase):
 
         self.assertEqual(titles[0]["team_name"], "Team Name48")
         self.assertEqual(titles[0]["category"], "Titles")
-        self.assertEqual(titles[0]["category_type"], "Total")
 
         self.assertEqual(points[0]["team_name"], "Team Name49")
         self.assertEqual(points[0]["category"], "Points")
-        self.assertEqual(points[0]["category_type"], "Total")
 
         self.assertEqual(wins[0]["team_name"], "Team Name48")
         self.assertEqual(wins[0]["category"], "Wins")
-        self.assertEqual(wins[0]["category_type"], "Total")
 
-        # test ordering
+        # test ordering and category_type
         for rows in [titles, points, wins]:
             _current_row = rows[0]
             for row in rows:
+                self.assertEqual(row["category_type"], "Total")
                 self.assertTrue(row["total"] <= _current_row["total"])
                 _current_row = row
