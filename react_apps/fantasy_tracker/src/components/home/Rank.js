@@ -2,58 +2,51 @@ import * as React from 'react';
 import '../../css/LeaderBoard.scss';
 
 export default function Rank(props) {
-    let barColor = null;
-    const getPct = (index) => {
-        switch (index) {
-            case 0:
-                barColor = '#14a103'
-                return "100%";
-            case 1:
-                barColor = '#42cf30'
-                return "90%";
-            case 2:
-                barColor = '#88d87e'
-                return "80%";
-            case 3:
-                barColor = '#a3dc9c'
-                return "70%";
-            case 4:
-                barColor = '#d0e8cd'
-                return "60%";
-            case 5:
-                barColor = 'rgba(200,204,200,0.96)'
-                return "50%";
-            case 6:
-                barColor = '#f1bbbb'
-                return "50%";
-            case 7:
-                barColor = '#dd6f6f'
-                return "50%";
-            case 8:
-                barColor = '#d85c5c'
-                return "60%";
-            case 9:
-                barColor = '#da4242'
-                return "70%";
-            case 10:
-                barColor = '#dc2222'
-                return "80%";
-            case 11:
-                barColor = '#c80303'
-                return "90%";
-            default:
-                barColor = '#c80303'
-                return "100%"
+    let callbacks = {};
+
+    function add(_case, fn) {
+        callbacks[_case] = callbacks[_case] || [];
+        callbacks[_case].push(fn);
+    }
+
+    function pseudoSwitch(value) {
+        if (callbacks[value]) {
+            callbacks[value].forEach(function (fn) {
+                fn();
+            });
         }
     }
-    let widthValue = getPct(props.index);
+    let barColor;
+    let widthValue;
+    let ownerCount = [...Array(23).keys()];
+    let iterRate = Math.floor(100 / ownerCount.length);
+
+    ownerCount.map((item, i) => {
+        add(item, function() {
+            let i1;
+            if (item <= ownerCount.length / 2){
+                i1 = (item+1) * 18;
+                barColor = "#" + (i1).toString(16)+(186).toString(16)+(i1).toString(16);
+                widthValue = (100 - (iterRate*item)).toString() + "%";
+            } else {
+                i1 = (item - (item-1)) * 30;
+                barColor = "#" + (230).toString(16)+(i1).toString(16)+(i1).toString(16);
+                widthValue = (iterRate*item).toString() + "%";
+            }
+        });
+    })
+    const getPct = (index) => {
+        return pseudoSwitch(index);
+    }
+
+    getPct(props.index)
 
     return (
         <div>
             <dt>
                 <article className="progress">
                     <section className="progress-bar"
-                             style={{width: widthValue, backgroundColor: barColor }}></section>
+                             style={{width: widthValue, backgroundColor: barColor}}></section>
                 </article>
             </dt>
             <dd>

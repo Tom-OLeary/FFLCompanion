@@ -14,6 +14,8 @@ export default function LeaderBoard(props) {
   };
 
     const [data, setData] = useState([]);
+    const [rankings, setRankings] = useState([]);
+    const [firstPlace, setFirstPlace] = useState([]);
     let endpoint = props.url + "leaders/"
 
     useEffect(() => {
@@ -22,66 +24,65 @@ export default function LeaderBoard(props) {
             .then(json => {
                 console.log(json);
                 setData(json);
+                setRankings(json["titles"])
+                setFirstPlace(json["titles"][0])
             })
             .catch(err => console.log(err));
     }, []);
 
-    let leaders = []
-    // let leaders = [
-    //     {name: "name1", total: 123.4, team_name: "ABC 123", category: "POINTS", category_type: "TOTAL", img: "Pest.png"},
-    //     {name: "name2", total: 123.4},
-    //     {name: "name3", total: 123.4},
-    //     {name: "name4", total: 123.4},
-    //     {name: "name5", total: 123.4},
-    //     {name: "name6", total: 123.4},
-    //     {name: "name7", total: 123.4},
-    //     {name: "name8", total: 123.4},
-    //     {name: "name9", total: 123.4},
-    //     {name: "name10", total: 123.4},
-    //     {name: "name11", total: 123.4},
-    //     {name: "name12", total: 123.4},
-    // ]
-    // const handleMenuSelection = (element) => {
-    //     leaders = [
-    //         {name: "name1", totals: 123.4},
-    //         {name: "name2", totals: 123.4},
-    //         {name: "name3", totals: 123.4},
-    //         {name: "name4", totals: 123.4},
-    //         {name: "name5", totals: 123.4},
-    //         {name: "name6", totals: 123.4},
-    //         {name: "name7", totals: 123.4},
-    //         {name: "name8", totals: 123.4},
-    //         {name: "name9", totals: 123.4},
-    //         {name: "name10", totals: 123.4},
-    //         {name: "name11", totals: 123.4},
-    //         {name: "name12", totals: 123.4},
-    //     ]
-    // }
-    let firstPlace = leaders[0]
     const handleClick = (index) => {
-        console.log(index);
         switch (index) {
             case 0:
-                leaders = data.titles
-                firstPlace = leaders[0]
+                setRankings(data["titles"]);
+                setFirstPlace(data["titles"][0]);
                 break;
             case 1:
-                leaders = data.points_yr
-                firstPlace = leaders[0]
+                setRankings(data["points"]);
+                setFirstPlace(data["points"][0]);
                 break;
             case 2:
-                leaders = data.wins_yr
-                firstPlace = leaders[0]
+                setRankings(data["wins"]);
+                setFirstPlace(data["wins"][0]);
+                break;
+            case 3:
+                setRankings(data["points_max"]);
+                setFirstPlace(data["points_max"][0]);
+                break;
+            case 4:
+                setRankings(data["wins_max"]);
+                setFirstPlace(data["wins_max"][0]);
+                break;
+            case 5:
+                setRankings(data["ppg"]);
+                setFirstPlace(data["ppg"][0]);
+                break;
+            case 6:
+                setRankings(data["playoffs"]);
+                setFirstPlace(data["playoffs"][0]);
+                break;
+            case 7:
+                setRankings(data["finals"]);
+                setFirstPlace(data["finals"][0]);
+                break;
+            case 8:
+                setRankings(data["playoff_rate"]);
+                setFirstPlace(data["playoff_rate"][0]);
                 break;
             default:
-                leaders = data.titles
-                firstPlace = leaders[0]
+                setRankings(data["titles"]);
+                setFirstPlace(data["titles"][0]);
         }
     }
     const selectionTabs = [
         "Titles",
         "Points/Yr",
         "Wins/Yr",
+        "Points/Max",
+        "Wins/Max",
+        "PPG",
+        "Playoffs Made",
+        "Finals Made",
+        "Playoff/Rate",
     ]
     return (
         <div className="board-body">
@@ -98,7 +99,8 @@ export default function LeaderBoard(props) {
                 <i className="ion-ios-search search"></i>
                 <img
                     className={"leader-image"}
-                    src={require("../../img/" + firstPlace.img)}
+                    src={require("../../img/Pest.png")}
+                    // src={require("../../img/Pest.png" + firstPlace.image)}
                     alt="Grapefruit slice atop a pile of other slices"/>
 
                 <section className="user row">
@@ -153,7 +155,7 @@ export default function LeaderBoard(props) {
                 </nav>
 
                 <dl className="leaderboard">
-                    {leaders.map((leader, index) => (<Rank name={leader.name} total={leader.total} index={index} />))}
+                    {rankings.map((leader, index) => (<Rank name={leader.name} total={leader.total} index={index} />))}
                     {/*<dt>*/}
                     {/*    <article className="progress">*/}
                     {/*        <section className="progress-bar"*/}

@@ -71,12 +71,12 @@ export default function InfoDrawer(props) {
           // case 1:
           //     navigate(`requests`);
           //     break;
-          // case 2:
-          //     navigate(`notes`);
-          //   break;
-          // case 3:
-          //     navigate(`links`);
-          //   break;
+          case 2:
+              navigate(`notes`);
+            break;
+          case 3:
+              navigate(`links`);
+            break;
           default:
               navigate(`home`);
       }

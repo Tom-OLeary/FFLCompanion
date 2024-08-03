@@ -26,3 +26,10 @@ class LeagueLeadersSerializer(serializers.Serializer):
     titles = LeaderPayloadSerializer(many=True)
     points = LeaderPayloadSerializer(many=True)
     wins = LeaderPayloadSerializer(many=True)
+
+    points_max = LeaderPayloadSerializer(many=True)
+    wins_max = LeaderPayloadSerializer(many=True)
+    ppg = LeaderPayloadSerializer(many=True)
+    playoffs = LeaderPayloadSerializer(many=True)
+    finals = LeaderPayloadSerializer(many=True)
+    playoff_rate = LeaderPayloadSerializer(many=True)
