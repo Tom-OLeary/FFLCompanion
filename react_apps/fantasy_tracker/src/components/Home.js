@@ -7,6 +7,7 @@ function Home(props) {
   return (
     <>
         <Header url={props.url}/>
+
         <LeaderBoard url={props.url} />
     </>
   );

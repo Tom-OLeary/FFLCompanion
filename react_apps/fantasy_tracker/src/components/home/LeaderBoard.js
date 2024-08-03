@@ -2,37 +2,45 @@ import * as React from 'react';
 import '../../css/LeaderBoard.scss';
 import Rank from "./Rank";
 import {useEffect, useState} from "react";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 export default function LeaderBoard(props) {
+  const [value, setValue] = React.useState(0);
 
-    // const [data, setData] = useState([]);
-    // let endpoint = props.url + "leaders/"
-    //
-    // useEffect(() => {
-    //     fetch(endpoint)
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             console.log(json);
-    //             setData(json);
-    //         })
-    //         .catch(err => console.log(err));
-    // }, []);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-    // let leaders = []
-    let leaders = [
-        {name: "name1", total: 123.4, team_name: "ABC 123", category: "POINTS", category_type: "TOTAL", img: "Pest.png"},
-        {name: "name2", total: 123.4},
-        {name: "name3", total: 123.4},
-        {name: "name4", total: 123.4},
-        {name: "name5", total: 123.4},
-        {name: "name6", total: 123.4},
-        {name: "name7", total: 123.4},
-        {name: "name8", total: 123.4},
-        {name: "name9", total: 123.4},
-        {name: "name10", total: 123.4},
-        {name: "name11", total: 123.4},
-        {name: "name12", total: 123.4},
-    ]
+    const [data, setData] = useState([]);
+    let endpoint = props.url + "leaders/"
+
+    useEffect(() => {
+        fetch(endpoint)
+            .then(res => res.json())
+            .then(json => {
+                console.log(json);
+                setData(json);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    let leaders = []
+    // let leaders = [
+    //     {name: "name1", total: 123.4, team_name: "ABC 123", category: "POINTS", category_type: "TOTAL", img: "Pest.png"},
+    //     {name: "name2", total: 123.4},
+    //     {name: "name3", total: 123.4},
+    //     {name: "name4", total: 123.4},
+    //     {name: "name5", total: 123.4},
+    //     {name: "name6", total: 123.4},
+    //     {name: "name7", total: 123.4},
+    //     {name: "name8", total: 123.4},
+    //     {name: "name9", total: 123.4},
+    //     {name: "name10", total: 123.4},
+    //     {name: "name11", total: 123.4},
+    //     {name: "name12", total: 123.4},
+    // ]
     // const handleMenuSelection = (element) => {
     //     leaders = [
     //         {name: "name1", totals: 123.4},
@@ -50,8 +58,40 @@ export default function LeaderBoard(props) {
     //     ]
     // }
     let firstPlace = leaders[0]
+    const handleClick = (index) => {
+        console.log(index);
+        switch (index) {
+            case 0:
+                leaders = data.titles
+                firstPlace = leaders[0]
+                break;
+            case 1:
+                leaders = data.points_yr
+                firstPlace = leaders[0]
+                break;
+            case 2:
+                leaders = data.wins_yr
+                firstPlace = leaders[0]
+                break;
+            default:
+                leaders = data.titles
+                firstPlace = leaders[0]
+        }
+    }
+    const selectionTabs = [
+        "Titles",
+        "Points/Yr",
+        "Wins/Yr",
+    ]
     return (
         <div className="board-body">
+            <Box sx={{width: '100%', bgcolor: 'background.paper'}}>
+                <Tabs value={value} onChange={handleChange} centered>
+                    {selectionTabs.map((tab, index) => (
+                        <Tab label={tab} onClick={() => handleClick(index)}/>
+                    ))}
+                </Tabs>
+            </Box>
         <div className="card">
             <section className="card-info card-section">
                 <i className="ion-navicon menu"></i>

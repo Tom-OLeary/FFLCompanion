@@ -48,7 +48,7 @@ class TeamOwner(AbstractBaseUser, BaseModel):
     entry_year = models.IntegerField(null=True, blank=True)
     final_year = models.IntegerField(default=0)
     is_active = models.BooleanField(default=False)
-    image = models.FilePathField(path="/img", null=True, blank=True)
+    image = models.CharField(max_length=50, null=True, blank=True)
     league_name = models.CharField(max_length=50)
     password = models.CharField(_("password"), max_length=128, default="password")
 
