@@ -84,6 +84,7 @@ export default function LeaderBoard(props) {
         "Finals Made",
         "Playoff/Rate",
     ]
+    let leaderImage = "../../img/" + firstPlace["image"]
     return (
         <div className="board-body">
             <Box sx={{width: '100%', bgcolor: 'background.paper'}}>
@@ -99,8 +100,8 @@ export default function LeaderBoard(props) {
                 <i className="ion-ios-search search"></i>
                 <img
                     className={"leader-image"}
-                    src={require("../../img/Pest.png")}
-                    // src={require("../../img/Pest.png" + firstPlace.image)}
+                    src={require("../../img/Allard.png")}
+                    // src={require(leaderImage.toString())}
                     alt="Grapefruit slice atop a pile of other slices"/>
 
                 <section className="user row">
@@ -135,11 +136,9 @@ export default function LeaderBoard(props) {
                 <div className="dial">
                     <h2 className="dial-title">
                         {firstPlace.category_type}
-                        {/*category type*/}
                     </h2>
                     <h3 className="dial-value">
                         {firstPlace.category}
-                        {/*category name*/}
                     </h3>
                 </div>
             </section>
@@ -156,126 +155,6 @@ export default function LeaderBoard(props) {
 
                 <dl className="leaderboard">
                     {rankings.map((leader, index) => (<Rank name={leader.name} total={leader.total} index={index} />))}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "100%", backgroundColor: '#14a103'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Bryan Smith</div>*/}
-                    {/*    <div className="leaderboard-value">20.123</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "90%", backgroundColor: '#42cf30'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Kevin Johnson</div>*/}
-                    {/*    <div className="leaderboard-value">16.354</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "80%", backgroundColor: '#88d87e'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Glen Howie</div>*/}
-                    {/*    <div className="leaderboard-value">15.873</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "70%", backgroundColor: '#a3dc9c'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Mark Desa</div>*/}
-                    {/*    <div className="leaderboard-value">12.230</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "60%", backgroundColor: '#d0e8cd'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "50%", backgroundColor: 'rgba(200,204,200,0.96)'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "50%", backgroundColor: '#f1bbbb'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "60%", backgroundColor: '#dd6f6f'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "70%", backgroundColor: '#d85c5c'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "80%", backgroundColor: '#da4242'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "90%", backgroundColor: '#dc2222'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
-                    {/*<dt>*/}
-                    {/*    <article className="progress">*/}
-                    {/*        <section className="progress-bar"*/}
-                    {/*                 style={{width: "100%", backgroundColor: '#c80303'}}></section>*/}
-                    {/*    </article>*/}
-                    {/*</dt>*/}
-                    {/*<dd>*/}
-                    {/*    <div className="leaderboard-name">Martin Geiger</div>*/}
-                    {/*    <div className="leaderboard-value">10.235</div>*/}
-                    {/*</dd>*/}
                 </dl>
             </section>
         </div>

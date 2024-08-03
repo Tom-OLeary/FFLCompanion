@@ -67,7 +67,7 @@ class Trade(BaseModel):
 
         owner_one_total = results[self.owner_one.name]["total_points"]
         owner_two_total = results[self.owner_two.name]["total_points"]
-        if abs(owner_one_total - owner_two_total) > 100:
+        if abs(owner_one_total - owner_two_total) > 30:
             if owner_one_total > owner_two_total:
                 results["winner"] = self.owner_one.name
             else:

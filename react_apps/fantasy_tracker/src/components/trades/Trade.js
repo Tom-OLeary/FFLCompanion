@@ -38,9 +38,8 @@ export default function Trade(props) {
 
   // const teams = ["Team1", "Team2", "Team3"];
   return (
-      <div className={"card-column"}>
-          {data.map((trade, index) => (<TradeCard data={trade} />))}
-
+      <div >
+          {data.map((trade, index) => (<div className={"card-column"}><TradeCard data={trade} /></div>))}
           </div>
   );
 }

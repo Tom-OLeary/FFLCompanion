@@ -64,7 +64,7 @@ export default function TradeCard(props) {
             <div className={"div-icon"}>
               {
                 (props.data.winner === teamOne.team_owner) ? <SwapVerticalCircleIcon className={"trade-winner"}/>
-                    : (props.data.winner === teamTwo.teamOwner)
+                    : (props.data.winner === teamTwo.team_owner)
                         ? <SwapVerticalCircleIcon className={"trade-loser"}/>
                           : <SwapVerticalCircleIcon className={"trade-draw"}/>
               }
@@ -112,7 +112,7 @@ export default function TradeCard(props) {
           </Collapse>
         </Card>
         <h1 className={"date-title"}>{props.data.trade_date}</h1>
-        <h1 className={"date-title"}>{props.data.winner}</h1>
+        {/*<h1 className={"date-title"}>{props.data.winner}</h1>*/}
         <div className={"div-icon"}>
           <h1 className={"winner-title"}> {
             (props.data.winner) ? <div className={"winner-result"}>{props.data.winner} </div>
@@ -145,7 +145,7 @@ export default function TradeCard(props) {
             <div className={"div-icon"}>
               {
                 (props.data.winner === teamTwo.team_owner) ? <SwapVerticalCircleIcon className={"trade-winner"}/>
-                    : (props.data.winner === teamOne.teamOwner)
+                    : (props.data.winner === teamOne.team_owner)
                         ? <SwapVerticalCircleIcon className={"trade-loser"}/>
                           : <SwapVerticalCircleIcon className={"trade-draw"}/>
               }
