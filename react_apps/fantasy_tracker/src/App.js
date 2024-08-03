@@ -1,5 +1,4 @@
 import './App.css';
-// import React, {useEffect, useState} from "react";
 import { Routes, Route } from 'react-router-dom';
 import Home from "./components/Home";
 import MenuDrawer from "./components/MenuDrawer";
@@ -13,7 +12,7 @@ import Notes from "./components/Notes";
 import Links from "./components/Links";
 
 function App() {
-    let url = (env.NODE_ENV === 'production') ? 'https://www.troleary.com/api/' : 'http://127.0.0.1:8000/api/'
+    let url = (env.NODE_ENV === 'production') ? 'https://www.some-app.com/api/' : 'http://127.0.0.1:8000/api/'
 
     return (
         <>

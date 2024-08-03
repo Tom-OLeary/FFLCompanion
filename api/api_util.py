@@ -1,4 +1,4 @@
-def split_and_strip(s: str, sep: str = ",") -> list:
+def string_to_list(s: str, sep: str = ",") -> list:
     if not s:
         return []
 

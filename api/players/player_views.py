@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from api.api_util import split_and_strip, get_queryset_filters
+from api.api_util import string_to_list, get_queryset_filters
 from api.players.player_serializers import PlayerRequestSerializer, PlayerSerializer
 from ffl_companion.api_models.player import NFLPlayer
 
@@ -22,8 +22,8 @@ class PlayerListView(GenericAPIView):
 
         filter_fields = {
             "stat_type": serializer.validated_data.get("stat_type"),
-            "position__in": split_and_strip(serializer.validated_data.get("positions")),
-            "team__in": split_and_strip(serializer.validated_data.get("teams")),
+            "position__in": string_to_list(serializer.validated_data.get("positions")),
+            "team__in": string_to_list(serializer.validated_data.get("teams")),
             "pass_yards__gte": serializer.validated_data.get("min_pass_yards"),
             "rush_yards__gte": serializer.validated_data.get("min_rush_yards"),
             "pass_attempts__gte": serializer.validated_data.get("min_pass_attempts"),
@@ -33,8 +33,8 @@ class PlayerListView(GenericAPIView):
             "receiving_yards__gte": serializer.validated_data.get("min_receiving_yards"),
             "season_start_year": serializer.validated_data.get("season_start_year"),
             "is_available": serializer.validated_data.get("is_available"),
-            "fantasy_team__id__in": split_and_strip(serializer.validated_data.get("fantasy_team_ids")),
-            "fantasy_team__team_name__in": split_and_strip(serializer.validated_data.get("fantasy_team_names")),
+            "fantasy_team__id__in": string_to_list(serializer.validated_data.get("fantasy_team_ids")),
+            "fantasy_team__team_name__in": string_to_list(serializer.validated_data.get("fantasy_team_names")),
         }
         players = self.get_queryset().filter(**get_queryset_filters(filter_fields))
         serializer = PlayerSerializer(players, many=True)

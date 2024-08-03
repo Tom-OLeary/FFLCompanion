@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from api.leaders.leader_serializers import ReigningChampsSerializer, LeagueLeadersSerializer
+from api.leaders.leader_serializers import LeagueLeadersSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 
 

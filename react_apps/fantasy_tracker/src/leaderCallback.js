@@ -27,15 +27,13 @@ if (!callbacks.length) {
                 i1 = (item + 1) * 18;
                 barColor = "#" + (i1).toString(16) + (186).toString(16) + (i1).toString(16);
                 widthValue = (100 - (iterRate * item)).toString() + "%";
-                return [barColor, widthValue];
             } else {
                 // generate red range
                 i1 = (item - (item - 1)) * 30;
                 barColor = "#" + (230).toString(16) + (i1).toString(16) + (i1).toString(16);
                 widthValue = (iterRate * item).toString() + "%";
-                console.log(barColor, widthValue);
-                return [barColor, widthValue];
             }
+            return [barColor, widthValue];
         });
     })
 }

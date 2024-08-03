@@ -35,7 +35,7 @@ class TestLeagueLeadersView(BaseTestCase):
                 stat.save()
 
     def test_league_leaders_view(self):
-        response = self.client.get("/api/leaders/")
+        response = self.client.get("/api/leaders/", format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         results = response.json()

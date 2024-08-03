@@ -112,7 +112,6 @@ export default function TradeCard(props) {
           </Collapse>
         </Card>
         <h1 className={"date-title"}>{props.data.trade_date}</h1>
-        {/*<h1 className={"date-title"}>{props.data.winner}</h1>*/}
         <div className={"div-icon"}>
           <h1 className={"winner-title"}> {
             (props.data.winner) ? <div className={"winner-result"}>{props.data.winner} </div>
