@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import '../../css/Header.css';
 import '../../css/Stats.css';
 
 
 export default function PlayerStats(props) {
-    const [data, setData] = useState([])
-    let url = props.url + "players/"
+    const [data, setData] = useState([]);
+    let url = props.url + "players/";
 
     useEffect(() => {
         fetch(url)
@@ -19,7 +19,7 @@ export default function PlayerStats(props) {
             .catch(err => console.log(err));
     }, []);
 
-    const columns = []
+    const columns = [];
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'column-header'})}
 
     return (

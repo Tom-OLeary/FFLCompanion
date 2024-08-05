@@ -15,8 +15,10 @@ export default function Rank(props) {
                 </article>
             </dt>
             <dd>
-                <div className="leaderboard-name">{props.name}</div>
-                <div className="leaderboard-value">{props.total}</div>
+                <div className="leaderboard-name"><div style={{fontWeight: 'bold'}}>{props.team_name}</div> ({props.name})</div>
+                <div
+                    className="leaderboard-value"><div style={{fontWeight: 'bold'}}>{props.total}</div> <div style={{fontWeight: 'light'}}>({props.year})</div>
+                </div>
             </dd>
         </div>
     )

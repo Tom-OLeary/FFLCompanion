@@ -20,6 +20,7 @@ class LeaderPayloadSerializer(serializers.Serializer):
     category = serializers.CharField(required=True)
     image = serializers.CharField(required=True)
     years_count = serializers.IntegerField(required=True)
+    season_start_year = serializers.IntegerField(required=True)
 
 
 class LeagueLeadersSerializer(serializers.Serializer):

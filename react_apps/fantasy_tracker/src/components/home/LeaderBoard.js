@@ -154,7 +154,9 @@ export default function LeaderBoard(props) {
                 </nav>
 
                 <dl className="leaderboard">
-                    {rankings.map((leader, index) => (<Rank name={leader.name} total={leader.total} index={index} />))}
+                    {rankings.map((leader, index) => (
+                        <Rank name={leader.name} total={leader.total} year={leader.season_start_year} team_name={leader.team_name} index={index} />
+                    ))}
                 </dl>
             </section>
         </div>
