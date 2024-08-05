@@ -17,7 +17,7 @@ export default function Rank(props) {
             <dd>
                 <div className="leaderboard-name"><div style={{fontWeight: 'bold'}}>{props.team_name}</div> ({props.name})</div>
                 <div
-                    className="leaderboard-value"><div style={{fontWeight: 'bold'}}>{props.total}</div> <div style={{fontWeight: 'light'}}>({props.year})</div>
+                    className="leaderboard-value"><div style={{fontWeight: 'bold'}}>{props.total}</div> <div style={{fontWeight: 'lighter'}}>({props.year})</div>
                 </div>
             </dd>
         </div>
