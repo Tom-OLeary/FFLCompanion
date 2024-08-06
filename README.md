@@ -26,7 +26,7 @@
 
 ### Projections & Yearly Team Stats
 * Fully sortable and customizable tables containing 2024 player projections as well as 15 years of Fantasy Team data.
-* Uses Mock Demo Data for users without a login, otherwise configures the app to display data relevant only to the logged in Team Owner
+* Uses Mock Demo Data for users without a login, otherwise configures the app to display data relevant only to the logged in Team Owner.
 
 
 ### Basic Login
