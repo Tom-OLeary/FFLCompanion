@@ -22,7 +22,7 @@ class FantasyTeamStatsManager(BaseModelManager):
 
     def import_season_standings(self, path: str, shared_data: dict, is_final_standing: bool = True):
         """
-        shared_data {"season_start_year": 2022, "league_name": "Norton"}
+        shared_data {"season_start_year": 2022, "league_name": "Demo"}
         """
         data = pd.read_csv(path).to_dict("records")
 
