@@ -36,3 +36,7 @@
 ## Notes
 * I am not a frontend developer, I am learning on the fly & will clean up this section as I go.
 * Rosters, Graphs, Lineup history & more are in progress.
+
+## Resources
+* StatHead - NFL player statistics
+* MUI X - React Components
