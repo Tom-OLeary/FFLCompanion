@@ -21,15 +21,6 @@ html, body {
   width: 50%;
   margin-bottom: 30px;
 }
-//body {
-//  font-family: 'Lato', sans-serif;
-//  font-weight: 300;
-//  //background: $background;
-//  display: flex;
-//  align-items: center;
-//    justify-content: center;
-//
-//}
 
 .board-body {
   margin: 50px;
@@ -109,7 +100,6 @@ h2 {
 
 .avatar {
   display:inline-block;
-  //background-image: url('');
   background-size: cover;
   border-radius: 50%;
   height: 75px;
@@ -142,16 +132,6 @@ h2 {
     font-size: 3em;
     font-weight: 400;
     line-height: .8;
-    //left: 0;
-    //margin-right: 1000px;
-        //display: block;
-    //margin-left: auto;
-    //margin-right: auto;
-    //font-size: 2em;
-    //position: absolute;
-    //text-align: left;
-    //display: flex;
-
   }
   &-value {
     font-size: 1.8em;
@@ -188,10 +168,10 @@ h2 {
   justify-content: center;
 
   .statistic {
-    padding: 0px 20px;
+    padding: 0 20px;
     min-width: 120px;
     &:not(:last-child) {
-      box-shadow: 20px 0px 0px -19px rgba(255, 255, 255, 0.2)
+      box-shadow: 20px 0 0px -19px rgba(255, 255, 255, 0.2)
     }
 
     &-title {
@@ -262,21 +242,7 @@ h2 {
   }
   .dial-title {
     font-size: 1.7em;
-    //text-align: justify;
 }
-  //.dial-title {
-  //  font-size: 20px;
-  //  left: 70px;
-  //  position: fixed;
-  //}
-  //.dial-value {
-  //  font-size: 15px;
-  //      left: 70px;
-  //  position: absolute;
-  //  //text-align: center;
-  //  //position: absolute;
-  //  //margin-right: 20px;
-  //}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
@@ -292,18 +258,6 @@ h2 {
   .dial-title {
     font-size: 1.8em;
 }
-  //.dial-title {
-  //  font-size: 20px;
-  //  //text-align: center;
-  //  //position: absolute;
-  //  margin-right: 50px;
-  //}
-  //.dial-value {
-  //  font-size: 20px;
-  //  //text-align: center;
-  //  //position: absolute;
-  //  margin-right: auto;
-  //}
 
 }
 
@@ -319,16 +273,4 @@ h2 {
   .dial-title {
     font-size: 1.5em;
   }
-  //.dial-title {
-  //  font-size: 20px;
-  //  //text-align: center;
-  //  //position: absolute;
-  //  margin-right: 50px;
-  //}
-  //.dial-value {
-  //  font-size: 20px;
-  //  //text-align: center;
-  //  //position: absolute;
-  //  margin-right: auto;
-  //}
 }

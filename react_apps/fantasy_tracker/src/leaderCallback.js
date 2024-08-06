@@ -18,6 +18,7 @@ export default function pseudoSwitch(value) {
 let ownerCount = [...Array(23).keys()];  // TODO integrate true owner count
 let iterRate = Math.floor(100 / ownerCount.length);
 
+// Generates leaderboard ranking color bars
 if (!callbacks.length) {
     ownerCount.map((item, i) => {
         add(item, function () {

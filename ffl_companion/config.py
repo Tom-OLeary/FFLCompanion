@@ -1,23 +1,3 @@
-# LEAGUE_ID = None
-#
-#
-# def get_league_id():
-#     return globals()["LEAGUE_ID"]
-#
-#
-# def set_league_id(league_id: str):
-#     globals()["LEAGUE_ID"] = league_id
-#
-
-# class ModelConfig:
-#     __config = {
-#         "LeagueSettingsManager": "SUCCESS"
-#     }
-#
-#     def __getitem__(self, item):
-#         return ModelConfig.__config[item]
-
-
 class App:
     __KEY = "dataset"
     __conf = {__KEY: "Demo"}

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import "../App.css";
-import {json, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import '../css/Login.css';
 
 function Login (props) {
-    let url = 'http://localhost:8000/login/?';
+    let url = 'http://localhost:8000/login/?';  // TODO pass url as prop
     const navigate = useNavigate();
 
     const loadData = () => {

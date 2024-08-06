@@ -8,10 +8,11 @@ from ffl_companion.api_models.owner import TeamOwner
 
 
 class TeamOwnerListView(GenericAPIView):
-    queryset = TeamOwner.objects.all()
+    def get_queryset(self):
+        return TeamOwner.objects.all()
 
     def get(self, request):
-        owners = self.get_queryset()  # TODO test config filter
+        owners = self.get_queryset()
         return Response(TeamOwnerSerializer(owners, many=True).data, status=status.HTTP_200_OK)
 
 

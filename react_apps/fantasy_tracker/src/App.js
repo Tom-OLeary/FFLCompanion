@@ -12,6 +12,7 @@ import Notes from "./components/Notes";
 import Links from "./components/Links";
 
 function App() {
+    // TODO provide deployment url
     let url = (env.NODE_ENV === 'production') ? 'https://www.some-app.com/api/' : 'http://127.0.0.1:8000/api/'
 
     return (

@@ -16,35 +16,25 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include, re_path
-from django.contrib.auth import views as auth_views
+from django.urls import path, include
 
 from ffl_companion import views
-# from account.forms import LoginForm # optional form to pass to view
-
-# from homepage import views as homepage_views
-from ffl_companion.views import serve_react, LoginForm, AppLoginView
+from ffl_companion.views import serve_react, AppLoginView
 
 django_app_patterns = [
     path('admin/', admin.site.urls, name='admin'),
-    # path('', homepage_views.home_index, name="homepage"),
-    # path("projects/", include("projects.urls")),
-    # path("resume/", include("resume.urls")),
     path("api/", include("api.urls")),
 ]
 react_patterns = [
     path("", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
-    # path("home/", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}, name="home"),
-    # re_path(r"^home/$", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""})
 ]
 
 login_patterns = [
     path('login/', AppLoginView.as_view(), name='login'),
-    path('logout/', views.sign_out, name='logout'),
+    path('logout/', views.sign_out, name='logout'),  # TODO not implemented fully
 ]
 
 urlpatterns = [
-    # path("", include("frontend.urls")),
     *django_app_patterns,
     *react_patterns,
     *login_patterns,

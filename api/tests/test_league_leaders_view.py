@@ -43,6 +43,7 @@ class TestLeagueLeadersView(BaseTestCase):
         points = results["points"]
         wins = results["wins"]
 
+        # TODO update for team_name
         # self.assertEqual(titles[0]["team_name"], "Team Name48")
         self.assertEqual(titles[0]["category"], "Titles")
 

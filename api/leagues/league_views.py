@@ -9,13 +9,15 @@ from ffl_companion.api_models.league_settings import LeagueSettings
 class LeagueSettingsView(GenericAPIView):
     queryset = LeagueSettings.objects.all()
 
+    def get_queryset(self):
+        return LeagueSettings.objects.all()
+
     def get(self, request):
         serializer = LeagueSettingsRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
         if serializer.validated_data.get("get_url", False):
-            # TODO using self.get_queryset ignored App config filter, figure out why
-            league = LeagueSettings.objects.order_by("-setting_year").first()
+            league = self.get_queryset().order_by("-setting_year").first()
             return Response(LeagueSettingsSerializer(league).data, status=status.HTTP_200_OK)
 
         # TODO future update for additional filters

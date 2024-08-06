@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'ffl_companion',
     'api',
-    # 'rest_framework.authtoken'
+    # 'rest_framework.authtoken'  # TODO
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -77,6 +77,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
+    # TODO add auth
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework.authentication.TokenAuthentication',
     #     'rest_framework.authentication.SessionAuthentication',
@@ -158,6 +159,7 @@ USE_TZ = True
 
 REACT_FANTASY_TRACKER_BUILD_PATH = "react_apps/fantasy_tracker/build"
 
+# TODO maybe use whitenoise
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "react_apps/fantasy_tracker/build/static"),
@@ -166,10 +168,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# AUTH_USER_MODEL = "owner.TeamOwner"
+# AUTH_USER_MODEL = "owner.TeamOwner"  # TODO move model
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-App.lock()
+App.lock()  # Only display Demo data unless logged in
 
 # Environment Handling
 try:

@@ -83,14 +83,8 @@ export default function LeaderBoard(props) {
         "Playoffs Made",
         "Finals Made",
         "Playoff/Rate",
-        "Another",
-        "Another2",
-        "Another3",
-        // "Another4",
-        // "Another5",
-        // "Another6",
     ]
-    // let leaderImage = "../../img/" + firstPlace["image"]
+    // let leaderImage = "../../img/" + firstPlace["image"] TODO
 
     return (
         <div className="board-body">
@@ -107,8 +101,7 @@ export default function LeaderBoard(props) {
                     <i className="ion-ios-search search"></i>
                     <img
                         className={"leader-image"}
-                        src={require("../../img/Allard.png")}
-                        // src={require(leaderImage.toString())}
+                        src={require("../../img/image1.png")}  // TODO
                         alt="Grapefruit slice atop a pile of other slices"/>
 
                     <section className="user row">

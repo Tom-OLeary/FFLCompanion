@@ -31,11 +31,11 @@ class LeagueBreakdown:
 
 
 class LeagueBreakdownView(GenericAPIView):
-    queryset = LeagueSettings.objects.all()
+    def get_queryset(self):
+        return LeagueSettings.objects.all()
 
     def get(self, request):
-        # using self.get_queryset would ignore App config filter
-        leagues = LeagueSettings.objects.order_by("-setting_year")
+        leagues = self.get_queryset().order_by("-setting_year")
         owners = TeamOwner.objects.all()
         if league_name := request.GET.get("name"):
             leagues = leagues.filter(name=league_name)
@@ -45,9 +45,10 @@ class LeagueBreakdownView(GenericAPIView):
 
 
 class YearlyStatsView(GenericAPIView):
-    queryset = FantasyTeamStats.objects.all()
+    def get_queryset(self):
+        return FantasyTeamStats.objects.all()
 
     def get(self, request):
-        stats = FantasyTeamStats.objects.all()
+        stats = self.get_queryset()
         serializer = YearlyStatsSerializer(stats, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

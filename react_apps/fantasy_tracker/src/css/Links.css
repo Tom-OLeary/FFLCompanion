@@ -1,12 +1,7 @@
 .links-center {
-    /*text-align: center;*/
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
     font-size: 100px;
-    /*min-height: 75vh;*/
-    /*background-color: #ac7e01;*/
-        /*width: fit-content;*/
-
 }

@@ -1,23 +1,78 @@
-.demoPage {
-    background-color: whitesmoke;
-    text-align: center;
-    border-color: #ac7e01;
-    border-style: solid;
-    border-width: 3px;
-    width: 400px;
-    /*width: fit-content;*/
-}
 .center-page {
-    /*text-align: center;*/
+    text-align: center;
+    margin: 50px;
+}
+
+.note-column {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-gap: 20px;
+    -webkit-column-gap: 20px;
+    -moz-column-gap: 20px;
+    column-rule: 2px none #e11717;
+    -webkit-column-rule: 2px none #e11717;
+    -moz-column-rule: 2px none #e11717;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 75vh;
-    background-color: #ac7e01;
-        /*width: fit-content;*/
+    flex-direction: row;
+}
+
+.div-icon {
+    text-align: center;
+}
+
+.note-body {
+    text-align: center;
+    color: #d30b0b;
+    margin-bottom: 5px;
+    font-family: "Trirong", sans-serif;
+}
+
+.note-description {
+    text-align: center;
+    color: #040000;
+    font-weight: bold;
+    /*font-family: "Audiowide", sans-serif;*/
+}
+h3 {
+    text-align: center;
+    color: #5c5656;
+    margin: 10px;
+    font-weight: bolder;
+}
+
+.help-text {
+    position: absolute;
+    right: 0;
+}
+
+.card-summary {
+    /*text-align: center;*/
+    color: #031b40;
+}
+
+.date-title {
+    text-align: center;
+    color: whitesmoke;
+}
+
+@media only screen and (min-width: 960px)  and (max-width: 1140px){
+
+    body { min-width:960px; }
 
 }
-.flip-book {
-    /*color: black;*/
-    /*width: fit-content;*/
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+
+    body { min-width:768px; }
+
 }
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+    body {
+        min-width: 480px;
+    }
+
+}
+

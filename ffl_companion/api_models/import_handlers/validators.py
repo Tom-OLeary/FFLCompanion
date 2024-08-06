@@ -24,14 +24,9 @@ class FantasyTeamImport:
 
     def __post_init__(self):
         self.ranking_type = "final_season_standing" if self.is_final_standing else "regular_season_standing"
-        # TODO TEMP
-        if "(-.-)" in self.team:
-            self.team_name = ",!,,(-.-),,!,"
-            self.owner_name = "Tom OLeary"
-        else:
-            team_info = self.team.split("(")
-            self.team_name = team_info[0].strip()
-            self.owner_name = team_info[1].strip(")")
+        team_info = self.team.split("(")
+        self.team_name = team_info[0].strip()
+        self.owner_name = team_info[1].strip(")")
 
         self.wins, self.losses, self.draws = self.record.split("/")
 

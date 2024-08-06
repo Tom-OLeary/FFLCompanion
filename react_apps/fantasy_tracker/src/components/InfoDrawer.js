@@ -118,7 +118,7 @@ export default function InfoDrawer(props) {
           >
               <DrawerHeader style={{marginTop: .5, marginBottom: .5, height: "5%"}}>
                   <IconButton onClick={handleDrawerClose}>
-                      {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
+                      {theme.direction === 'rtl' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                   </IconButton>
               </DrawerHeader>
               <Divider style={{ backgroundColor: 'black' }} />

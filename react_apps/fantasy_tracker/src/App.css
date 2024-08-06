@@ -36,12 +36,6 @@
     transform: rotate(360deg);
   }
 }
-/*body {*/
-/*    height: 100vh;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
 
 .title {
     text-align: center;
@@ -56,12 +50,7 @@
     margin: auto;
     color: white;
 }
-/*.title > body {*/
-/*    height: 100vh;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
+
 .App {
     text-align: center;
     display: flex;

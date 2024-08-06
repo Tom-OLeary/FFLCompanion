@@ -10,24 +10,6 @@ from api.leaders.leader_serializers import LeagueLeadersSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 
 
-@dataclass
-class LeaderBoard:
-    stats: pd.DataFrame
-
-    def __post_init__(self):
-        pass
-
-    @property
-    def max_points(self):
-        _idx = self.stats.groupby("team_owner_id")["total_points"].transform("max") == self.stats["total_points"]
-        return self.stats[_idx]
-
-    @property
-    def max_wins(self):
-        _idx = self.stats.groupby("team_owner_id")["wins"].transform("max") == self.stats["wins"]
-        return self.stats[_idx]
-
-
 class LeagueLeadersView(GenericAPIView):
     CATEGORY_MAP = {
         "titles_sum": ("Total", "Titles"),
@@ -73,7 +55,8 @@ class LeagueLeadersView(GenericAPIView):
         rank_df.sort_values(by=[key, "team_owner_id", "season_start_year"], inplace=True, ascending=False)
         return rank_df
 
-    def _generate_max_total(self, df: pd.DataFrame, key: str):
+    @staticmethod
+    def _generate_max_total(df: pd.DataFrame, key: str):
         _idx = df.groupby("team_owner_id")[key].transform("max") == df[key]
         return df[_idx].sort_values(by=[key, "years_count"], ascending=False).round(2)
 
@@ -85,15 +68,6 @@ class LeagueLeadersView(GenericAPIView):
         rank_df["category_type"], rank_df["category"] = self.CATEGORY_MAP[key]
         rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=["team_owner_id", key], keep="first").rename(columns={key: "total"})
         return rank_df.to_dict("records")
-
-    # def _generate_rank(self, df: pd.DataFrame, key: str) -> list[dict]:
-    #     if df.empty:
-    #         return []
-    #
-    #     rank_df = self._generate_rank()(df, key)
-    #     rank_df.rename(columns={key: "total"}, inplace=True)
-    #
-    #     return rank_df.to_dict("records")
 
     def get_queryset(self):
         return FantasyTeamStats.objects.select_related("team_owner").annotate(
