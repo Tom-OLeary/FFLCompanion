@@ -15,8 +15,8 @@ class LeagueLeadersView(GenericAPIView):
         "titles_sum": ("Total", "Titles"),
         "points_yr": ("Avg", "Points"),
         "wins_yr": ("Avg", "Wins"),
-        "total_points": ("Max", "Points"),
-        "wins": ("Max", "Wins"),
+        "total_points": ("Total", "Points"),
+        "wins": ("Total", "Wins"),
         "ppg_yr": ("Avg", "PPG"),
         "playoff_appearances": ("Total", "Playoffs"),
         "finals_appearances": ("Total", "Finals"),
@@ -49,7 +49,7 @@ class LeagueLeadersView(GenericAPIView):
         "image",
     ]
 
-    def _generate_count(self, rank_df: pd.DataFrame, key: str):
+    def _generate_leader(self, rank_df: pd.DataFrame, key: str):
         group_key, operation = self.OPERATION_MAP[key]
         rank_df[key] = rank_df.groupby("team_owner_id")[group_key].transform(operation).round(2)
         rank_df.sort_values(by=[key, "team_owner_id", "season_start_year"], inplace=True, ascending=False)
@@ -85,16 +85,17 @@ class LeagueLeadersView(GenericAPIView):
         serializer = LeagueLeadersSerializer(
             dict(
                 # -------------- counts/rates
-                titles=self._generate_rank(stats_df, "titles_sum", "_generate_count"),
-                playoffs=self._generate_rank(stats_df, "playoff_appearances", "_generate_count"),
-                finals=self._generate_rank(stats_df, "finals_appearances", "_generate_count"),
-                points=self._generate_rank(stats_df, "points_yr", "_generate_count"),
-                wins=self._generate_rank(stats_df, "wins_yr", "_generate_count"),
-                ppg=self._generate_rank(stats_df, "ppg_yr", "_generate_count"),
-                playoff_rate=self._generate_rank(stats_df, "playoff_rate", "_generate_count"),
-                # -------------- max totals
+                titles=self._generate_rank(stats_df, "titles_sum", "_generate_leader"),
+                playoffs=self._generate_rank(stats_df, "playoff_appearances", "_generate_leader"),
+                finals=self._generate_rank(stats_df, "finals_appearances", "_generate_leader"),
+                points=self._generate_rank(stats_df, "points_yr", "_generate_leader"),
+                wins=self._generate_rank(stats_df, "wins_yr", "_generate_leader"),
+                ppg=self._generate_rank(stats_df, "ppg_yr", "_generate_leader"),
+                playoff_rate=self._generate_rank(stats_df, "playoff_rate", "_generate_leader"),
+                # -------------- max totals, these results rely upon the specific row the data comes from
                 points_max=self._generate_rank(stats_df, "total_points", "_generate_max_total"),
                 wins_max=self._generate_rank(stats_df, "wins", "_generate_max_total"),
+                # net_rating_max=self._generate_rank(stats_df, "net_rating", "_generate_max_total"),
             )
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
