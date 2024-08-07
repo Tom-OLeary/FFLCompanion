@@ -32,7 +32,6 @@ export default function LeaderBoard(props) {
                 setRankings(json["titles"]);
                 setFirstPlace(json["titles"][0]);
                 setSecondPlace(json["titles"][1]);
-                // setMenuTab("Titles");
             })
             .catch(err => console.log(err));
     }, []);
@@ -56,7 +55,7 @@ export default function LeaderBoard(props) {
     })
 
     const setActive = () => {
-        // gotta be a better way to do this
+        // TODO gotta be a better way to do this
         // issue data not loading without double click
         if (isActive) {
             setData(activeOnly);
@@ -69,12 +68,12 @@ export default function LeaderBoard(props) {
             setFirstPlace(allData[dataRow][0]);
             setSecondPlace(allData[dataRow][1]);
         }
-        // setValue(0);
         setIsActive(!isActive);
     }
 
     const handleClick = (tab) => {
         switch (tab) {
+            // TODO could probably use single function to toggle each tab
             case "Titles":
                 setRankings(data["titles"]);
                 setFirstPlace(data["titles"][0]);
