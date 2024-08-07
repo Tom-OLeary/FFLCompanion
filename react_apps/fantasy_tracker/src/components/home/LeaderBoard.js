@@ -101,8 +101,8 @@ export default function LeaderBoard(props) {
                     <i className="ion-ios-search search"></i>
                     <img
                         className={"leader-image"}
-                        src={require("../../img/image1.png")}  // TODO
-                        alt="Grapefruit slice atop a pile of other slices"/>
+                        // src={require("../../img/image1.png")}  // TODO
+                        alt="Team Image"/>
 
                     <section className="user row">
                         <div className="user-header">
