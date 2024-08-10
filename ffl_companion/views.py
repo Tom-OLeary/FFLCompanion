@@ -2,19 +2,20 @@ import posixpath
 from pathlib import Path
 
 from django import forms
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.utils._os import safe_join
 from django.views.static import serve as static_serve
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from ffl_companion.api_models.owner import TeamOwner
-from ffl_companion.config import App
 from ffl_companion.serializers import LoginSerializer
+from owner.models import Owner
 
 
 def serve_react(request, html_path, document_root=None):
@@ -31,8 +32,37 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
 
 
+# class AppLoginView(GenericAPIView):
+#     queryset = TeamOwner.objects.all()
+#
+#     def get(self, request, *args, **kwargs):
+#         serializer = LoginSerializer(data=request.GET)
+#         serializer.is_valid(raise_exception=True)
+#
+#         user = serializer.validated_data["username"]
+#         password = serializer.validated_data["password"]
+#         try:
+#             App.unlock()
+#             owner = TeamOwner.objects.get(name=user)
+#             App.lock()
+#         except TeamOwner.DoesNotExist:
+#             App.lock()
+#             return Response({"error": "User Not Found"}, status=status.HTTP_404_NOT_FOUND)
+#
+#         if check_password(password, owner.password):
+#             login(request, owner)
+#             try:
+#                 initiate_app(owner)
+#             except AttributeError:
+#                 return Response({"error": "User League Not Found"}, status=status.HTTP_404_NOT_FOUND)
+#
+#         else:
+#             return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+#
+#         return Response("ok", status=status.HTTP_200_OK)
+
 class AppLoginView(GenericAPIView):
-    queryset = TeamOwner.objects.all()
+    queryset = Owner.objects.all()
 
     def get(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.GET)
@@ -41,24 +71,18 @@ class AppLoginView(GenericAPIView):
         user = serializer.validated_data["username"]
         password = serializer.validated_data["password"]
         try:
-            App.unlock()
-            owner = TeamOwner.objects.get(name=user)
-            App.lock()
-        except TeamOwner.DoesNotExist:
-            App.lock()
+            owner = Owner.objects.get(username=user)
+        except Owner.DoesNotExist:
             return Response({"error": "User Not Found"}, status=status.HTTP_404_NOT_FOUND)
 
         if check_password(password, owner.password):
             login(request, owner)
-            try:
-                initiate_app(owner)
-            except AttributeError:
-                return Response({"error": "User League Not Found"}, status=status.HTTP_404_NOT_FOUND)
+            token, created = Token.objects.get_or_create(user=owner)
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+            # return Response("ok", status=status.HTTP_200_OK)
 
         else:
-            return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response("ok", status=status.HTTP_200_OK)
+            return Response({"error": "Incorrect Password"}, status=status.HTTP_404_NOT_FOUND)
 
 
 # TODO implement
@@ -68,7 +92,7 @@ def sign_out(request):
     return redirect('login')
 
 
-def initiate_app(owner: TeamOwner):
-    """Sets global database filter for this owner's league"""
-    App.lock()
-    App.set(owner.league_name)
+# def initiate_app(owner: TeamOwner):
+#     """Sets global database filter for this owner's league"""
+#     App.lock()
+#     App.set(owner.league_name)

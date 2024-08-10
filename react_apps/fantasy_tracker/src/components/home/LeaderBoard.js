@@ -1,13 +1,15 @@
 import * as React from 'react';
 import '../../css/LeaderBoard.scss';
 import Rank from "./Rank";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import {UserContext} from "../../App";
 
 export default function LeaderBoard(props) {
     const [value, setValue] = React.useState(0);
+    const { user, setUser } = useContext(UserContext);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -18,12 +20,17 @@ export default function LeaderBoard(props) {
     const [secondPlace, setSecondPlace] = useState([]);
     const [isActive, setIsActive] = useState([]);
     const [allData, setAllData] = useState([]);
-    const [dataRow, setDataRow] = useState("titles");
+    const [dataRow, setDataRow] = useState('titles');
 
-    let endpoint = props.url + "leaders/"
+    let endpoint = props.url + 'leaders/';
 
     useEffect(() => {
-        fetch(endpoint)
+        fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ' + user
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 console.log(json);

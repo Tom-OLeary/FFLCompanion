@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-from ffl_companion.config import App
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,18 +31,20 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'corsheaders',
+    'ffl_companion',
     'rest_framework',
     'drf_spectacular',
-    'ffl_companion',
     'api',
-    # 'rest_framework.authtoken'  # TODO
+    'owner',
+    'rest_framework.authtoken',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -77,11 +78,10 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
-    # TODO add auth
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.TokenAuthentication',
-    #     'rest_framework.authentication.SessionAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -168,10 +168,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# AUTH_USER_MODEL = "owner.TeamOwner"  # TODO move model
+AUTH_USER_MODEL = "owner.Owner"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-App.lock()  # Only display Demo data unless logged in
 
 # Environment Handling
 try:

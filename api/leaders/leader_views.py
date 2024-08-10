@@ -1,16 +1,16 @@
-from dataclasses import dataclass
-
 import pandas as pd
 from django.db.models import F
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
+from api.api_util import BaseAPIView
 from api.leaders.leader_serializers import LeagueLeadersSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 
 
-class LeagueLeadersView(GenericAPIView):
+class LeagueLeadersView(BaseAPIView):
+    model = FantasyTeamStats
+
     CATEGORY_MAP = {
         "titles_sum": ("Total", "Titles"),
         "points_yr": ("Avg", "Points"),
@@ -69,15 +69,13 @@ class LeagueLeadersView(GenericAPIView):
         rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=["team_owner_id", key], keep="first").rename(columns={key: "total"})
         return rank_df.to_dict("records")
 
-    def get_queryset(self):
-        return FantasyTeamStats.objects.select_related("team_owner").annotate(
+    def get(self, request):
+        stats = self.get_queryset().select_related("team_owner").annotate(
             name=F("team_owner__name"),
             is_active=F("team_owner__is_active"),
             image=F("team_owner__image")
         ).values(*self.QUERY_VALUES)
 
-    def get(self, request):
-        stats = self.get_queryset()
         stats_df = pd.DataFrame(stats)
         stats_df["years_count"] = stats_df.groupby("team_owner_id")["team_owner_id"].transform("count")
         stats_df.fillna(0, inplace=True)

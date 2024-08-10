@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase
 
-from ffl_companion.config import App
+from owner.models import Owner
 
 
 class BaseTestCase(APITestCase):
@@ -8,12 +8,24 @@ class BaseTestCase(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        App.set("testing")
+        cls.user = Owner.objects.create_owner(
+            name="User1",
+            username="user.one",
+            password="password",
+            dataset="testing",
+        )
 
         if cls.IMPORT_DATA:
             for attr, model, fixture in cls.IMPORT_DATA:
                 data = bulk_create(model, fixture)
                 setattr(cls, attr, data)
+
+    def setUp(self):
+        self.client.force_authenticate(self.user)
+        self.generate_data()
+
+    def generate_data(self):
+        return
 
 
 def bulk_create(model, rows):

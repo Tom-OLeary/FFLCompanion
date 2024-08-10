@@ -10,10 +10,14 @@ import TeamStats from "./components/TeamStats";
 import InfoDrawer from "./components/InfoDrawer";
 import Notes from "./components/Notes";
 import Links from "./components/Links";
+import React, {useState} from "react";
+
+export const UserContext = React.createContext(null);
 
 function App() {
     // TODO provide deployment url
     let url = (env.NODE_ENV === 'production') ? 'https://www.some-app.com/api/' : 'http://127.0.0.1:8000/api/'
+    const [user, setUser] = useState(null);
 
     return (
         <>
@@ -21,6 +25,7 @@ function App() {
                 <MenuDrawer/>
                 <InfoDrawer url={url}/>
             </div>
+            <UserContext.Provider value={{ user: user, setUser: setUser }}>
             <Routes>
                 <Route path="/" element={<Login url={url} />} />
                 <Route path="home" element={<Home url={url} />} />
@@ -29,8 +34,8 @@ function App() {
                 <Route path="trades" element={<Trade url={url} />} />
                 <Route path="notes" element={<Notes />} />
                 <Route path="links" element={<Links />} />
-
             </Routes>
+            </UserContext.Provider>
         </>
     );
 }

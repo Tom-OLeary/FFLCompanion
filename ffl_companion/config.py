@@ -1,7 +1,10 @@
+from rest_framework.authentication import TokenAuthentication
+
+
 class App:
     __KEY = "dataset"
     __conf = {__KEY: "Demo"}
-    __UNLOCK = False
+    __UNLOCK = True
 
     @staticmethod
     def config():

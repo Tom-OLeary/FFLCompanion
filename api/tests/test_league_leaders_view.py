@@ -5,7 +5,6 @@ from api.tests.util.util import BaseTestCase
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.owner import TeamOwner
-from ffl_companion.config import App
 
 
 class TestLeagueLeadersView(BaseTestCase):
@@ -20,9 +19,7 @@ class TestLeagueLeadersView(BaseTestCase):
     owners: list[TeamOwner] = None
     stats: list[FantasyTeamStats] = None
 
-    def setUp(self):
-        self.assertTrue(App.config()["dataset"] == "testing")
-
+    def generate_data(self):
         for league in self.leagues:
             year = league.setting_year
             FantasyTeamStats.objects.filter(season_start_year=year).update(league=league)

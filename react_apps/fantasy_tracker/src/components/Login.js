@@ -1,17 +1,30 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useForm } from "react-hook-form";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import '../css/Login.css';
+import {UserContext} from "../App";
 
 function Login (props) {
     let url = 'http://localhost:8000/login/?';  // TODO pass url as prop
     const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
 
     const loadData = () => {
         fetch(url)
             .then(res => res.json())
-            .then(json => { (json === "ok") ? navigate('/home') : console.log(json.error); })
+            .then(json => {
+                let token = json.token;
+                console.log("TOKEN", token);
+                if (token) {
+                    setUser(token);
+                    navigate('/home');
+                } else {
+                    console.log(json.error);
+                }
+
+                // (json === "ok") ? navigate('/home') : console.log(json.error);
+            })
             .catch(err => console.log(err));
     }
 
