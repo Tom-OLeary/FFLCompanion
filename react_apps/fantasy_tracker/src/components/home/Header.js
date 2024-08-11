@@ -6,8 +6,9 @@ import {Stack} from "@mui/material";
 
 
 export default function Header(props) {
-    const [data, setData] = useState([])
-    let endpoint = props.url + "breakdown/"
+    const [data, setData] = useState([]);
+    let endpoint = props.url + "breakdown/";
+
     useEffect(() => {
         fetch(endpoint, {
             method: 'GET',

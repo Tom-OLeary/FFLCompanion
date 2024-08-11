@@ -4,8 +4,8 @@ import TradeCard from "./TradeCard";
 import {useEffect, useState} from "react";
 
 export default function Trade(props) {
-    const [data, setData] = useState([])
-    let endpoint = props.url + "trades/"
+    const [data, setData] = useState([]);
+    let endpoint = props.url + "trades/";
 
     useEffect(() => {
         fetch(endpoint, {
@@ -23,8 +23,12 @@ export default function Trade(props) {
     }, [endpoint]);
 
   return (
-      <div >
-          {data.map((trade, index) => (<div className={"card-column"} key={index}><TradeCard data={trade}/></div>))}
+      <div>
+          {
+              (data)
+                  ? data.map((trade, index) => (<div className={"card-column"} key={index}><TradeCard data={trade}/></div>))
+                  : <div>NO TRADE DATA FOUND</div>
+          }
           </div>
   );
 }

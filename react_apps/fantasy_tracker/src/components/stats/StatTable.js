@@ -6,11 +6,11 @@ import '../../css/Stats.css';
 
 
 export default function StatTable(props) {
-    const [data, setData] = useState([])
-    let url = props.url + "stats/"
+    const [data, setData] = useState([]);
+    let endpoint = props.url + "stats/";
 
     useEffect(() => {
-        fetch(url, {
+        fetch(endpoint, {
             method: 'GET',
             headers: {
                 'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
@@ -22,7 +22,7 @@ export default function StatTable(props) {
                 setData(json)
             })
             .catch(err => console.log(err));
-    }, [url]);
+    }, [endpoint]);
 
     const columns = []
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'column-header'})}
