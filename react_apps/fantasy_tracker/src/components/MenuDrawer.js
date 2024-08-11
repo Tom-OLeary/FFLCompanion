@@ -62,6 +62,9 @@ export default function MenuDrawer() {
               // TODO ROSTERS
             navigate('/home');
             break;
+          case 4:
+              navigate('/trends');
+              break;
           case 'Load League':
             navigate('/');
             break;
@@ -78,6 +81,7 @@ export default function MenuDrawer() {
       'Team Stats',
       'Trade Ratings',
       'Rosters (coming soon)',
+      'Trends',
       'Home',
   ];
 

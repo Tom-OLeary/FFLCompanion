@@ -12,6 +12,7 @@ import Links from "./components/Links";
 import React from "react";
 import Account from "./components/Account";
 import ChangePassword from "./components/account/ChangePassword";
+import Trends from "./components/Trends";
 
 function App() {
     // TODO provide deployment url
@@ -51,7 +52,7 @@ function App() {
                 <Route path="links" element={<Links />} />
                 <Route path="account" element={<Account url={url} />} />
                 <Route path="change-password" element={<ChangePassword url={url} />} />
-
+                <Route path="trends" element={<Trends url={apiUrl} />} />
             </Routes>
         </>
     );
