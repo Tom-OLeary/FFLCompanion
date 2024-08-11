@@ -2,9 +2,9 @@ from dataclasses import dataclass
 
 from django.db.models import QuerySet
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
+from api.api_util import BaseAPIView
 from api.breakdowns.breakdown_serializers import YearlyStatsSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
@@ -30,13 +30,15 @@ class LeagueBreakdown:
         }
 
 
-class LeagueBreakdownView(GenericAPIView):
-    def get_queryset(self):
-        return LeagueSettings.objects.all()
+class LeagueBreakdownView(BaseAPIView):
+    model = LeagueSettings
 
     def get(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         leagues = self.get_queryset().order_by("-setting_year")
-        owners = TeamOwner.objects.all()
+        owners = self.protected_query(TeamOwner)
         if league_name := request.GET.get("name"):
             leagues = leagues.filter(name=league_name)
             owners = owners.filter(name=league_name)
@@ -44,11 +46,13 @@ class LeagueBreakdownView(GenericAPIView):
         return Response(LeagueBreakdown(leagues=leagues, owners=owners).data, status=status.HTTP_200_OK)
 
 
-class YearlyStatsView(GenericAPIView):
-    def get_queryset(self):
-        return FantasyTeamStats.objects.all()
+class YearlyStatsView(BaseAPIView):
+    model = FantasyTeamStats
 
     def get(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         stats = self.get_queryset()
         serializer = YearlyStatsSerializer(stats, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

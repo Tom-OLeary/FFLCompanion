@@ -4,10 +4,6 @@ from django.db import models
 
 
 class BaseModelManager(models.Manager):
-    # def get_queryset(self):
-    #     """Pre Filter for current league only"""
-    #     return super().get_queryset().filter(**App.config())
-
     def get_by_natural_key(self, username):
         return self.get(**{self.model.USERNAME_FIELD: username})
 

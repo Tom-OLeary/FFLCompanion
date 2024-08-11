@@ -70,6 +70,9 @@ class LeagueLeadersView(BaseAPIView):
         return rank_df.to_dict("records")
 
     def get(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         stats = self.get_queryset().select_related("team_owner").annotate(
             name=F("team_owner__name"),
             is_active=F("team_owner__is_active"),

@@ -1,22 +1,24 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from api.api_util import string_to_list, get_queryset_filters
+from api.api_util import string_to_list, get_queryset_filters, BaseAPIView
 from api.players.player_serializers import PlayerRequestSerializer, PlayerSerializer
 from ffl_companion.api_models.player import NFLPlayer
 
 
-class PlayerListView(GenericAPIView):
+class PlayerListView(BaseAPIView):
     schema_keys = list(PlayerRequestSerializer.__dict__["_declared_fields"].keys())
-    queryset = NFLPlayer.objects.all()
+    model = NFLPlayer
 
     @extend_schema(
         parameters=[OpenApiParameter(name=k, location="query", type=str) for k in schema_keys],
         responses={"200": PlayerSerializer(many=True)},
     )
     def get(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         serializer = PlayerRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
@@ -41,7 +43,7 @@ class PlayerListView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class PlayerDetailView(GenericAPIView):
+class PlayerDetailView(BaseAPIView):
     queryset = NFLPlayer.objects.all()
     lookup_field = "id"
     lookup_url_kwarg = "player_id"
@@ -51,6 +53,9 @@ class PlayerDetailView(GenericAPIView):
         responses={"200": PlayerSerializer},
     )
     def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         player = self.get_object()
         return Response(PlayerSerializer(player).data, status=status.HTTP_200_OK)
 
@@ -60,6 +65,9 @@ class PlayerDetailView(GenericAPIView):
         responses={"200": PlayerSerializer},
     )
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
         player = self.get_object()
         serializer = PlayerSerializer(player, data=request.data)
         serializer.is_valid(raise_exception=True)

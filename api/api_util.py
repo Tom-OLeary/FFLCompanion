@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -18,17 +19,24 @@ class BaseAPIView(GenericAPIView):
 
     model = None
 
-    def get_queryset(self):
+    AUTHENTICATION_MSG = "Not Authenticated"
+
+    def get_queryset(self) -> QuerySet:
         if self.model is None:
             raise AttributeError("Model must be set before calling this view")
 
-        if hasattr(self.model, "dataset"):
-            return self.model.objects.filter(dataset=self.request.user.dataset)
+        return self.protected_query(self.model)
 
-        return self.model.objects.all()
+    def protected_query(self, model) -> QuerySet:
+        """Filtered by user's allowed dataset"""
 
+        if hasattr(model, "dataset"):
+            return model.objects.filter(dataset=self.request.user.dataset)
 
+        return model.objects.all()
 
-
-
+    def get_object(self) -> object:
+        obj = super().get_object()
+        if hasattr(obj, "dataset") and obj.dataset == self.request.user.dataset:
+            return obj
 
