@@ -70,8 +70,9 @@ export default function Notes(props) {
                 'Weekly stats before 2023',
             ],
             reasons: [
-                'Affects calculations on trade comparisons',
-                'Can only generate features for 2023 season data',
+                'Affects calculations on trade comparisons & other live stats',
+                'Can only generate results for 2023 season data. ' +
+                'Remaining data will need to be imported when I determine a more convenient way to do so.',
             ],
             descriptionLabel: 'Missing Data',
             reasonLabel: 'Result',

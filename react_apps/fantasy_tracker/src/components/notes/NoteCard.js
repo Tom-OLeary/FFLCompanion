@@ -55,15 +55,16 @@ export default function NoteCard(props) {
             <div className={"card-summary"}>
               <CardContent>
                 {props.items.map((item, index) => (
-                    <Typography>
-                      <h3>{item}</h3>
-                      <div>{props.descriptionLabel}: {props.labels[index]}</div>
-                      <div>
+                    <Typography key={index} className="border-box">
+                      <span className="note-expand-title">{item}</span>
+                      <span className="bold-label">{props.descriptionLabel}:</span>
+                      <span> {props.labels[index]}</span>
+                      <span className="reason-description">
                         {
-                          (props.reasonLabel === 'Link') ? <a href={props.urls[index]} target='_blank'>{props.reasons[index]}</a>
-                              : <div> {props.reasonLabel}: {props.reasons[index]}</div>
+                          (props.reasonLabel === 'Link') ? <a href={props.urls[index]} target='_blank' rel="noreferrer">{props.reasons[index]}</a>
+                              : <span> {props.reasonLabel}: {props.reasons[index]}</span>
                         }
-                      </div>
+                      </span>
                     </Typography>
                 ))}
               </CardContent>

@@ -1,15 +1,14 @@
 import * as React from 'react';
 import '../../css/LeaderBoard.scss';
 import Rank from "./Rank";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import {UserContext} from "../../App";
+
 
 export default function LeaderBoard(props) {
     const [value, setValue] = React.useState(0);
-    const { user, setUser } = useContext(UserContext);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -21,14 +20,13 @@ export default function LeaderBoard(props) {
     const [isActive, setIsActive] = useState([]);
     const [allData, setAllData] = useState([]);
     const [dataRow, setDataRow] = useState('titles');
-
-    let endpoint = props.url + 'leaders/';
+    const endpoint = props.url + 'leaders/';
 
     useEffect(() => {
         fetch(endpoint, {
             method: 'GET',
             headers: {
-                'Authorization': 'Token ' + user
+                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
             }
         })
             .then(res => res.json())
@@ -41,7 +39,7 @@ export default function LeaderBoard(props) {
                 setSecondPlace(json["titles"][1]);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [endpoint]);
 
     let activeOnly = {
         titles: [],
@@ -160,7 +158,7 @@ export default function LeaderBoard(props) {
             <Box sx={{width: '100%', bgcolor: 'background.paper'}}>
                 <Tabs value={value} onChange={handleChange} variant={"scrollable"} sx={{marginLeft: 3, marginRight: 3}}>
                     {selectionTabs.map((tab, index) => (
-                        <Tab label={tab} onClick={() => handleClick(tab)}/>
+                        <Tab key={index} label={tab} onClick={() => handleClick(tab)}/>
                     ))}
                 </Tabs>
             </Box>
@@ -305,7 +303,7 @@ export default function LeaderBoard(props) {
 
                     <dl className="leaderboard">
                         {rankings.map((leader, index) => (
-                            <Rank name={leader.name} total={leader.total} year={leader.season_start_year}
+                            <Rank key={index} name={leader.name} total={leader.total} year={leader.season_start_year}
                                   team_name={leader.team_name} index={index}/>
                         ))}
                     </dl>

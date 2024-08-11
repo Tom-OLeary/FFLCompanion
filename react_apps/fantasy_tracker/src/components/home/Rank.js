@@ -9,15 +9,18 @@ export default function Rank(props) {
     return (
         <div>
             <dt>
-                <dd>
-                    <div className="leaderboard-name">
-                        <div className="leader-name">{props.team_name}</div> ({props.name})
+                <span className="right-side">
+                    <div>
+                    <span className="leader-name">{props.team_name}</span>
+                    <span style={{fontWeight: "light", display: "inline", marginLeft: 4}}>({props.name})</span>
                     </div>
+
                     <div
                         className="leaderboard-value">
-                        {props.total} <div style={{display: "inline", fontWeight: "lighter"}}> ({props.year})</div>
+                        {props.total}
+                        <div style={{display: "inline", fontWeight: "lighter"}}> ({props.year})</div>
                     </div>
-                </dd>
+                </span>
                 <article className="progress">
 
                     <section className="progress-bar"

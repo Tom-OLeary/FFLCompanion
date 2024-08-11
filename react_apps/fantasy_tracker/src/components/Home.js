@@ -1,10 +1,8 @@
 import Header from "./home/Header";
-import React, {useContext} from "react";
+import React from "react";
 import LeaderBoard from "./home/LeaderBoard";
-import {UserContext} from "../App";
 
 function Home(props) {
-    // const { user, setUser } = useContext(UserContext);
 
   return (
     <>

@@ -40,11 +40,8 @@ html, body {
 .leader-image {
   border-radius: 70%;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: 50%;
-  margin-bottom: 30px;
-  margin-top: 20px;
+  margin: 20px auto 30px;
 }
 
 .board-body {
@@ -182,7 +179,6 @@ h2 {
     }
 
     &-active {
-      //color: tint( $accent, 20% );
     }
   }
 }
@@ -192,7 +188,6 @@ h2 {
   justify-content: center;
 
   .statistic {
-    //padding: 0 0px;
     min-width: 120px;
     &:not(:last-child) {
       box-shadow: 20px 0 0px -19px rgba(255, 255, 255, 0.2)
@@ -251,10 +246,14 @@ h2 {
     margin-bottom: 7px;
     justify-content: space-between;
   }
-
   &-value {
     font-weight: 700;
   }
+}
+.right-side {
+  display: flex;
+  margin-bottom: 7px;
+  justify-content: space-between;
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1140px) {

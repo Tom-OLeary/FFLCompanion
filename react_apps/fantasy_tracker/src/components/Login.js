@@ -1,29 +1,24 @@
-import React, {useContext} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import '../css/Login.css';
-import {UserContext} from "../App";
 
 function Login (props) {
-    let url = 'http://localhost:8000/login/?';  // TODO pass url as prop
+    let url = props.url;
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
 
     const loadData = () => {
         fetch(url)
             .then(res => res.json())
             .then(json => {
                 let token = json.token;
-                console.log("TOKEN", token);
                 if (token) {
-                    setUser(token);
+                    window.localStorage.setItem('USER_STATE', token);
                     navigate('/home');
                 } else {
                     console.log(json.error);
                 }
-
-                // (json === "ok") ? navigate('/home') : console.log(json.error);
             })
             .catch(err => console.log(err));
     }
@@ -38,17 +33,33 @@ function Login (props) {
         url = url + "username=" + data.username + "&password=" + data.password;
         loadData();
     };
+    const handleLogout = () => {
+        url = url + "username=demo.user&password=demouser";
+        loadData();
+    }
     return (
         <>
             <p className="title">Load League</p>
 
             <form className="App" onSubmit={handleSubmit(onSubmit)}>
-                <input type="username" {...register("username", { required: true })} />
-                {errors.username && <span style={{ color: "red" }}>
+                <input type="username" {...register("username", {required: true})} />
+                {errors.username && <span style={{color: "red"}}>
                     *Username* is mandatory </span>}
                 <input type="password" {...register("password")} />
-                <input type={"submit"} style={{ backgroundColor: "#a1eafb" }} />
+                <input type={"submit"} style={{backgroundColor: "#a1eafb"}}/>
             </form>
+
+            <div style={{textAlign: "center"}}>
+            <button style={{
+                backgroundColor: "black",
+                color: "whitesmoke",
+                fontSize: 20,
+                marginTop: 10,
+                width: "20%",
+            }} onClick={handleLogout}>
+                logout
+            </button>
+            </div>
 
             <div className="bottom-description">
                 <h1 className={"header-title"}>
