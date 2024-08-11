@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from ffl_companion import views
-from ffl_companion.views import serve_react, AppLoginView
+from ffl_companion.views import serve_react, AppLoginView, ChangePasswordView
 
 django_app_patterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -32,6 +32,7 @@ react_patterns = [
 login_patterns = [
     path('login/', AppLoginView.as_view(), name='login'),
     path('logout/', views.sign_out, name='logout'),  # TODO not implemented fully
+    path('change-password/', ChangePasswordView.as_view(), name='change-password'),
 ]
 
 urlpatterns = [

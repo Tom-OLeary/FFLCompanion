@@ -13,8 +13,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
+from api.api_util import BaseAPIView
 from ffl_companion.api_models.owner import TeamOwner
-from ffl_companion.serializers import LoginSerializer
+from ffl_companion.serializers import LoginSerializer, PasswordSerializer
 from owner.models import Owner
 
 
@@ -31,35 +32,6 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=65)
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
 
-
-# class AppLoginView(GenericAPIView):
-#     queryset = TeamOwner.objects.all()
-#
-#     def get(self, request, *args, **kwargs):
-#         serializer = LoginSerializer(data=request.GET)
-#         serializer.is_valid(raise_exception=True)
-#
-#         user = serializer.validated_data["username"]
-#         password = serializer.validated_data["password"]
-#         try:
-#             App.unlock()
-#             owner = TeamOwner.objects.get(name=user)
-#             App.lock()
-#         except TeamOwner.DoesNotExist:
-#             App.lock()
-#             return Response({"error": "User Not Found"}, status=status.HTTP_404_NOT_FOUND)
-#
-#         if check_password(password, owner.password):
-#             login(request, owner)
-#             try:
-#                 initiate_app(owner)
-#             except AttributeError:
-#                 return Response({"error": "User League Not Found"}, status=status.HTTP_404_NOT_FOUND)
-#
-#         else:
-#             return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-#
-#         return Response("ok", status=status.HTTP_200_OK)
 
 class AppLoginView(GenericAPIView):
     queryset = Owner.objects.all()
@@ -79,10 +51,29 @@ class AppLoginView(GenericAPIView):
             login(request, owner)
             token, created = Token.objects.get_or_create(user=owner)
             return Response({"token": token.key}, status=status.HTTP_200_OK)
-            # return Response("ok", status=status.HTTP_200_OK)
-
         else:
             return Response({"error": "Incorrect Password"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ChangePasswordView(BaseAPIView):
+    model = Owner
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
+        dataset = request.user.__dict__.get("dataset")
+        if dataset is None or dataset == "Demo":
+            return Response("Demo User Cannot Change Password", status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = PasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if check_password(serializer.validated_data["current_password"], request.user.password):
+            request.user.set_password(serializer.validated_data["new_password"])
+            return Response("ok", status=status.HTTP_200_OK)
+        else:
+            return Response("Incorrect Password", status=status.HTTP_400_BAD_REQUEST)
 
 
 # TODO implement
@@ -91,8 +82,3 @@ def sign_out(request):
     messages.success(request,f'You have been logged out.')
     return redirect('login')
 
-
-# def initiate_app(owner: TeamOwner):
-#     """Sets global database filter for this owner's league"""
-#     App.lock()
-#     App.set(owner.league_name)

@@ -65,6 +65,9 @@ export default function MenuDrawer() {
           case 'Load League':
             navigate('/');
             break;
+          case 'Account':
+              navigate('/account');
+              break;
           default:
               navigate(`/home`);
       }
@@ -76,7 +79,12 @@ export default function MenuDrawer() {
       'Trade Ratings',
       'Rosters (coming soon)',
       'Home',
-  ]
+  ];
+
+  const menuBottomItems = [
+      'Load League',
+      'Account',
+  ];
 
   return (
       <div style={{ marginBottom: 1}}>
@@ -137,7 +145,7 @@ export default function MenuDrawer() {
         </List>
         <Divider style={{ backgroundColor: 'black' }} />
         <List style={{ position: 'absolute', bottom: 0 }}>
-          {['Load League'].map((text, index) => (
+          {menuBottomItems.map((text, index) => (
             <ListItem key={text} disablePadding style={{ color: 'whitesmoke' }}>
               <ListItemButton onClick={() => handleMenuSelection(text)}>
                 <ListItemIcon style={{ color: 'whitesmoke' }}>
