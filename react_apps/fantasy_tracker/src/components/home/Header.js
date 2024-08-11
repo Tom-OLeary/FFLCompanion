@@ -9,14 +9,19 @@ export default function Header(props) {
     const [data, setData] = useState([])
     let endpoint = props.url + "breakdown/"
     useEffect(() => {
-        fetch(endpoint)
+        fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 console.log(json);
                 setData(json);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [endpoint]);
 
     const PaperItem = styled(Paper)(({theme}) => ({
         width: "100%",

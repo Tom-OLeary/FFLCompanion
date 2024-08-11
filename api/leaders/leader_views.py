@@ -78,6 +78,8 @@ class LeagueLeadersView(BaseAPIView):
             is_active=F("team_owner__is_active"),
             image=F("team_owner__image")
         ).values(*self.QUERY_VALUES)
+        if not stats:
+            return Response([], status=status.HTTP_200_OK)
 
         stats_df = pd.DataFrame(stats)
         stats_df["years_count"] = stats_df.groupby("team_owner_id")["team_owner_id"].transform("count")

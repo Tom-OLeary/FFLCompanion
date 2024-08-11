@@ -41,7 +41,12 @@ export default function InfoDrawer(props) {
   let endpoint = props.url + "leagues/?get_url=true"
 
   const fetchLeague = () => {
-      fetch(endpoint)
+      fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
+            }
+        })
           .then(res => res.json())
           .then(json => {
               console.log(json);

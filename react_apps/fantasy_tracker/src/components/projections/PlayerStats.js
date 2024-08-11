@@ -10,14 +10,19 @@ export default function PlayerStats(props) {
     let url = props.url + "players/";
 
     useEffect(() => {
-        fetch(url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 console.log(json);
                 setData(json)
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [url]);
 
     const columns = [];
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'column-header'})}

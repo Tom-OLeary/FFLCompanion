@@ -58,7 +58,7 @@ export default function TradeCard(props) {
             {teamOne.total_points}
           </h1>
           <div className={"card-players"}>
-            {teamOne.players_received.map((player, index) => (<div>{player}</div>))}
+            {teamOne.players_received.map((player, index) => (<div key={index}>{player}</div>))}
           </div>
           <CardContent>
             <div className={"div-icon"}>
@@ -138,7 +138,7 @@ export default function TradeCard(props) {
             {teamTwo.total_points}
           </h1>
           <div className={"card-players"}>
-            {teamTwo.players_received.map((player, index) => (<div>{player}</div>))}
+            {teamTwo.players_received.map((player, index) => (<div key={index}>{player}</div>))}
           </div>
           <CardContent>
             <div className={"div-icon"}>

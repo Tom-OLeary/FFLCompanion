@@ -6,19 +6,25 @@ import {useEffect, useState} from "react";
 export default function Trade(props) {
     const [data, setData] = useState([])
     let endpoint = props.url + "trades/"
+
     useEffect(() => {
-        fetch(endpoint)
+        fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 console.log(json);
                 setData(json);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [endpoint]);
 
   return (
       <div >
-          {data.map((trade, index) => (<div className={"card-column"}><TradeCard data={trade} /></div>))}
+          {data.map((trade, index) => (<div className={"card-column"} key={index}><TradeCard data={trade}/></div>))}
           </div>
   );
 }
