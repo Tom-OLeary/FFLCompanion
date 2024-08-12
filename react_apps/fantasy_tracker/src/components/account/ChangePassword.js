@@ -41,9 +41,11 @@ function ChangePassword (props) {
         <>
             <p className="title">Change Password</p>
             <form className="App" onSubmit={handleSubmit(onSubmit)}>
+                <span style={{color: "whitesmoke", display: "inline"}}>Current Password</span>
                 <input type="password" {...register("current_password", {required: true})} />
                 {errors.username && <span style={{color: "red"}}>
                     *Username* is mandatory </span>}
+                <span style={{color: "whitesmoke"}}>New Password</span>
                 <input type="password" {...register("new_password", {required: true})} />
                 <input type={"submit"} style={{backgroundColor: "#a1eafb"}}/>
             </form>

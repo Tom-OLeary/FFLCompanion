@@ -61,7 +61,6 @@ export default function LeaderBoard(props) {
 
     const setActive = () => {
         // TODO gotta be a better way to do this
-        // issue data not loading without double click
         if (isActive) {
             setData(activeOnly);
             setRankings(activeOnly[dataRow]);
@@ -76,69 +75,26 @@ export default function LeaderBoard(props) {
         setIsActive(!isActive);
     }
 
+    const resultsMapping = {
+        'Titles': 'titles',
+        'Points/Yr': 'points',
+        'Wins/Yr': 'wins',
+        'Points/Max': 'points_max',
+        'Wins/Max': 'wins_max',
+        'PPG': 'ppg',
+        'Playoffs Made': 'playoffs',
+        'Finals Made': 'finals',
+        'Playoff/Rate': 'playoff_rate',
+    }
+    const setResults = (key) => {
+        let val = resultsMapping[key];
+        setRankings(data[val]);
+        setFirstPlace(data[val][0]);
+        setSecondPlace(data[val][1]);
+        setDataRow(val);
+    }
     const handleClick = (tab) => {
-        switch (tab) {
-            // TODO could probably use single function to toggle each tab
-            case "Titles":
-                setRankings(data["titles"]);
-                setFirstPlace(data["titles"][0]);
-                setSecondPlace(data["titles"][1]);
-                setDataRow("titles");
-                break;
-            case "Points/Yr":
-                setRankings(data["points"]);
-                setFirstPlace(data["points"][0]);
-                setSecondPlace(data["points"][1]);
-                setDataRow("points");
-                break;
-            case "Wins/Yr":
-                setRankings(data["wins"]);
-                setFirstPlace(data["wins"][0]);
-                setSecondPlace(data["wins"][1]);
-                setDataRow("wins");
-                break;
-            case "Points/Max":
-                setRankings(data["points_max"]);
-                setFirstPlace(data["points_max"][0]);
-                setSecondPlace(data["points_max"][1]);
-                setDataRow("points_max");
-                break;
-            case "Wins/Max":
-                setRankings(data["wins_max"]);
-                setFirstPlace(data["wins_max"][0]);
-                setSecondPlace(data["wins_max"][1]);
-                setDataRow("wins_max");
-                break;
-            case "PPG":
-                setRankings(data["ppg"]);
-                setFirstPlace(data["ppg"][0]);
-                setSecondPlace(data["ppg"][1]);
-                setDataRow("ppg");
-                break;
-            case "Playoffs Made":
-                setRankings(data["playoffs"]);
-                setFirstPlace(data["playoffs"][0]);
-                setSecondPlace(data["playoffs"][1]);
-                setDataRow("playoffs");
-                break;
-            case "Finals Made":
-                setRankings(data["finals"]);
-                setFirstPlace(data["finals"][0]);
-                setSecondPlace(data["finals"][1]);
-                setDataRow("finals");
-                break;
-            case "Playoff/Rate":
-                setRankings(data["playoff_rate"]);
-                setFirstPlace(data["playoff_rate"][0]);
-                setSecondPlace(data["playoff_rate"][1]);
-                setDataRow("playoff_rate");
-                break;
-            default:
-                setRankings(data["titles"]);
-                setFirstPlace(data["titles"][0]);
-                setSecondPlace(data["titles"][1]);
-                setDataRow("titles");
-        }
+        setResults(tab);
     }
 
     const selectionTabs = [

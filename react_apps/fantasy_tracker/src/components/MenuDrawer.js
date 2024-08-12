@@ -21,6 +21,8 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import Main from '../menuMain';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const drawerWidth = 275;
 
@@ -86,8 +88,8 @@ export default function MenuDrawer() {
   ];
 
   const menuBottomItems = [
-      'Load League',
       'Account',
+      'Load League',
   ];
 
   return (
@@ -138,8 +140,8 @@ export default function MenuDrawer() {
                             : index === 1 ? <SportsFootballIcon />
                                 : index === 2 ? <SwapVertIcon />
                                     : index === 3 ? <GroupsIcon />
-                                        : index === 4 ? <HomeIcon />
-                                            : <GroupsIcon />
+                                        : index === 4 ? <TimelineIcon />
+                                            : <HomeIcon />
                     }
                 </ListItemIcon>
                 <ListItemText primary={text} />
@@ -155,7 +157,7 @@ export default function MenuDrawer() {
                 <ListItemIcon style={{ color: 'whitesmoke' }}>
                   {
                       text === 'Load League' ? <LoginIcon />
-                          : <LoginIcon />
+                          : <AccountBoxIcon />
                   }
                 </ListItemIcon>
                 <ListItemText primary={text} />

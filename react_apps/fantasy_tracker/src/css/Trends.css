@@ -1,6 +1,21 @@
 .team-title {
-    text-align: center;
     color: whitesmoke;
-    font-weight: bold;
+}
 
+tspan {
+    fill: rgba(255, 255, 255, 0.86);
+}
+
+.choice-bar {
+    margin-top: 25px;
+}
+
+.stats-container {
+    text-align: center;
+    align-content: center;
+    color: whitesmoke;
+    margin-top: 20px;
+    outline: #807d7d ridge;
+    height: 180px;
+    width: 180px;
 }
