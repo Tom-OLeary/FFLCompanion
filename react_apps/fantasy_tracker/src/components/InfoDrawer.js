@@ -87,7 +87,7 @@ export default function InfoDrawer(props) {
         }
     };
 
-    const panelItems = ['League Home', 'Requests', 'Notes', 'Links']
+    const panelItems = ['League Home', 'Requests (coming soon)', 'Notes', 'README']
 
     return (
         <div style={{marginBottom: 1}}>

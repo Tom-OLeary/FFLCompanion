@@ -71,6 +71,9 @@ function Login (props) {
                     <br/>
                     This app is a work in progress. Checkout the App Info tab for information regarding known bugs,
                     project links & more.
+                    <br/>
+                    <br/>
+                    (*Content display not fully optimized for mobile devices or smaller screens on some pages*)
                 </h1>
             </div>
         </>

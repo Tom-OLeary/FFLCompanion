@@ -1,5 +1,6 @@
 .team-title {
     color: whitesmoke;
+    margin-bottom: 20px;
 }
 
 tspan {
@@ -7,7 +8,7 @@ tspan {
 }
 
 .choice-bar {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .stats-container {
@@ -15,7 +16,17 @@ tspan {
     align-content: center;
     color: whitesmoke;
     margin-top: 20px;
-    outline: #807d7d ridge;
+    margin-left: 50px;
     height: 180px;
     width: 180px;
+    display: inline;
+}
+
+.trend-title {
+    font-family: "Foldit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    text-align: center;
+    font-size: 70px;
 }

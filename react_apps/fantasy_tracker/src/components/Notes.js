@@ -6,23 +6,19 @@ import NoteCard from "./notes/NoteCard";
 export default function Notes(props) {
     const notes = [
         {
-            title: 'Known Bugs',
-            description: 'List of bugs I am currently aware of',
+            title: 'Known Bugs & Improvements',
+            description: 'List of bugs & improvements I am currently aware of',
             items: [
-                'App Info --> League Home',
                 'Window Sizing',
-                'Post Requests',
+                'Convenient Menus & Filtering',
             ],
             labels: [
-                'Requires 2 clicks to load correct league homepage. Demo users not affected.',
-                'Scaling of the Frontend components of this app are not great. Starts looking bad around 980 x 823 pixels.',
-                'There are no POST requests to the API currently set up for this app due to various issues & concerns.'
+                'Scaling of the Frontend components of this app are not perfect. Starts looking bad around 980 x 823 pixels in some areas.',
+                'Dock menus to screen & allow for team specific filtering of all pages.',
             ],
             reasons: [
-                'async loading issue, fix to be determined',
                 'I need to spend more time learning CSS',
-                'CORS issue (resolved). User Authentication tokens (in progress). ' +
-                'Could get around this by generating everything through GET requests, but that would just be wrong.'
+                'Needs planning...',
             ],
             descriptionLabel: 'Issue',
             reasonLabel: 'Reason',
@@ -83,14 +79,23 @@ export default function Notes(props) {
             items: [
                 'Start/Sit Analyzer',
                 'Rosters',
+                'My Team Page',
+                'Trade Machine',
+                'Polls',
             ],
             labels: [
                 'Calculate points gained from starters vs. players left on the bench.',
-                'Link players to Team Owners for each season.'
+                'Link players to Team Owners for each season.',
+                'Allow self imports of weekly scoring for live updates.',
+                'Determine pros & cons of a potential trade offer.',
+                'Allow user generated polls',
             ],
             reasons: [
-                'Need to manually import lineup data for each week',
-                'Data needs to be gathered & imported. Model for Rosters already created.'
+                'Need to manually import lineup data for each week.',
+                'Data needs to be gathered & imported. Model for Rosters already created.',
+                'Planning in progress...',
+                'Not sure how yet, but its coming someday.',
+                'Its on the list.',
             ],
             descriptionLabel: 'Purpose',
             reasonLabel: 'Current Blocker',

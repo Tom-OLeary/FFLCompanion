@@ -8,6 +8,15 @@
     padding: 0;
   }
 
+.home-title {
+  font-family: "Graduate", serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  color: #ac6429;
+  font-size: 50px;
+  margin-top: 30px;
+}
   body {
     padding: 0;
     font-family: 'Montserrat', serif;
