@@ -1,7 +1,6 @@
 import React from "react";
 import { LineChart } from '@mui/x-charts/LineChart';
 import '../../css/Trends.css';
-import Divider from "@mui/material/Divider";
 
 function Chart(props) {
     let yAxisData = Array.from({length: props.years.length}, () => 0);
@@ -28,7 +27,7 @@ function Chart(props) {
                     Max {props.label}: {
                     (booleanChecks.includes(props.label))
                         ? Math.max(...yAxisData)
-                        : Math.max.apply(null, yAxisData.filter(Boolean))
+                        : Math.max.apply(null, yAxisData.filter(Boolean))  // ignore zeros for years not in league
                 }
                 </div>
                 <div className="stats-text">
