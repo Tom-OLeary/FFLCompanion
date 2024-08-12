@@ -15,15 +15,28 @@ function Chart(props) {
     let xAxisData = [];
     for (const year of props.years) { xAxisData.push(new Date(year, 0, 1)); }
 
+    let booleanChecks = [
+        'made_finals',
+        'made_playoffs',
+        'won_finals',
+    ]
     return (
         <div>
             <h2 className="team-title"> {props.title}</h2>
             <div className="stats-container">
                 <div className="stats-text">
-                    Max {props.label}: {Math.max(...yAxisData)}
+                    Max {props.label}: {
+                    (booleanChecks.includes(props.label))
+                        ? Math.max(...yAxisData)
+                        : Math.max.apply(null, yAxisData.filter(Boolean))
+                }
                 </div>
                 <div className="stats-text">
-                    Min {props.label}: {Math.min.apply(null, yAxisData.filter(Boolean))}
+                    Min {props.label}: {
+                    (booleanChecks.includes(props.label))
+                        ? Math.min(...yAxisData)
+                        : Math.min.apply(null, yAxisData.filter(Boolean))
+                }
                 </div>
 
             </div>
