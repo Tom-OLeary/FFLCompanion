@@ -20,6 +20,7 @@ let iterRate = Math.floor(100 / ownerCount.length);
 
 // Generates leaderboard ranking color bars
 if (!callbacks.length) {
+    // eslint-disable-next-line
     ownerCount.map((item, i) => {
         add(item, function () {
             let i1, barColor, widthValue;
