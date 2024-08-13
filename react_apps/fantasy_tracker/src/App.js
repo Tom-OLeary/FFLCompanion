@@ -15,8 +15,7 @@ import Trends from "./components/Trends";
 import MyTeam from "./components/MyTeam";
 
 function App() {
-    // TODO provide deployment url
-    let url = (process.env.REACT_APP_NODE_ENV === 'production') ? 'https://www.some-app.com/' : 'http://127.0.0.1:8000/'
+    let url = (process.env.REACT_APP_NODE_ENV === 'production') ? process.env.REACT_APP_HOST_URL : 'http://127.0.0.1:8000/'
     let apiUrl = url + 'api/';
     let loginUrl = url + 'login/?';
 
