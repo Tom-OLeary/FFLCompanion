@@ -8,17 +8,17 @@ from api.api_util import BaseAPIView
 from api.breakdowns.breakdown_serializers import YearlyStatsSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.owner import TeamOwner
+from owner.models import Owner
 
 
 @dataclass
 class LeagueBreakdown:
     leagues: QuerySet[LeagueSettings]
-    owners: QuerySet[TeamOwner]
+    owners: QuerySet[Owner]
 
     @property
     def data(self) -> dict:
-        _champions = self.leagues.filter(league_stats__final_season_standing=1).values_list("league_stats__team_owner__name")
+        _champions = self.leagues.filter(league_stats__final_season_standing=1).values_list("league_stats__owner__name")
         _most_recent = self.leagues.first()
 
         return {
@@ -38,10 +38,10 @@ class LeagueBreakdownView(BaseAPIView):
             return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
 
         leagues = self.get_queryset().order_by("-setting_year")
-        owners = self.protected_query(TeamOwner)
+        owners = self.protected_query(Owner)
         if league_name := request.GET.get("name"):
             leagues = leagues.filter(name=league_name)
-            owners = owners.filter(name=league_name)
+            owners = owners.filter(league_name=league_name)
 
         return Response(LeagueBreakdown(leagues=leagues, owners=owners).data, status=status.HTTP_200_OK)
 

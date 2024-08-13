@@ -8,7 +8,7 @@ class ReigningChampsSerializer(serializers.ModelSerializer):
         model = FantasyTeamStats
         fields = ["team_name", "season_start_year", "owner_name"]
 
-    owner_name = serializers.PrimaryKeyRelatedField(source="team_owner.name", required=False, default=None, read_only=True)
+    owner_name = serializers.PrimaryKeyRelatedField(source="owner.name", required=False, default=None, read_only=True)
 
 
 class LeaderPayloadSerializer(serializers.Serializer):

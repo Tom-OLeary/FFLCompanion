@@ -12,7 +12,6 @@ from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.nfl_team import NFLTeam
-from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.util import format_date_str
 from owner.models import Owner
 
@@ -98,7 +97,6 @@ class NFLPlayer(models.Model):
 
     # draft tracking
     is_available = models.BooleanField(default=True)
-    fantasy_team = models.ForeignKey(TeamOwner, null=True, on_delete=models.SET_NULL, default=None, related_name="roster")
     owner = models.ForeignKey(Owner, null=True, on_delete=models.SET_NULL, default=None, related_name="players")
 
     objects = NFLPlayerModelManager()
@@ -117,9 +115,8 @@ class RosterModelManager(BaseModelManager):
 class Roster(BaseModel):
     class Meta:
         db_table = "rosters"
-        unique_together = (("team_owner_id", "roster_year"),)
+        unique_together = (("owner", "roster_year"),)
 
-    team_owner = models.ForeignKey(TeamOwner, on_delete=models.SET_NULL, null=True, related_name="team_rosters")
     owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, null=True, related_name="rosters")
 
     # player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name="player_rosters")

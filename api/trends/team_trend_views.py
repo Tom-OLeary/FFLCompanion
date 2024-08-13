@@ -15,7 +15,7 @@ class TeamTrendView(BaseAPIView):
         if not request.user.is_authenticated:
             return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
 
-        stats = self.get_queryset().select_related("team_owner").order_by("season_start_year")
+        stats = self.get_queryset().select_related("owner").order_by("season_start_year")
         if not stats:
             return Response([], status=status.HTTP_200_OK)
 
@@ -24,15 +24,15 @@ class TeamTrendView(BaseAPIView):
 
         def set_stats(rows):
             for stat in rows:
-                owner_name = stat.team_owner.name
+                owner_name = stat.owner.name
                 if owner_name not in teams:
                     teams[owner_name] = []
 
                 teams[owner_name].append(stat)
                 years.add(str(stat.season_start_year))
 
-        set_stats(stats.filter(team_owner__is_active=True))
-        set_stats(stats.filter(team_owner__is_active=False))  # displays inactive teams last
+        set_stats(stats.filter(owner__is_active=True))
+        set_stats(stats.filter(owner__is_active=False))  # displays inactive teams last
 
         # columns for selection bar
         columns = [

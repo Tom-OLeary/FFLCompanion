@@ -34,7 +34,7 @@ class LeagueLeadersView(BaseAPIView):
     }
 
     QUERY_VALUES = [
-        "team_owner_id",
+        "owner_id",
         "wins",
         "total_points",
         "ppg",
@@ -51,13 +51,13 @@ class LeagueLeadersView(BaseAPIView):
 
     def _generate_leader(self, rank_df: pd.DataFrame, key: str):
         group_key, operation = self.OPERATION_MAP[key]
-        rank_df[key] = rank_df.groupby("team_owner_id")[group_key].transform(operation).round(2)
-        rank_df.sort_values(by=[key, "team_owner_id", "season_start_year"], inplace=True, ascending=False)
+        rank_df[key] = rank_df.groupby("owner_id")[group_key].transform(operation).round(2)
+        rank_df.sort_values(by=[key, "owner_id", "season_start_year"], inplace=True, ascending=False)
         return rank_df
 
     @staticmethod
     def _generate_max_total(df: pd.DataFrame, key: str):
-        _idx = df.groupby("team_owner_id")[key].transform("max") == df[key]
+        _idx = df.groupby("owner_id")[key].transform("max") == df[key]
         return df[_idx].sort_values(by=[key, "years_count"], ascending=False).round(2)
 
     def _generate_rank(self, df: pd.DataFrame, key: str, func: str):
@@ -66,23 +66,23 @@ class LeagueLeadersView(BaseAPIView):
 
         rank_df = df.copy()
         rank_df["category_type"], rank_df["category"] = self.CATEGORY_MAP[key]
-        rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=["team_owner_id", key], keep="first").rename(columns={key: "total"})
+        rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=["owner_id", key], keep="first").rename(columns={key: "total"})
         return rank_df.to_dict("records")
 
     def get(self, request):
         if not request.user.is_authenticated:
             return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
 
-        stats = self.get_queryset().select_related("team_owner").annotate(
-            name=F("team_owner__name"),
-            is_active=F("team_owner__is_active"),
-            image=F("team_owner__image")
+        stats = self.get_queryset().select_related("owner").annotate(
+            name=F("owner__name"),
+            is_active=F("owner__is_active"),
+            image=F("owner__image")
         ).values(*self.QUERY_VALUES)
         if not stats:
             return Response([], status=status.HTTP_200_OK)
 
         stats_df = pd.DataFrame(stats)
-        stats_df["years_count"] = stats_df.groupby("team_owner_id")["team_owner_id"].transform("count")
+        stats_df["years_count"] = stats_df.groupby("owner_id")["owner_id"].transform("count")
         stats_df.fillna(0, inplace=True)
 
         serializer = LeagueLeadersSerializer(

@@ -5,7 +5,6 @@ from django.db import models
 from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.import_handlers.validators import FantasyTeamImport
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.owner import TeamOwner
 from owner.models import Owner
 
 
@@ -42,10 +41,9 @@ class FantasyTeamStatsManager(BaseModelManager):
 class FantasyTeamStats(BaseModel):
     class Meta:
         db_table = "fantasy_team_stats"
-        unique_together = (("team_owner", "season_start_year"),)
+        unique_together = (("owner", "season_start_year"),)
 
     # standings sheet
-    team_owner = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, null=True, blank=True, related_name="team_stats")
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, null=True, blank=True, related_name="stats")
     team_name = models.CharField(max_length=50)
     wins = models.IntegerField(default=0)

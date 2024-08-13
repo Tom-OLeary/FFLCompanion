@@ -4,19 +4,19 @@ from api.tests.util.fixtures import LEAGUE_SETTINGS, TEAM_OWNERS, FANTASY_TEAM_S
 from api.tests.util.util import BaseTestCase
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.owner import TeamOwner
+from owner.models import Owner
 
 
 class TestLeagueLeadersView(BaseTestCase):
     # class attribute, model, fixtures
     IMPORT_DATA = [
         ("leagues", LeagueSettings, LEAGUE_SETTINGS),
-        ("owners", TeamOwner, TEAM_OWNERS),
+        ("owners", Owner, TEAM_OWNERS),
         ("stats", FantasyTeamStats, FANTASY_TEAM_STATS),
     ]
 
     leagues: list[LeagueSettings] = None
-    owners: list[TeamOwner] = None
+    owners: list[Owner] = None
     stats: list[FantasyTeamStats] = None
 
     def generate_data(self):
@@ -26,9 +26,9 @@ class TestLeagueLeadersView(BaseTestCase):
 
         for year in [2019, 2020, 2021, 2022, 2023]:
             stats = FantasyTeamStats.objects.filter(season_start_year=year).order_by("team_name")
-            owners = TeamOwner.objects.order_by("name")
+            owners = Owner.objects.order_by("name")
             for owner, stat in zip(owners, stats):
-                stat.team_owner = owner
+                stat.owner = owner
                 stat.save()
 
     def test_league_leaders_view(self):

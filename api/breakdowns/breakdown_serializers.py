@@ -8,4 +8,4 @@ class YearlyStatsSerializer(serializers.ModelSerializer):
         model = FantasyTeamStats
         exclude = ["league"]
 
-    team_owner = serializers.PrimaryKeyRelatedField(source="team_owner.name", read_only=True)
+    team_owner = serializers.PrimaryKeyRelatedField(source="owner.name", read_only=True)

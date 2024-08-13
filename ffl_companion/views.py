@@ -14,7 +14,6 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from api.api_util import BaseAPIView
-from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.serializers import LoginSerializer, PasswordSerializer
 from owner.models import Owner
 

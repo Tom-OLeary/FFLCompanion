@@ -10,7 +10,7 @@ class BaseTestCase(APITestCase):
     def setUpTestData(cls):
         cls.user = Owner.objects.create_owner(
             name="User1",
-            username="user.one",
+            username="test.owner",
             password="password",
             dataset="testing",
         )

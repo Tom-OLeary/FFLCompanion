@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from ffl_companion.api_models.owner import TeamOwner
+from owner.models import Owner
 
 
-class TeamOwnerSerializer(serializers.ModelSerializer):
+class OwnerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TeamOwner
+        model = Owner
         exclude = []
 
     years_active = serializers.SerializerMethodField()
 
     @staticmethod
     def get_years_active(obj):
-        return obj.team_stats.count()
+        return obj.stats.count()

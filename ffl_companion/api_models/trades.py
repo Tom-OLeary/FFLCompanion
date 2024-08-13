@@ -5,7 +5,6 @@ from django.db.models import QuerySet
 
 from ffl_companion.api_models.base import BaseModel, BaseModelManager
 from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScoring
-from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import Player
 from owner.models import Owner
 
@@ -38,8 +37,6 @@ class Trade(BaseModel):
         db_table = "trades"
 
     season_year = models.IntegerField(default=0)
-    owner_one = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_one_trades", null=True)
-    owner_two = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_two_trades", null=True)
     first_owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="first_owner_trades", null=True)
     second_owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="second_owner_trades", null=True)
     owner_one_received = models.ManyToManyField(Player, related_name="owner_one_received")
@@ -149,7 +146,7 @@ class Trade(BaseModel):
 
         return totals.__dict__, players_received
 
-    def __getitem__(self, owner: TeamOwner):
+    def __getitem__(self, owner: Owner):
         _owner = "owner_one"
         if owner == self.second_owner:
             _owner = "owner_two"
