@@ -118,8 +118,7 @@ class Roster(BaseModel):
         unique_together = (("owner", "roster_year"),)
 
     owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, null=True, related_name="rosters")
-
-    # player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name="player_rosters")
+    players = models.ManyToManyField("Player", related_name="player_rosters")
     roster_year = models.IntegerField(default=2024)
     league = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, related_name="settings_rosters")
 
@@ -148,7 +147,6 @@ class Player(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     position = models.CharField(max_length=3, null=False, blank=False, choices=PositionChoices.choices)
     nfl_teams = models.ManyToManyField(NFLTeam, related_name="team_players")
-    rosters = models.ManyToManyField(Roster, related_name="roster_players")
 
     objects = PlayerManager()
 

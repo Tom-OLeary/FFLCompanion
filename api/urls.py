@@ -1,5 +1,6 @@
 from django.urls import re_path
 
+from api.rosters.roster_views import RosterView
 from api.trades.trade_views import TradesView
 from api.leagues.league_views import LeagueSettingsView
 from api.leaders.leader_views import LeagueLeadersView
@@ -19,4 +20,6 @@ urlpatterns = [
     re_path(r"^trades/$", TradesView.as_view()),
     re_path(r"^stats/$", YearlyStatsView.as_view()),
     re_path(r"^trends/$", TeamTrendView.as_view()),
+    re_path(r"^rosters/$", RosterView.as_view()),
+
 ]

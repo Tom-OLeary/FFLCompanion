@@ -20,16 +20,7 @@ class TestLeagueLeadersView(BaseTestCase):
     stats: list[FantasyTeamStats] = None
 
     def generate_data(self):
-        for league in self.leagues:
-            year = league.setting_year
-            FantasyTeamStats.objects.filter(season_start_year=year).update(league=league)
-
-        for year in [2019, 2020, 2021, 2022, 2023]:
-            stats = FantasyTeamStats.objects.filter(season_start_year=year).order_by("team_name")
-            owners = Owner.objects.order_by("name")
-            for owner, stat in zip(owners, stats):
-                stat.owner = owner
-                stat.save()
+        self.link_leagues()
 
     def test_league_leaders_view(self):
         response = self.client.get("/api/leaders/", format="json")

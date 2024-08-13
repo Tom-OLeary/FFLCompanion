@@ -63,6 +63,7 @@ LEAGUE_SETTINGS = [
     {'dataset': 'testing', 'name': 'testing', 'setting_year': 2020, 'playoff_teams': 6, 'entry_price': 250, 'member_count': 12, 'league_host': None, 'league_host_url': None, 'league_id': None},
     {'dataset': 'testing', 'name': 'testing', 'setting_year': 2021, 'playoff_teams': 6, 'entry_price': 250, 'member_count': 12, 'league_host': None, 'league_host_url': None, 'league_id': None},
     {'dataset': 'testing', 'name': 'testing', 'setting_year': 2022, 'playoff_teams': 6, 'entry_price': 250, 'member_count': 12, 'league_host': None, 'league_host_url': None, 'league_id': None},
+    {'dataset': 'testing', 'name': 'testing', 'setting_year': 2024, 'playoff_teams': 6, 'entry_price': 250, 'member_count': 12, 'league_host': None, 'league_host_url': None, 'league_id': None},
 ]
 
 # MUST TIE to TeamOwner and LeagueSettings Foreign Keys
@@ -126,3 +127,24 @@ FANTASY_TEAM_STATS = [
     {'dataset': 'testing', 'team_name': 'Team Name56', 'wins': 5, 'losses': 9, 'draws': 0, 'total_points': 1303.24, 'total_points_against': 1374.04, 'ppg': 93.1, 'pag': 98.1, 'net_rating': -5, 'regular_season_standing': 0, 'final_season_standing': 11, 'made_playoffs': False, 'made_finals': False, 'won_finals': False, 'acquisitions': 0, 'drops': 0, 'injured_reserve_count': 0, 'moves': 0, 'trades': 0, 'season_start_year': 2023, 'league_name': 'testing', 'is_current_season': False},
     {'dataset': 'testing', 'team_name': 'Team Name57', 'wins': 6, 'losses': 8, 'draws': 0, 'total_points': 1324.26, 'total_points_against': 1357.16, 'ppg': 94.6, 'pag': 96.9, 'net_rating': -2, 'regular_season_standing': 0, 'final_season_standing': 12, 'made_playoffs': False, 'made_finals': False, 'won_finals': False, 'acquisitions': 0, 'drops': 0, 'injured_reserve_count': 0, 'moves': 0, 'trades': 0, 'season_start_year': 2023, 'league_name': 'testing', 'is_current_season': False},
 ]
+
+NFL_TEAMS = [
+    {'name': 'Arizona Cardinals', 'abbreviation': 'ARI', 'conference': 'NFC', 'division': 'West', 'season_year': 2024},
+    {'name': 'Atlanta Falcons', 'abbreviation': 'ATL', 'conference': 'NFC', 'division': 'South', 'season_year': 2024},
+    {'name': 'Baltimore Ravens', 'abbreviation': 'BAL', 'conference': 'AFC', 'division': 'North', 'season_year': 2024},
+    {'name': 'Buffalo Bills', 'abbreviation': 'BUF', 'conference': 'AFC', 'division': 'East', 'season_year': 2024},
+    {'name': 'Carolina Panthers', 'abbreviation': 'CAR', 'conference': 'NFC', 'division': 'South', 'season_year': 2024},
+]
+PLAYERS = [
+    {'name': 'Dan Kreider', 'position': 'RB'},
+    {'name': 'Matt Leinart', 'position': 'QB'},
+    {'name': 'Anthony Becht', 'position': 'TE'},
+    {'name': 'Anquan Boldin', 'position': 'WR'},
+    {'name': 'Ben Patrick', 'position': 'TE'},
+]
+
+# Requires owner_id & league_id
+ROSTERS = [
+    {'dataset': 'testing', 'roster_year': 2024},
+]
+

@@ -23,6 +23,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import Main from '../menuMain';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import StarBorderPurple500Icon from '@mui/icons-material/StarBorderPurple500';
 
 const drawerWidth = 275;
 
@@ -67,6 +68,9 @@ export default function MenuDrawer() {
           case 4:
               navigate('/trends');
               break;
+          case 5:
+              navigate('/my-team');
+              break;
           case 'Load League':
             navigate('/');
             break;
@@ -84,6 +88,7 @@ export default function MenuDrawer() {
       'Trade Ratings',
       'Rosters (coming soon)',
       'Trends',
+      'My Team',
       'Home',
   ];
 
@@ -141,7 +146,8 @@ export default function MenuDrawer() {
                                 : index === 2 ? <SwapVertIcon />
                                     : index === 3 ? <GroupsIcon />
                                         : index === 4 ? <TimelineIcon />
-                                            : <HomeIcon />
+                                            : index === 5 ? <StarBorderPurple500Icon />
+                                                : <HomeIcon />
                     }
                 </ListItemIcon>
                 <ListItemText primary={text} />

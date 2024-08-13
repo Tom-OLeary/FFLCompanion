@@ -23,4 +23,4 @@ class PlayerRequestSerializer(serializers.Serializer):
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = NFLPlayer
-        exclude = ["fantasy_team"]
+        exclude = ["owner"]

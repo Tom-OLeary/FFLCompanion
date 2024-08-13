@@ -8,11 +8,11 @@ import Trade from "./components/trades/Trade";
 import TeamStats from "./components/TeamStats";
 import InfoDrawer from "./components/InfoDrawer";
 import Notes from "./components/Notes";
-import Links from "./components/Links";
 import React from "react";
 import Account from "./components/Account";
 import ChangePassword from "./components/account/ChangePassword";
 import Trends from "./components/Trends";
+import MyTeam from "./components/MyTeam";
 
 function App() {
     // TODO provide deployment url
@@ -49,10 +49,10 @@ function App() {
                 <Route path="stats" element={<TeamStats url={apiUrl} />} />
                 <Route path="trades" element={<Trade url={apiUrl} />} />
                 <Route path="notes" element={<Notes />} />
-                <Route path="links" element={<Links />} />
                 <Route path="account" element={<Account url={url} />} />
                 <Route path="change-password" element={<ChangePassword url={url} />} />
                 <Route path="trends" element={<Trends url={apiUrl} />} />
+                <Route path="my-team" element={<MyTeam url={apiUrl}/>} />
             </Routes>
         </>
     );

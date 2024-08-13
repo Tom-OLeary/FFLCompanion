@@ -59,10 +59,10 @@ class Owner(AbstractBaseUser, BaseModel, PermissionsMixin):
 
     objects = OwnerManager()
 
-    # @property
-    # def drafted_roster(self):
-    #     return self.roster.all()
-    #
+    @property
+    def latest_roster(self):
+        return self.rosters.order_by("-roster_year").first()
+
     # @property
     # def championships(self):
     #     return self.team_stats.filter(won_finals=True)

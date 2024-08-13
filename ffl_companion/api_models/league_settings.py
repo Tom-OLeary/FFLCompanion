@@ -30,6 +30,12 @@ class LeagueSettings(BaseModel):
     def prize_pool(self):
         return self.entry_price * self.member_count
 
+    @property
+    def is_current_season(self):
+        if not self.league_stats.exists():
+            return False
+        return self.league_stats.first().is_current_season
+
     def save(self, *args, **kwargs):
         if not self.member_count and self.pk:
             self.member_count = self.league_stats.count()

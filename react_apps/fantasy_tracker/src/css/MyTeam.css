@@ -1,0 +1,6 @@
+.box-columns {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    color: whitesmoke;
+}

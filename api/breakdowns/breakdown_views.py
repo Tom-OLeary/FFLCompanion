@@ -19,7 +19,7 @@ class LeagueBreakdown:
     @property
     def data(self) -> dict:
         _champions = self.leagues.filter(league_stats__final_season_standing=1).values_list("league_stats__owner__name")
-        _most_recent = self.leagues.first()
+        _most_recent = self.leagues.filter(league_stats__isnull=False).first()
 
         return {
             "years_active": self.leagues.count(),
