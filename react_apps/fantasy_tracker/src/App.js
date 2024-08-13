@@ -20,11 +20,11 @@ function App() {
     let loginUrl = url + 'login/?';
 
     const loadDemo = () => {
-        loginUrl = loginUrl
+        let demoLogin = loginUrl
             + 'username=' + process.env.REACT_APP_DEMO_USER
             + '&password=' + process.env.REACT_APP_DEMO_PW;
 
-        fetch(loginUrl)
+        fetch(demoLogin)
             .then(res => res.json())
             .then(json => {
                 let token = json.token;

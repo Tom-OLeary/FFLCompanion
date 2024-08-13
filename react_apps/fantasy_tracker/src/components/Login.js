@@ -8,8 +8,8 @@ function Login (props) {
     let url = props.url;
     const navigate = useNavigate();
 
-    const loadData = () => {
-        fetch(url)
+    const loadData = (endpoint) => {
+        fetch(endpoint)
             .then(res => res.json())
             .then(json => {
                 let token = json.token;
@@ -30,12 +30,12 @@ function Login (props) {
     } = useForm();
 
     const onSubmit = (data) => {
-        url = url + "username=" + data.username + "&password=" + data.password;
-        loadData();
+        let loginUrl = url + "username=" + data.username + "&password=" + data.password;
+        loadData(loginUrl);
     };
     const handleLogout = () => {
-        url = url + "username=demo.user&password=demouser";
-        loadData();
+        let loginUrl = url + "username=demo.user&password=demouser";
+        loadData(loginUrl);
     }
     return (
         <>
