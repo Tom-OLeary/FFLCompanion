@@ -74,13 +74,13 @@ export default function InfoDrawer(props) {
                 window.open(hostUrl, '_blank').focus();
                 break;
             // case 1:
-            //     navigate(`requests`);
+            //     navigate('requests');
             //     break;
             case 2:
                 navigate(`notes`);
                 break;
             case 3:
-                navigate(`links`);
+                window.open(process.env.REACT_APP_README, '_blank').focus();
                 break;
             default:
                 navigate(`home`);

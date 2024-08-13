@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import '../../css/Header.css';
 import '../../css/Stats.css';
 
-
 export default function StatTable(props) {
     const [data, setData] = useState([]);
     let endpoint = props.url + "stats/";
@@ -28,19 +27,30 @@ export default function StatTable(props) {
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'column-header'})}
 
     return (
-        <div style={{ height: 650, marginRight: 50, marginLeft: 50, marginBottom: 50, marginTop: 50, backgroundColor: "darkgrey"}}>
-          <DataGrid
-              rows={data}
-              columns={columns}
-              sx={{
-                boxShadow: 2,
-                border: 2,
-                borderColor: 'primary.dark',
-                '& .MuiDataGrid-cell:hover': {
-                  color: 'primary.main',
-                },
-              }}
-          />
-        </div>
+        <>
+            <div>
+                <div style={{
+                    height: 650,
+                    marginRight: 50,
+                    marginLeft: 50,
+                    marginBottom: 50,
+                    marginTop: 50,
+                    backgroundColor: "darkgrey"
+                }}>
+                    <DataGrid
+                        rows={data}
+                        columns={columns}
+                        sx={{
+                            boxShadow: 2,
+                            border: 2,
+                            borderColor: 'primary.dark',
+                            '& .MuiDataGrid-cell:hover': {
+                                color: 'primary.main',
+                            },
+                        }}
+                    />
+                </div>
+            </div>
+        </>
     );
 }

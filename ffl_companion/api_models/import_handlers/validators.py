@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
-
-from ffl_companion.api_models.owner import TeamOwner
+from owner.models import Owner
 
 
 @dataclass
@@ -34,7 +33,7 @@ class FantasyTeamImport:
     def data(self):
         return {
             self.ranking_type: self.rank,
-            "team_owner": TeamOwner.objects.filter(name=self.owner_name).first(),
+            "team_owner": Owner.objects.filter(name=self.owner_name).first(),
             "team_name": self.team_name,
             "wins": self.wins,
             "losses": self.losses,

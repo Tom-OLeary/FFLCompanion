@@ -7,6 +7,7 @@ from ffl_companion.api_models.base import BaseModel, BaseModelManager
 from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScoring
 from ffl_companion.api_models.owner import TeamOwner
 from ffl_companion.api_models.player import Player
+from owner.models import Owner
 
 
 @dataclass
@@ -39,6 +40,8 @@ class Trade(BaseModel):
     season_year = models.IntegerField(default=0)
     owner_one = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_one_trades", null=True)
     owner_two = models.ForeignKey(TeamOwner, on_delete=models.CASCADE, related_name="owner_two_trades", null=True)
+    first_owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="first_owner_trades", null=True)
+    second_owner = models.ForeignKey(Owner, on_delete=models.CASCADE, related_name="second_owner_trades", null=True)
     owner_one_received = models.ManyToManyField(Player, related_name="owner_one_received")
     owner_two_received = models.ManyToManyField(Player, related_name="owner_two_received")
     league = models.ForeignKey(LeagueSettings, on_delete=models.CASCADE, related_name="trades")
@@ -46,44 +49,86 @@ class Trade(BaseModel):
 
     objects = TradeModelManager()
 
+    # def get_trade_comparison(self) -> dict:
+    #     # TODO currently does not support players traded multiple times
+    #     # logic assumes players traded once
+    #
+    #     results: dict[str, any] = {}
+    #     results[self.owner_one.name], owner_one_players = self._get_owner_totals(self.owner_one_received.all())
+    #     results[self.owner_two.name], owner_two_players = self._get_owner_totals(self.owner_two_received.all())
+    #
+    #     scoring = self.league.scoring.all()
+    #     for key, stats in results.items():
+    #         results[key]["total_points"] = round(sum(stats[score.stat_name] * score.point_value for score in scoring), 2)
+    #
+    #     results[self.owner_one.name]["players_received"] = owner_one_players
+    #     results[self.owner_one.name]["team_name"] = self.owner_one.team_stats.get(season_start_year=self.season_year).team_name
+    #
+    #     results[self.owner_two.name]["players_received"] = owner_two_players
+    #     results[self.owner_two.name]["team_name"] = self.owner_two.team_stats.get(season_start_year=self.season_year).team_name
+    #     results["winner"] = None
+    #
+    #     owner_one_total = results[self.owner_one.name]["total_points"]
+    #     owner_two_total = results[self.owner_two.name]["total_points"]
+    #     if abs(owner_one_total - owner_two_total) > 30:
+    #         if owner_one_total > owner_two_total:
+    #             results["winner"] = self.owner_one.name
+    #         else:
+    #             results["winner"] = self.owner_two.name
+    #
+    #     final_results = {
+    #         "winner": results["winner"],
+    #         "trade_date": self.trade_date,
+    #         "details": [
+    #             {
+    #                 "team_owner": self.owner_one.name,
+    #                 **results[self.owner_one.name],
+    #             },
+    #             {
+    #                 "team_owner": self.owner_two.name,
+    #                 **results[self.owner_two.name],
+    #             },
+    #         ]
+    #     }
+    #     return final_results
     def get_trade_comparison(self) -> dict:
         # TODO currently does not support players traded multiple times
         # logic assumes players traded once
 
         results: dict[str, any] = {}
-        results[self.owner_one.name], owner_one_players = self._get_owner_totals(self.owner_one_received.all())
-        results[self.owner_two.name], owner_two_players = self._get_owner_totals(self.owner_two_received.all())
+        results[self.first_owner.name], first_owner_players = self._get_owner_totals(self.owner_one_received.all())
+        results[self.second_owner.name], second_owner_players = self._get_owner_totals(self.owner_two_received.all())
 
         scoring = self.league.scoring.all()
         for key, stats in results.items():
             results[key]["total_points"] = round(sum(stats[score.stat_name] * score.point_value for score in scoring), 2)
 
-        results[self.owner_one.name]["players_received"] = owner_one_players
-        results[self.owner_one.name]["team_name"] = self.owner_one.team_stats.get(season_start_year=self.season_year).team_name
+        results[self.first_owner.name]["players_received"] = first_owner_players
+        results[self.first_owner.name]["team_name"] = self.first_owner.stats.get(season_start_year=self.season_year).team_name
 
-        results[self.owner_two.name]["players_received"] = owner_two_players
-        results[self.owner_two.name]["team_name"] = self.owner_two.team_stats.get(season_start_year=self.season_year).team_name
+        results[self.second_owner.name]["players_received"] = second_owner_players
+        results[self.second_owner.name]["team_name"] = self.second_owner.stats.get(season_start_year=self.season_year).team_name
         results["winner"] = None
 
-        owner_one_total = results[self.owner_one.name]["total_points"]
-        owner_two_total = results[self.owner_two.name]["total_points"]
-        if abs(owner_one_total - owner_two_total) > 30:
-            if owner_one_total > owner_two_total:
-                results["winner"] = self.owner_one.name
+        first_owner_total = results[self.first_owner.name]["total_points"]
+        second_owner_total = results[self.second_owner.name]["total_points"]
+        if abs(first_owner_total - second_owner_total) > 30:
+            if first_owner_total > second_owner_total:
+                results["winner"] = self.first_owner.name
             else:
-                results["winner"] = self.owner_two.name
+                results["winner"] = self.second_owner.name
 
         final_results = {
             "winner": results["winner"],
             "trade_date": self.trade_date,
             "details": [
                 {
-                    "team_owner": self.owner_one.name,
-                    **results[self.owner_one.name],
+                    "team_owner": self.first_owner.name,
+                    **results[self.first_owner.name],
                 },
                 {
-                    "team_owner": self.owner_two.name,
-                    **results[self.owner_two.name],
+                    "team_owner": self.second_owner.name,
+                    **results[self.second_owner.name],
                 },
             ]
         }
@@ -106,7 +151,7 @@ class Trade(BaseModel):
 
     def __getitem__(self, owner: TeamOwner):
         _owner = "owner_one"
-        if owner == self.owner_two:
+        if owner == self.second_owner:
             _owner = "owner_two"
 
         return {
