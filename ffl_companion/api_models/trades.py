@@ -46,48 +46,6 @@ class Trade(BaseModel):
 
     objects = TradeModelManager()
 
-    # def get_trade_comparison(self) -> dict:
-    #     # TODO currently does not support players traded multiple times
-    #     # logic assumes players traded once
-    #
-    #     results: dict[str, any] = {}
-    #     results[self.owner_one.name], owner_one_players = self._get_owner_totals(self.owner_one_received.all())
-    #     results[self.owner_two.name], owner_two_players = self._get_owner_totals(self.owner_two_received.all())
-    #
-    #     scoring = self.league.scoring.all()
-    #     for key, stats in results.items():
-    #         results[key]["total_points"] = round(sum(stats[score.stat_name] * score.point_value for score in scoring), 2)
-    #
-    #     results[self.owner_one.name]["players_received"] = owner_one_players
-    #     results[self.owner_one.name]["team_name"] = self.owner_one.team_stats.get(season_start_year=self.season_year).team_name
-    #
-    #     results[self.owner_two.name]["players_received"] = owner_two_players
-    #     results[self.owner_two.name]["team_name"] = self.owner_two.team_stats.get(season_start_year=self.season_year).team_name
-    #     results["winner"] = None
-    #
-    #     owner_one_total = results[self.owner_one.name]["total_points"]
-    #     owner_two_total = results[self.owner_two.name]["total_points"]
-    #     if abs(owner_one_total - owner_two_total) > 30:
-    #         if owner_one_total > owner_two_total:
-    #             results["winner"] = self.owner_one.name
-    #         else:
-    #             results["winner"] = self.owner_two.name
-    #
-    #     final_results = {
-    #         "winner": results["winner"],
-    #         "trade_date": self.trade_date,
-    #         "details": [
-    #             {
-    #                 "team_owner": self.owner_one.name,
-    #                 **results[self.owner_one.name],
-    #             },
-    #             {
-    #                 "team_owner": self.owner_two.name,
-    #                 **results[self.owner_two.name],
-    #             },
-    #         ]
-    #     }
-    #     return final_results
     def get_trade_comparison(self) -> dict:
         # TODO currently does not support players traded multiple times
         # logic assumes players traded once
