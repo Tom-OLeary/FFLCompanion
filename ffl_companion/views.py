@@ -12,6 +12,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from django.http import HttpResponseRedirect
 
 from api.api_util import BaseAPIView
 from ffl_companion.serializers import LoginSerializer, PasswordSerializer
@@ -25,6 +26,10 @@ def serve_react(request, html_path, document_root=None):
         return static_serve(request, path, document_root, show_indexes=True)
     else:
         return static_serve(request, "index.html", document_root, show_indexes=True)
+
+
+def redirect_to_home(request):
+    return HttpResponseRedirect("/")
 
 
 class LoginForm(forms.Form):

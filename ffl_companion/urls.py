@@ -27,6 +27,15 @@ django_app_patterns = [
 ]
 react_patterns = [
     path("", serve_react, {"document_root": settings.REACT_FANTASY_TRACKER_BUILD_PATH, "html_path": ""}),
+    path("home", views.redirect_to_home),
+    path("projections", views.redirect_to_home),
+    path("stats", views.redirect_to_home),
+    path("trades", views.redirect_to_home),
+    path("notes", views.redirect_to_home),
+    path("account", views.redirect_to_home),
+    path("change-password", views.redirect_to_home),
+    path("trends", views.redirect_to_home),
+    path("my-team", views.redirect_to_home),
 ]
 
 login_patterns = [
