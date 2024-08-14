@@ -22,13 +22,14 @@ export default function Trade(props) {
             .catch(err => console.log(err));
     }, [endpoint]);
 
-  return (
-      <div>
-          {
-              (data)
-                  ? data.map((trade, index) => (<div className={"card-column"} key={index}><TradeCard data={trade}/></div>))
-                  : <div>NO TRADE DATA FOUND</div>
-          }
-          </div>
-  );
+    return (
+        <div style={{marginTop: 150}}>
+            {
+                (data)
+                    ? data.map((trade, index) => (
+                        <div className={"card-column"} key={index}><TradeCard data={trade}/></div>))
+                    : <div>NO TRADE DATA FOUND</div>
+            }
+        </div>
+    );
 }

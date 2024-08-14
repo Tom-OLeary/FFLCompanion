@@ -1,62 +1,46 @@
 import React from "react";
-import {Container, CssBaseline} from "@mui/material";
-import Box from "@mui/material/Box";
+import {Container} from "@mui/material";
 import '../css/MyTeam.css';
-import Divider from "@mui/material/Divider";
 
 function MyTeam(props) {
-    const columns = [
-        'Pos.',
-        'Player',
-        'Team',
-        'Opp.',
-        'Pass Yds.',
-        'Pass TD',
-        'Rec. Yds.',
-        'Rec. TD',
-        'Receptions',
-        'Rush Yds.',
-        'Rush TD',
-        'FPts.'
-
-    ]
+    // const columns = [
+    //     'Pos.',
+    //     'Player',
+    //     'Team',
+    //     'Opp.',
+    //     'Pass Yds.',
+    //     'Pass TD',
+    //     'Rec. Yds.',
+    //     'Rec. TD',
+    //     'Receptions',
+    //     'Rush Yds.',
+    //     'Rush TD',
+    //     'FPts.'
+    //
+    // ]
 
     return (
-        <React.Fragment>
-            <CssBaseline/>
+        <div style={{marginTop: 150}}>
             <Container maxWidth="375px" style={{marginTop: 30}}>
-                <Box sx={{bgcolor: '#6e7071', height: '50vh'}}>
-                    <div style={{textAlign: 'center'}}>Starters</div>
-                    <div className="box-columns">
-                        {columns.map((col, index) => (<span key={index}>{col}</span>))}
-                    </div>
-                    <div>QB</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
+                <div className="progress-description">
+                    Page is in progress...
+                    <br/>
+                    <br/>
+                    When finished you will be able to:
+                    <br/>
+                    <br/>
+                    <li>Import 2024 Rosters & Weekly Stats</li>
+                    <li>Imported Stats will automatically be added to leaderboard totals</li>
+                    <li>Set your weekly lineup, which will be tracked for future tools to analyze points lost/gained
+                    </li>
+                    <li>CSV Downloads and Full Draft History</li>
+                    <li>This is just my short list. Let me know if there's anything else you're looking for.</li>
 
-                    <div>RB</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
-                    <div>RB</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
+                </div>
 
-                    <div>WR</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
-                    <div>WR</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
-
-                    <div>FLEX</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
-                    <div>DEF</div>
-                    <Divider style={{backgroundColor: 'gold'}}/>
-
-                </Box>
-                <Divider style={{backgroundColor: 'black'}}/>
-                <Box sx={{bgcolor: '#6e7071', height: '50vh'}}>
-                    <div style={{textAlign: 'center'}}>Bench</div>
-                    <div>ITEM 1</div>
-
-                </Box>
             </Container>
-        </React.Fragment>
+        </div>
+
     );
 }
 
