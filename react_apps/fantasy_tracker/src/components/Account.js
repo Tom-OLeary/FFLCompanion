@@ -11,7 +11,7 @@ function Account(props) {
     return (
         <>
             {/*<button className="button" onClick={handleClick}>Change Password</button>*/}
-            <div>
+            <div style={{marginTop: 150}}>
                 <ChangePassword url={props.url}/>
             </div>
             <div className="bottom-description">

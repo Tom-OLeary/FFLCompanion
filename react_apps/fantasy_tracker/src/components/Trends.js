@@ -80,7 +80,18 @@ function Trends(props) {
             </h1>
             <Divider style={{ backgroundColor: 'black' }} />
             <Box
-                sx={{flexGrow: 1, display: 'flex', height: 900, marginTop: 10}}
+                sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    height: "100%",
+                    width: 160,
+                    position: "fixed",
+                    zIndex: 1,
+                    top: 10,
+                    left: 0,
+                    overflowX: "hidden",
+                    paddingTop: 20,
+                }}
             >
                 <Tabs
                     orientation="vertical"
@@ -88,7 +99,7 @@ function Trends(props) {
                     value={value}
                     onChange={handleChange}
                     aria-label="Category Selection"
-                    sx={{borderRight: 1, borderColor: 'divider'}}
+                    sx={{borderRight: 1, borderColor: 'divider', position: 'fixed'}}
                 >
                     {choices.map((tab, index) => (
                         <Tab
@@ -99,14 +110,21 @@ function Trends(props) {
                         />
                     ))}
                 </Tabs>
-                <div>
-                    {
-                        stats.map((stat, index) => (
-                            <Chart stats={stat['stats']} years={years} label={label} title={stat['team_owner']}/>
-                        ))
-                    }
-                </div>
             </Box>
+
+            <div
+                style={{
+                    marginLeft: 160,
+                    padding: 10,
+                    marginTop: 160,
+                }}
+                    >
+                        {
+                            stats.map((stat, index) => (
+                                <Chart stats={stat['stats']} years={years} label={label} title={stat['team_owner']}/>
+                            ))
+                        }
+                    </div>
         </>
     );
 }

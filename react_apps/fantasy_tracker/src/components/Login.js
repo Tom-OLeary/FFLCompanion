@@ -39,6 +39,7 @@ function Login (props) {
     }
     return (
         <>
+                  <div style={{marginTop: 150}}>
             <p className="title">Load League</p>
 
             <form className="App" onSubmit={handleSubmit(onSubmit)}>
@@ -76,6 +77,7 @@ function Login (props) {
                     (*Content display not fully optimized for mobile devices or smaller screens on some pages*)
                 </h1>
             </div>
+                  </div>
         </>
     );
 }

@@ -103,7 +103,8 @@ export default function Notes(props) {
     ]
   return (
       // TODO work in progress
-      <div>
+      <div style={{marginTop: 150}}>
+          <h1 className="notes-page-title">NOTES</h1>
           <div className="center-page note-column">
               <NoteCard {...notes[0]} />
               <NoteCard {...notes[1]} />

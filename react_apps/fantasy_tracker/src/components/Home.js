@@ -7,7 +7,9 @@ function Home(props) {
 
   return (
     <>
+        <div style={{marginTop: 150}}>
         <Header url={props.url}/>
+        </div>
         <h1 className="home-title">
             LEADERBOARD
         </h1>

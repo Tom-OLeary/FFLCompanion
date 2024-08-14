@@ -37,7 +37,18 @@ function App() {
 
     return (
         <>
-            <div className={"column-three"}>
+            <div style={{
+                flexGrow: 1,
+                display: 'flex',
+                height: "12%",
+                width: "100%",
+                position: "fixed",
+                zIndex: 2,
+                top: 0,
+                overflowX: "hidden",
+                paddingTop: 20,
+                backgroundColor: "rgba(25,23,23,0.56)"
+            }}>
                 <MenuDrawer/>
                 <InfoDrawer url={apiUrl}/>
             </div>
