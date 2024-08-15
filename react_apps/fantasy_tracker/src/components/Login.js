@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import '../css/Login.css';
+import Notification from "./login/Notification";
 
 function Login (props) {
     let url = props.url;
@@ -39,7 +40,8 @@ function Login (props) {
     }
     return (
         <>
-            <div style={{marginTop: 150}}>
+            <Notification url={props.url}/>
+            <div style={{marginTop: 7}}>
                 <p className="title">Load League</p>
 
                 <form className="App" onSubmit={handleSubmit(onSubmit)}>
@@ -61,23 +63,22 @@ function Login (props) {
                         logout
                     </button>
                 </div>
-
-            <div className="bottom-description">
-                <h1 className={"header-title"}>
-                    WELCOME!
-                    <br/>
-                    <br/>
-                    Login to view league-specific data, or begin navigating through the menu for a demo.
-                    <br/>
-                    <br/>
-                    This app is a work in progress. Checkout the App Info tab for information regarding known bugs,
-                    project links & more.
-                    <br/>
-                    <br/>
-                    (*Content display not fully optimized for mobile devices or smaller screens on some pages*)
-                </h1>
+                <div className="bottom-description">
+                    <h1 className={"header-title"}>
+                        WELCOME!
+                        <br/>
+                        <br/>
+                        Login to view league-specific data, or begin navigating through the menu for a demo.
+                        <br/>
+                        <br/>
+                        This app is a work in progress. Checkout the App Info tab for information regarding known bugs,
+                        project links & more.
+                        <br/>
+                        <br/>
+                        (*Content display not fully optimized for mobile devices or smaller screens on some pages*)
+                    </h1>
+                </div>
             </div>
-                  </div>
         </>
     );
 }
