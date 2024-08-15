@@ -2,12 +2,12 @@ import posixpath
 from pathlib import Path
 
 from django import forms
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import check_password
 from django.utils._os import safe_join
 from django.views.static import serve as static_serve
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import GenericAPIView

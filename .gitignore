@@ -9,3 +9,4 @@ ffl_companion/db_commands.py
 .env
 node_modules
 ffl_companion/api_models/static
+to_delete

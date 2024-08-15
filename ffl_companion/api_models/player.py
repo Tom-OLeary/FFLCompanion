@@ -154,6 +154,10 @@ class Player(models.Model):
     def stats_by_year(cls, year: int, player_ids: list) -> QuerySet:
         return cls.objects.filter(stats_weekly__season_start_year=year, player_id__in=player_ids)
 
+    @property
+    def current_team(self):
+        return self.nfl_teams.order_by("-season_year").first()
+
     def weekly_stats_by_year(self, year: int) -> QuerySet:
         return self.stats_weekly.filter(season_start_year=year)
 

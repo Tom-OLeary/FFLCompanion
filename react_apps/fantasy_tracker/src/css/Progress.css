@@ -1,0 +1,10 @@
+.progress-description {
+    text-align: center;
+    font-size: 30px;
+    color: white;
+
+    li {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+}
