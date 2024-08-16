@@ -32,9 +32,9 @@ export default function LeaderBoard(props) {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
+                setRankings(json["titles"]);
                 setData(json);
                 setAllData(json);
-                setRankings(json["titles"]);
                 setFirstPlace(json["titles"][0]);
                 setSecondPlace(json["titles"][1]);
             })
@@ -259,7 +259,7 @@ export default function LeaderBoard(props) {
 
                     <dl className="leaderboard">
                         {
-                            (rankings) ? rankings.map((leader, index) => (
+                            (rankings.length) ? rankings.map((leader, index) => (
                             <Rank
                                 key={index} name={leader.name}
                                 total={leader.total}

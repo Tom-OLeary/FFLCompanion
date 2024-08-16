@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '../../css/TradeCard.css';
+import '../../css/Progress.css';
 import TradeCard from "./TradeCard";
 import {useEffect, useState} from "react";
 
@@ -25,10 +26,10 @@ export default function Trade(props) {
     return (
         <div style={{marginTop: 150}}>
             {
-                (data)
+                (data.length)
                     ? data.map((trade, index) => (
                         <div className={"card-column"} key={index}><TradeCard data={trade}/></div>))
-                    : <div>NO TRADE DATA FOUND</div>
+                    : <div className="progress-description">NO TRADES HERE YET</div>
             }
         </div>
     );

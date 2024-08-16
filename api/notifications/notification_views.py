@@ -18,12 +18,12 @@ class NotificationAlertsView(BaseAPIView):
         serializer = NotificationRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
-        query_params = {"notification_type__in": [Notification.NotificationType.ALERT]}
+        query_params = {"notification_type__in": [Notification.NotificationType.ALERT.value]}
         notification_types = string_to_list(serializer.validated_data.get("notification_types"))
         if notification_types:
             query_params["notification_type__in"] = notification_types
 
-        notifications = self.get_queryset().filter(**query_params, expires_at__gte=timezone.now)
+        notifications = self.get_queryset().filter(**query_params, expires_at__gte=timezone.now())
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
