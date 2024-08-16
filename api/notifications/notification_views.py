@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -22,7 +23,7 @@ class NotificationAlertsView(BaseAPIView):
         if notification_types:
             query_params["notification_type__in"] = notification_types
 
-        notifications = self.get_queryset().filter(**query_params)
+        notifications = self.get_queryset().filter(**query_params, expires_at__gte=timezone.now)
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -37,6 +38,6 @@ class NotificationUserView(BaseAPIView):
             return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
 
         owner = self.get_object()
-        notifications = owner.notifications.all()
+        notifications = owner.notifications.filter(expires_at__gte=timezone.now())
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
