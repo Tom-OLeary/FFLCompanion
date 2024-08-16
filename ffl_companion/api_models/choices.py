@@ -54,5 +54,18 @@ class PositionChoices(models.TextChoices):
     TE = "TE"
     DEF = "DEF"
     K = "K"
+    FLEX = "FLEX"
 
+    @classmethod
+    def default_lineup(cls):
+        return [
+            cls.QB.value,
+            cls.RB.value,
+            cls.RB.value,
+            cls.WR.value,
+            cls.WR.value,
+            cls.TE.value,
+            cls.FLEX.value,
+            cls.DEF.value,
+        ]
 

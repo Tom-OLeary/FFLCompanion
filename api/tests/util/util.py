@@ -2,7 +2,8 @@ from rest_framework.test import APITestCase
 
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.player import Player, Roster
+from ffl_companion.api_models.player import Player
+from ffl_companion.api_models.roster import Roster
 from owner.models import Owner
 
 

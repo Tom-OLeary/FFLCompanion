@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ffl_companion.api_models.player import Roster
+from ffl_companion.api_models.roster import Roster
 
 
 class RosterImportSerializer(serializers.Serializer):

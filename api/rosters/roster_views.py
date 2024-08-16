@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from api.api_util import BaseAPIView, string_to_list
 from api.rosters.roster_serializers import RosterImportSerializer, RosterSerializer
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.player import Roster, Player
+from ffl_companion.api_models.player import Player
+from ffl_companion.api_models.roster import Roster
 
 
 class RosterView(BaseAPIView):

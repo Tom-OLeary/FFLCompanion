@@ -1,6 +1,7 @@
 from django.db import models
 
 from ffl_companion.api_models.base import BaseModelManager, BaseModel
+from ffl_companion.api_models.choices import PositionChoices
 
 
 class LeagueSettingsManager(BaseModelManager):
@@ -8,6 +9,8 @@ class LeagueSettingsManager(BaseModelManager):
 
 
 class LeagueSettings(BaseModel):
+    _DEFAULT_LINEUP = PositionChoices.default_lineup()
+
     class Meta:
         db_table = "league_settings"
         unique_together = (("name", "setting_year"),)
@@ -20,6 +23,9 @@ class LeagueSettings(BaseModel):
     league_host = models.CharField(max_length=255, null=True)
     league_host_url = models.CharField(max_length=255, null=True)
     league_id = models.CharField(max_length=255, null=True)
+    player_limit = models.IntegerField(default=0)
+    starter_limit = models.IntegerField(default=0)
+    lineup_positions = models.CharField(max_length=255, null=True, help_text="comma separated list of starting positions and bench spots")
 
     objects = LeagueSettingsManager()
 
@@ -31,6 +37,10 @@ class LeagueSettings(BaseModel):
         return self.entry_price * self.member_count
 
     @property
+    def bench_limit(self):
+        return self.player_limit - self.starter_limit
+
+    @property
     def is_current_season(self):
         if not self.league_stats.exists():
             return False
@@ -39,6 +49,9 @@ class LeagueSettings(BaseModel):
     def save(self, *args, **kwargs):
         if not self.member_count and self.pk:
             self.member_count = self.league_stats.count()
+
+        if not self.lineup_positions:
+            self.lineup_positions = ",".join(PositionChoices.default_lineup() + ["BE"] * self.bench_limit)
 
         super().save(*args, **kwargs)
 

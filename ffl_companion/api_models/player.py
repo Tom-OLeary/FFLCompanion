@@ -8,9 +8,7 @@ from django.core.validators import MaxValueValidator
 from django.db import models, IntegrityError
 from django.db.models import QuerySet, Sum
 
-from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
-from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.util import format_date_str
 from owner.models import Owner
@@ -108,23 +106,6 @@ class NFLPlayer(models.Model):
         super().save(*args, **kwargs)
 
 
-class RosterModelManager(BaseModelManager):
-    pass
-
-
-class Roster(BaseModel):
-    class Meta:
-        db_table = "rosters"
-        unique_together = (("owner", "roster_year"),)
-
-    owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, null=True, related_name="rosters")
-    players = models.ManyToManyField("Player", related_name="player_rosters")
-    roster_year = models.IntegerField(default=2024)
-    league = models.ForeignKey(LeagueSettings, on_delete=models.SET_NULL, null=True, related_name="settings_rosters")
-
-    objects = RosterModelManager()
-
-
 class PlayerManager(models.Manager):
     def import_missing_players(self, data: list):
         for d in data:
@@ -145,7 +126,7 @@ class Player(models.Model):
         unique_together = (("name", "position"),)
 
     name = models.CharField(max_length=255, null=False, blank=False)
-    position = models.CharField(max_length=3, null=False, blank=False, choices=PositionChoices.choices)
+    position = models.CharField(max_length=4, null=False, blank=False, choices=PositionChoices.choices)
     nfl_teams = models.ManyToManyField(NFLTeam, related_name="team_players")
 
     objects = PlayerManager()
