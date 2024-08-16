@@ -15,7 +15,7 @@ class NotificationAlertsView(BaseAPIView):
         if not request.user.is_authenticated:
             return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
 
-        serializer = NotificationRequestSerializer(data=request.data)
+        serializer = NotificationRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
         query_params = {"notification_type__in": [Notification.NotificationType.ALERT]}
