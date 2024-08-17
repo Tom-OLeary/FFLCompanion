@@ -8,6 +8,10 @@ from subprocess import Popen, PIPE
 from git import GitCommandError, Repo
 
 
+COMPLEXITY = 100
+STRICT = True
+
+
 def execute(command, raw_output=False, decode=True):
     p = Popen(shlex.split(command), stdout=PIPE, stderr=PIPE)
     out, err = p.communicate()
