@@ -48,7 +48,7 @@ export default function Notification(props) {
                                 />
                             </ListItem>
                         ))}
-                    </List> : <div></div>
+                    </List> : <div style={{marginTop: 120}}></div>
             }
         </div>
     );
