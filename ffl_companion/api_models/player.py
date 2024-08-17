@@ -6,7 +6,7 @@ import pandas as pd
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 from django.db import models, IntegrityError
-from django.db.models import QuerySet, Sum
+from django.db.models import QuerySet, Sum, F, Q
 
 from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
 from ffl_companion.api_models.nfl_team import NFLTeam

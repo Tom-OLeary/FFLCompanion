@@ -4,7 +4,7 @@ from django.db import models
 
 from ffl_companion.api_models.base import BaseModelManager, BaseModel
 from ffl_companion.api_models.import_handlers.validators import FantasyTeamImport
-from ffl_companion.api_models.league_settings import LeagueSettings, LeagueScoring
+from ffl_companion.api_models.league_settings import LeagueSettings
 from owner.models import Owner
 
 
