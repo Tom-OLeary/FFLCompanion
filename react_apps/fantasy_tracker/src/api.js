@@ -10,7 +10,6 @@ const api = axios.create({
 api.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const setAccessToken = (token) => {
-    console.log("SETTING ACCESS TOKEN");
     (token)
         ? api.defaults.headers.common.Authorization = `Token ${token}`
         : delete api.defaults.headers.common.Authorization;

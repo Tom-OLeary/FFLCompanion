@@ -12,7 +12,7 @@ from api.trends.team_trend_views import TeamTrendView
 
 urlpatterns = [
     re_path(r"^players/(?P<player_id>[0-9]+)/$", PlayerDetailView.as_view()),
-    re_path(r"^players/$", ProjectionListView.as_view()),
+    re_path(r"^projections/$", ProjectionListView.as_view()),
     re_path(r"^player-search/$", PlayerSearchView.as_view()),
     re_path(r"^owners/(?P<owner_id>[0-9]+)/$", TeamOwnerDetailView.as_view()),
     re_path(r"^owners/$", TeamOwnerListView.as_view()),

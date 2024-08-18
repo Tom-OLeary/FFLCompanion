@@ -3,26 +3,24 @@ import { DataGrid } from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import '../../css/Header.css';
 import '../../css/Stats.css';
+import {getProjections} from "../../actions/breakdown";
 
 
-export default function PlayerStats(props) {
+export default function PlayerStats() {
     const [data, setData] = useState([]);
-    let endpoint = props.url + "players/";
+
+    const getData = async () => {
+        return await getProjections();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-            }
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
-                setData(json)
+                setData(json);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
 
     const columns = [];
     for (const k in data[0]) {columns.push({field: k, headerName: k, width: 150,  headerClassName: 'column-header'})}

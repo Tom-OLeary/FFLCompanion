@@ -20,6 +20,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import {useEffect, useState} from "react";
 import Main from "../menuMain";
+import {getLeagueURL} from "../actions/breakdown";
 
 const drawerWidth = 275;
 
@@ -32,28 +33,24 @@ const DrawerHeader = styled('header')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function InfoDrawer(props) {
+export default function InfoDrawer() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
-
+    const [open, setOpen] = React.useState(false);
     const [data, setData] = useState([]);
-    let endpoint = props.url + "leagues/?get_url=true"
+
+    const getData = async () => {
+        return await getLeagueURL();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-            }
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
                 setData(json);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
 
     const handleDrawerOpen = () => {
         setOpen(true);

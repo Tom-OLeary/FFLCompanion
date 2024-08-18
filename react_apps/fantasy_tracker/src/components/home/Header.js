@@ -3,13 +3,14 @@ import '../../css/Header.css';
 import Paper from "@mui/material/Paper";
 import {styled} from "@mui/material/styles";
 import {Stack} from "@mui/material";
+import {getBreakdown} from "../../actions/breakdown";
 
 
 export default function Header() {
     const [data, setData] = useState([]);
 
     const getData = async () => {
-        return await getLeaders();
+        return await getBreakdown();
     }
 
     useEffect(() => {
@@ -20,21 +21,6 @@ export default function Header() {
             })
             .catch(err => console.log(err))
     }, []);
-
-    // useEffect(() => {
-    //     fetch(endpoint, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-    //         }
-    //     })
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             console.log(json);
-    //             setData(json);
-    //         })
-    //         .catch(err => console.log(err));
-    // }, [endpoint]);
 
     const PaperItem = styled(Paper)(({theme}) => ({
         width: "100%",

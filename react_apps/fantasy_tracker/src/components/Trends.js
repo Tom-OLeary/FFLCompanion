@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import Chart from "./trends/Chart";
 import TimelineIcon from '@mui/icons-material/Timeline';
 import Divider from "@mui/material/Divider";
+import {getTrends} from "../actions/breakdown";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,29 +42,28 @@ function a11yProps(index) {
   };
 }
 
-function Trends(props) {
+function Trends() {
     const [value, setValue] = React.useState(0);
     const [stats, setStats] = useState([]);
     const [years, setYears] = useState([]);
     const [choices, setChoices] = useState([]);
     const [label, setLabel] = useState("total_points");
 
-    let endpoint = props.url + 'trends/';
+    const getData = async () => {
+        return await getTrends();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')}
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
                 setStats(json['data']);
                 setYears(json['years']);
                 setChoices(json['columns']);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
+
     const handleClick = (labelValue) => {
         setLabel(labelValue);
     }

@@ -3,25 +3,22 @@ import '../../css/TradeCard.css';
 import '../../css/Progress.css';
 import TradeCard from "./TradeCard";
 import {useEffect, useState} from "react";
+import {getTrades} from "../../actions/trade";
 
-export default function Trade(props) {
+export default function Trade() {
     const [data, setData] = useState([]);
-    let endpoint = props.url + "trades/";
+    const getData = async () => {
+        return await getTrades();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-            }
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
                 setData(json);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
 
     return (
         <div style={{marginTop: 150}}>

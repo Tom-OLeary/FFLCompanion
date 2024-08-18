@@ -37,7 +37,7 @@ function App() {
             })
             .catch(err => console.log(err));
     }
-    // if (window.localStorage.getItem('USER_STATE') === null) { loadDemo(); }
+
     (window.localStorage.getItem('USER_STATE') === null)
         ? loadDemo()
         : setAccessToken(window.localStorage.getItem('USER_STATE'));
@@ -56,20 +56,20 @@ function App() {
                 paddingTop: 20,
                 backgroundColor: "rgba(25,23,23,0.56)"
             }}>
-                <MenuDrawer/>
-                <InfoDrawer url={apiUrl}/>
+                <MenuDrawer />
+                <InfoDrawer />
             </div>
             <Routes>
                 <Route path="/" element={<Login url={loginUrl} />} />
                 <Route path="home" element={<Home />} />
-                <Route path="projections" element={<Projection url={apiUrl} />} />
-                <Route path="stats" element={<TeamStats url={apiUrl} />} />
-                <Route path="trades" element={<Trade url={apiUrl} />} />
+                <Route path="projections" element={<Projection />} />
+                <Route path="stats" element={<TeamStats />} />
+                <Route path="trades" element={<Trade />} />
                 <Route path="notes" element={<Notes />} />
                 <Route path="account" element={<Account url={url} />} />
                 <Route path="change-password" element={<ChangePassword url={url} />} />
-                <Route path="trends" element={<Trends url={apiUrl} />} />
-                <Route path="my-team" element={<MyTeam url={apiUrl}/>} />
+                <Route path="trends" element={<Trends />} />
+                <Route path="my-team" element={<MyTeam />} />
             </Routes>
         </>
     );
