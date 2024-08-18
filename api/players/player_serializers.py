@@ -24,3 +24,11 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = NFLPlayer
         exclude = ["owner"]
+
+
+class PlayerSearchSerializer(serializers.Serializer):
+    QB = serializers.CharField(required=False)
+    RB = serializers.CharField(required=False)
+    WR = serializers.CharField(required=False)
+    TE = serializers.CharField(required=False)
+    DEF = serializers.CharField(required=False)

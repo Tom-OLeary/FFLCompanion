@@ -5,24 +5,36 @@ import {styled} from "@mui/material/styles";
 import {Stack} from "@mui/material";
 
 
-export default function Header(props) {
+export default function Header() {
     const [data, setData] = useState([]);
-    let endpoint = props.url + "breakdown/";
+
+    const getData = async () => {
+        return await getLeaders();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-            }
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
                 setData(json);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
+
+    // useEffect(() => {
+    //     fetch(endpoint, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             console.log(json);
+    //             setData(json);
+    //         })
+    //         .catch(err => console.log(err));
+    // }, [endpoint]);
 
     const PaperItem = styled(Paper)(({theme}) => ({
         width: "100%",

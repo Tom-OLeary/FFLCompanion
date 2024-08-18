@@ -4,6 +4,7 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 import '../css/Login.css';
 import Notification from "./login/Notification";
+import {setAccessToken} from "../api";
 
 function Login (props) {
     let url = props.url;
@@ -17,6 +18,7 @@ function Login (props) {
                 if (token) {
                     window.localStorage.setItem('USER_STATE', token);
                     navigate('/home');
+                    setAccessToken(token);
                 } else {
                     console.log(json.error);
                 }

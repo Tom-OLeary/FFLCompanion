@@ -1,13 +1,17 @@
+import operator
+
+from django.db.models import Q
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
+from functools import reduce
 
 from api.api_util import string_to_list, get_queryset_filters, BaseAPIView
-from api.players.player_serializers import PlayerRequestSerializer, PlayerSerializer
-from ffl_companion.api_models.player import NFLPlayer
+from api.players.player_serializers import PlayerRequestSerializer, PlayerSerializer, PlayerSearchSerializer
+from ffl_companion.api_models.player import NFLPlayer, Player
 
 
-class PlayerListView(BaseAPIView):
+class ProjectionListView(BaseAPIView):
     schema_keys = list(PlayerRequestSerializer.__dict__["_declared_fields"].keys())
     model = NFLPlayer
 
@@ -72,4 +76,33 @@ class PlayerDetailView(BaseAPIView):
         serializer = PlayerSerializer(player, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PlayerSearchView(BaseAPIView):
+    model = Player
+
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = PlayerSearchSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        qbs, rbs, wrs, tes, defenses = serializer.validated_data.values()
+        names, teams = [], []
+        for players in [qbs, rbs, wrs, tes, defenses]:
+            for p in players:
+                *name, team = p.split(" ")
+                names.extend(name)
+                teams.append(team.upper())
+
+        results = Player.objects.filter(
+            reduce(operator.and_, (Q(name__contains=name) for name in names)),
+            nfl_teams__abbreviation__in=teams
+        )
+        if not results:
+            return Response([], status=status.HTTP_200_OK)
+
+        serializer = PlayerSerializer(results, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

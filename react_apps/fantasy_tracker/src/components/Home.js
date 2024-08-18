@@ -3,17 +3,17 @@ import React from "react";
 import LeaderBoard from "./home/LeaderBoard";
 import '../css/Header.css';
 
-function Home(props) {
+function Home() {
 
   return (
     <>
         <div style={{marginTop: 150}}>
-        <Header url={props.url}/>
+        <Header />
         </div>
         <h1 className="home-title">
             LEADERBOARD
         </h1>
-        <LeaderBoard url={props.url} />
+        <LeaderBoard />
     </>
   );
 }

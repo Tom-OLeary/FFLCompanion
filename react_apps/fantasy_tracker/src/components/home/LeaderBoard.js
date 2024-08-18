@@ -5,9 +5,10 @@ import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import {getLeaders} from "../../actions/leaders";
 
 
-export default function LeaderBoard(props) {
+export default function LeaderBoard() {
     const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -20,16 +21,13 @@ export default function LeaderBoard(props) {
     const [isActive, setIsActive] = useState([]);
     const [allData, setAllData] = useState([]);
     const [dataRow, setDataRow] = useState('titles');
-    const endpoint = props.url + 'leaders/';
+
+    const getData = async () => {
+        return await getLeaders();
+    }
 
     useEffect(() => {
-        fetch(endpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Token ' + window.localStorage.getItem('USER_STATE')
-            }
-        })
-            .then(res => res.json())
+        getData()
             .then(json => {
                 console.log(json);
                 setRankings(json["titles"]);
@@ -38,8 +36,8 @@ export default function LeaderBoard(props) {
                 setFirstPlace(json["titles"][0]);
                 setSecondPlace(json["titles"][1]);
             })
-            .catch(err => console.log(err));
-    }, [endpoint]);
+            .catch(err => console.log(err))
+    }, []);
 
     let activeOnly = {
         titles: [],
