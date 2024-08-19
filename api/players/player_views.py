@@ -7,7 +7,12 @@ from rest_framework.response import Response
 from functools import reduce
 
 from api.api_util import string_to_list, get_queryset_filters, BaseAPIView
-from api.players.player_serializers import PlayerRequestSerializer, PlayerSerializer, PlayerSearchSerializer
+from api.players.player_serializers import (
+    PlayerRequestSerializer,
+    PlayerSerializer,
+    PlayerSearchSerializer,
+    PlayerSearchResponseSerializer,
+)
 from ffl_companion.api_models.player import NFLPlayer, Player
 
 
@@ -89,20 +94,28 @@ class PlayerSearchView(BaseAPIView):
         serializer = PlayerSearchSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        players = serializer.validated_data.pop("players", None)
+        player_map = {row["name"]: row for row in players} if players else {}
+
+        print("DATA", serializer.validated_data.values())
         qbs, rbs, wrs, tes, defenses = serializer.validated_data.values()
         names, teams = [], []
         for players in [qbs, rbs, wrs, tes, defenses]:
             for p in players:
                 *name, team = p.split(" ")
-                names.extend(name)
+                names.append(name)
                 teams.append(team.upper())
 
+        if not names:
+            return Response([], status=status.HTTP_200_OK)
+
         results = Player.objects.filter(
-            reduce(operator.and_, (Q(name__contains=name) for name in names)),
-            nfl_teams__abbreviation__in=teams
-        )
+            reduce(operator.or_, (Q(name__contains=name[0]) & Q(name__contains=name[1]) for name in names)),
+            nfl_teams__abbreviation__in=teams,
+            position__in=["QB", "RB", "WR", "TE", "DEF"],
+        ).distinct()
         if not results:
             return Response([], status=status.HTTP_200_OK)
 
-        serializer = PlayerSerializer(results, many=True)
+        serializer = PlayerSearchResponseSerializer(results, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

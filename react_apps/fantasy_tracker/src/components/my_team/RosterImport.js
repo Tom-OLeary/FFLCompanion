@@ -1,20 +1,23 @@
-import React from "react";
+import React, {useState} from "react";
 import {Container, Stack} from "@mui/material";
 import '../../css/MyTeam.css';
 import '../../css/Progress.css';
-import {styled} from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Item from "./Item";
+import {searchPlayers} from "../../actions/players";
+import {useNavigate} from "react-router-dom";
+import PlayerDetail from "../../stores/PlayerDetail";
 
 
 const ImportRow = (props) => {
+    let defaultVals = ['', '', '', '', '', ''];
+    if (props.results) { defaultVals = props.results[props.pos]; }
+
     return (
-        <Item >
+        <Item style={{marginTop: 10}}>
             {
                 [...Array(6)].map((_, i) => (
-                    // const name = props.pos + i.toString();
-                    <Item>
-                        <input name={props.pos + i.toString()} style={{height: 0}}/>
+                    <Item key={i} >
+                        <input name={props.pos + i.toString()} style={{height: 0, width: '95%'}} defaultValue={defaultVals[i]} />
                     </Item>
                 ))
             }
@@ -25,21 +28,94 @@ const ImportRow = (props) => {
     );
 }
 
-export default function RosterImport(props) {
-    // const endpoint = props.url + 'player-search/?'
-    const positions = [
-        'QB',
-        'RB',
-        'WR',
-        'TE',
-        'DEF',
-    ]
+const abbreviations = [
+   'ARI',
+   'ATL',
+   'BAL',
+   'BUF',
+   'CAR',
+   'CHI',
+   'CIN',
+   'CLE',
+   'DAL',
+   'DEN',
+   'DET',
+   'GB',
+   'HOU',
+   'IND',
+   'JAX',
+   'KC',
+   'MIA',
+   'MIN',
+   'NE',
+   'NO',
+   'NYG',
+   'NYJ',
+   'LV',
+   'PHI',
+   'PIT',
+   'LAC',
+   'SF',
+   'SEA',
+   'LAR',
+   'TB',
+   'TEN',
+   'WAS',
+]
 
-    const searchPlayers = (playerMap) => {
+const positions = [
+    'QB',
+    'RB',
+    'WR',
+    'TE',
+    'DEF',
+]
 
+
+function PlayerSearch() {
+    const [searchData, setSearchData] = useState(null);
+    const navigate = useNavigate();
+
+    const findPlayers = async (playerMap) => {
+        return await searchPlayers(playerMap);
     }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const formJson = Object.fromEntries(formData.entries());
+        document.getElementById('submit-form').reset();
+
+        (e.target['action'].value === 'searchSubmit')
+            ? search(formJson)
+            : save(formJson);
+    }
+
+    function save() {
+        navigate('my-team');
+    }
+
+    const setSearchResults = (data) => {
+        let playerMap = {
+            'QB': [],
+            'RB': [],
+            'WR': [],
+            'TE': [],
+            'DEF': [],
+            'players': [],
+        }
+        data.map((player) => {
+            let {idVal, name, position, team} = player
+            let p = new PlayerDetail(idVal, name, position, team)
+            playerMap[p.position].push(`${p.name} ${p.team}`)
+            playerMap['players'].push(JSON.stringify(p))
+        })
+        setSearchData(playerMap);
+    }
+
     function search(formData) {
-        let positionMap = {
+        let playerMap = {
             'QB': [],
             'RB': [],
             'WR': [],
@@ -49,21 +125,29 @@ export default function RosterImport(props) {
         positions.forEach((position) => {
             [...Array(6)].forEach((_, i) => {
                 let k = position + i.toString();
-                let query = formData.get(k);
-                if (query) { positionMap[position].push(query); }
+                let query = formData[k];
+                if (query) { playerMap[position].push(query); }
             })
-            positionMap[position] = positionMap[position].toString();
         })
-        // console.log(positionMap)
+        findPlayers(playerMap)
+            .then(json => {
+                console.log(json);
+                setSearchResults(json);
+            })
+            .catch(err => console.log(err));
     }
 
     return (
         <>
+            <h2 style={{
+                marginTop: 120,
+                textAlign: "center",
+                color: "whitesmoke",
+            }}>No Roster Found for Current Season. Search Below to Import.</h2>
             <Stack
                 spacing={.25}
                 direction="row"
                 marginLeft={10}
-                marginTop={20}
             >
                 <Item style={{width: 48}}/>
 
@@ -71,23 +155,64 @@ export default function RosterImport(props) {
                     marginTop: 20,
                     marginBottom: 40,
                     backgroundColor: 'whitesmoke',
-                    height: '70vh',
+                    height: '90vh',
                     width: '90%',
                 }}>
                     <Stack spacing={.5} direction="row">
-                        <form action={search}>
+                        <form
+                            id="submit-form"
+                            method="post"
+                            onSubmit={handleSubmit}
+                            style={{
+                                width: '95%'
+                            }}
+                        >
                             {
                                 positions.map((pos, index) => (
-                                    <ImportRow  key={index} pos={pos}/>
+                                    <ImportRow  key={index} pos={pos} results={searchData}/>
                                 ))
                             }
                             <Item>
-                                <button type="submit">Search</button>
+                                <button type="submit" name="action" value="searchSubmit">Search</button>
                             </Item>
+                            {
+                                (searchData)
+                                    ? <Item><button type="submit">Save</button></Item>
+                                    : <></>
+                            }
                         </form>
+                    </Stack>
+                    <Stack spacing={1} direction="row">
+                    <span className="container-description">
+                        <h3 style={{marginTop: 7}}>Search Guidelines</h3>
+                        <li>Enter FirstName LastName TeamAbbreviation (case insensitive, space-separated). For DEF just put the abbreviation.</li>
+                        <li>Name does not need to be exact, but the closer the better. Team abbreviation must be correct & included.</li>
+                        <li>Example: patrick mahomes kc --> Result: Patrick Mahomes KC</li>
+                        <li>Example2: pat mah kc --> Result: Patrick Mahomes KC</li>
+                        <li>Example3: patrk mahmes kc --> Result: None, name has missing letters in sequence</li>
+                    </span>
+                        <div >
+                            <h3 style={{marginTop: 7}}>Team Abbreviations</h3>
+                            <div className="box">
+                                {
+                                    abbreviations.map((abbreviation, index) => (
+                                        <span key={index} >{abbreviation}</span>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     </Stack>
                 </Container>
             </Stack>
+        </>
+    );
+}
+
+export default function RosterImport() {
+
+    return (
+        <>
+            <PlayerSearch/>
         </>
     );
 }

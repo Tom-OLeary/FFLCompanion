@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ffl_companion.api_models.player import NFLPlayer
+from ffl_companion.api_models.player import NFLPlayer, Player
 
 
 class PlayerRequestSerializer(serializers.Serializer):
@@ -27,8 +27,17 @@ class PlayerSerializer(serializers.ModelSerializer):
 
 
 class PlayerSearchSerializer(serializers.Serializer):
-    QB = serializers.CharField(required=False)
-    RB = serializers.CharField(required=False)
-    WR = serializers.CharField(required=False)
-    TE = serializers.CharField(required=False)
-    DEF = serializers.CharField(required=False)
+    QB = serializers.ListSerializer(child=serializers.CharField())
+    RB = serializers.ListSerializer(child=serializers.CharField())
+    WR = serializers.ListSerializer(child=serializers.CharField())
+    TE = serializers.ListSerializer(child=serializers.CharField())
+    DEF = serializers.ListSerializer(child=serializers.CharField())
+    players = serializers.ListSerializer(child=serializers.CharField(), required=False)
+
+
+class PlayerSearchResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        exclude = ["nfl_teams"]
+
+    team = serializers.CharField(source="current_team.abbreviation", default=None)

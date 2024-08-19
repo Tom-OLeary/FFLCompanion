@@ -1,7 +1,7 @@
 import React from "react";
 import {Container, Stack} from "@mui/material";
-import '../css/MyTeam.css';
-import '../css/Progress.css';
+import '../../css/MyTeam.css';
+import '../../css/Progress.css';
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Item from "./Item";
@@ -18,7 +18,6 @@ export default function Roster(props) {
         'DEF',
     ]
     const columns = [
-        'Pos.',
         'Player',
         'Team',
         'Opp.',
@@ -64,10 +63,13 @@ export default function Roster(props) {
                                 <span key={index}>{column}</span>
                             ))}
                         </div>
-                        <Player onClick={handleClick}>
-                            <PlayerItem />
-                        </Player>
-                        <Player>RB Player 2</Player>
+                        {
+                            props.players.map((player, index) => (
+                                <Item key={index}>
+                                    <span>{player}</span>
+                                </Item>
+                            ))
+                        }
                     </Stack>
 
                 </Container>

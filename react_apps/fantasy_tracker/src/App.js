@@ -17,7 +17,6 @@ import {setAccessToken} from "./api";
 
 function App() {
     let url = (process.env.REACT_APP_NODE_ENV === 'production') ? process.env.REACT_APP_HOST_URL : 'http://127.0.0.1:8000/'
-    let apiUrl = url + 'api/';
     let loginUrl = url + 'login/?';
 
     const loadDemo = () => {
@@ -50,7 +49,7 @@ function App() {
                 height: "12%",
                 width: "100%",
                 position: "fixed",
-                zIndex: 2,
+                zIndex: 6,
                 top: 0,
                 overflowX: "hidden",
                 paddingTop: 20,
