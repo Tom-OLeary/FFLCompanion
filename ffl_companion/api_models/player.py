@@ -121,6 +121,15 @@ class PlayerManager(models.Manager):
 
 
 class Player(models.Model):
+    SUFFIXES = [
+        "Jr",
+        "Sr",
+        "II",
+        "III",
+        "IV",
+        "V",
+    ]
+
     class Meta:
         db_table = "players"
         unique_together = (("name", "position"),)
@@ -128,6 +137,7 @@ class Player(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     position = models.CharField(max_length=4, null=False, blank=False, choices=PositionChoices.choices)
     nfl_teams = models.ManyToManyField(NFLTeam, related_name="team_players")
+    common_name = models.CharField(max_length=255, null=True, blank=True, help_text="Helps to avoid duplicate names which may differ slightly between imported data sources")
 
     objects = PlayerManager()
 
@@ -149,6 +159,20 @@ class Player(models.Model):
             stats_filter["game_date__gte"] = trade_date
 
         return self.stats_weekly.filter(**stats_filter).values("player_id").annotate(**sum_totals)
+
+    def set_common_name(self):
+        common_name = self.name.replace(".", "")
+        for suffix in self.SUFFIXES:
+            if suffix in common_name:
+                common_name = common_name.replace(suffix, "")
+
+        self.common_name = common_name.lower().replace(" ", "")
+
+    def save(self, *args, **kwargs):
+        if not self.common_name:
+            self.set_common_name()
+
+        super().save(*args, **kwargs)
 
 
 class PlayerStatsManager(models.Manager):
