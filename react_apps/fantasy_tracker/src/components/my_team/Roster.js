@@ -16,7 +16,7 @@ export default function Roster(props) {
         'TE',
         'FLEX',
         'DEF',
-    ]
+    ];
     const columns = [
         'Player',
         'Team',
@@ -29,7 +29,14 @@ export default function Roster(props) {
         'Rush Yds.',
         'Rush TD',
         'FPts.'
+    ];
+    const statColumns = [
+        ''
     ]
+    const players = props.data['players'];
+    const emptyRows = props.data['player_limit'] - players.length;
+    [...Array(emptyRows)].map((row, i) => { players.push({}); });
+
     return (
         <>
             <Stack
@@ -40,11 +47,11 @@ export default function Roster(props) {
             >
                 <Item style={{width: 48}}>
                     <Stack spacing={2} marginTop={6}>
-                        {positions.map((pos, index) => (
-                            <span key={index}>
-                                {pos}
-                            </span>
-                        ))}
+                        {/*{positions.map((pos, index) => (*/}
+                        {/*    <span key={index}>*/}
+                        {/*        {pos}*/}
+                        {/*    </span>*/}
+                        {/*))}*/}
                     </Stack>
                 </Item>
                 <Container maxWidth="775px" style={{
@@ -64,14 +71,17 @@ export default function Roster(props) {
                             ))}
                         </div>
                         {
-                            props.players.map((player, index) => (
+                            players.map((player, index) => (
                                 <Item key={index}>
-                                    <span>{player}</span>
+                                    {
+                                        statColumns.map((column, index) => (
+                                            <span key={index}>{column}</span>
+                                        ))
+                                    }
                                 </Item>
                             ))
                         }
                     </Stack>
-
                 </Container>
             </Stack>
         </>

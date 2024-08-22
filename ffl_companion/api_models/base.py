@@ -3,9 +3,19 @@ from typing import Union
 from django.db import models
 
 
+class RecordCreationException(Exception):
+    pass
+
+
 class BaseModelManager(models.Manager):
     def get_by_natural_key(self, username):
         return self.get(**{self.model.USERNAME_FIELD: username})
+
+    def create(self, **kwargs):
+        if "dataset" not in kwargs:
+            raise RecordCreationException("You must specify a dataset for this record")
+
+        return super().create(**kwargs)
 
 
 class BaseModel(models.Model):
@@ -23,3 +33,4 @@ class BaseModel(models.Model):
 
         filters = {cls.YEAR_FILTER: year, **kwargs}
         return cls.objects.filter(**filters)
+

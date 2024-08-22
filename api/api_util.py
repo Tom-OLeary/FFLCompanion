@@ -1,9 +1,14 @@
+from typing import Union
+
 from django.db.models import QuerySet
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 
 
-def string_to_list(s: str, sep: str = ",") -> list:
+def string_to_list(s: Union[str, list], sep: str = ",") -> list:
+    if isinstance(s, list):
+        return s
+
     if not s:
         return []
 

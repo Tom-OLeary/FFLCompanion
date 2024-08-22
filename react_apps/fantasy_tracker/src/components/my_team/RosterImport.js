@@ -1,12 +1,11 @@
-import React, {useState} from "react";
-import {Container, Stack} from "@mui/material";
+import React, {useState} from 'react';
+import {Container, Stack} from '@mui/material';
 import '../../css/MyTeam.css';
 import '../../css/Progress.css';
-import Item from "./Item";
-import {searchPlayers} from "../../actions/players";
-import {useNavigate} from "react-router-dom";
-import PlayerDetail from "../../stores/PlayerDetail";
-
+import Item from './Item';
+import {useNavigate} from 'react-router-dom';
+import PlayerDetail from '../../stores/PlayerDetail';
+import {RosterActions, PlayerActions} from '../../actions/actionIndex';
 
 const ImportRow = (props) => {
     let defaultVals = ['', '', '', '', '', ''];
@@ -76,8 +75,19 @@ function PlayerSearch() {
     const [searchData, setSearchData] = useState(null);
     const navigate = useNavigate();
 
-    const findPlayers = async (playerMap) => {
-        return await searchPlayers(playerMap);
+    const searchPlayers = async (playerMap) => {
+        return await PlayerActions.searchPlayers(playerMap);
+    }
+    const createRoster = async (players) => {
+        return await RosterActions.createRoster(players);
+    }
+
+    const save = async () => {
+        createRoster(searchData['players'])
+            .then(data => {
+                (data === 'ok') ? navigate('my-team') : alert('Issue encountered saving players. Try again.')
+            })
+            .catch(err => console.log(err));
     }
 
     function handleSubmit(e) {
@@ -90,10 +100,6 @@ function PlayerSearch() {
         (e.target['action'].value === 'searchSubmit')
             ? search(formJson)
             : save(formJson);
-    }
-
-    function save() {
-        navigate('my-team');
     }
 
     const setSearchResults = (data) => {
@@ -109,7 +115,7 @@ function PlayerSearch() {
             let {idVal, name, position, team} = player
             let p = new PlayerDetail(idVal, name, position, team)
             playerMap[p.position].push(`${p.name} ${p.team}`)
-            playerMap['players'].push(JSON.stringify(p))
+            playerMap['players'].push(p.id)
         })
         setSearchData(playerMap);
     }
@@ -129,7 +135,7 @@ function PlayerSearch() {
                 if (query) { playerMap[position].push(query); }
             })
         })
-        findPlayers(playerMap)
+        searchPlayers(playerMap)
             .then(json => {
                 console.log(json);
                 setSearchResults(json);

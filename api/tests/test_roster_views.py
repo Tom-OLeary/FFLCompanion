@@ -36,55 +36,25 @@ class TestLeagueLeadersView(BaseTestCase):
         for player, nfl_team in zip(self.players, self.nfl_teams):
             player.nfl_teams.add(nfl_team)
 
-    def test_existing_roster_post_success(self):
+    def test_new_roster_post_success(self):
+        Roster.objects.all().delete()
         player_ids = [p.id for p in self.players]
-        post_data = {
-            "player_ids": ",".join([str(p) for p in player_ids]),
-            "roster_id": self.roster.id
-        }
+        post_data = {"player_ids": ",".join([str(p) for p in player_ids])}
         response = self.client.post("/api/rosters/", data=post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(self.query_model(Roster).count() == 1)
 
         results = response.json()
         expected_response = {
             "roster_year": 2024,
             "owner": self.user.id,
-            "league": self.league.id,
-        }
-        for k, v in expected_response.items():
-            self.assertEqual(results[k], v)
-
-        players = results["players"]
-        for p_id in player_ids:
-            self.assertIn(p_id, players)
-
-        self.assertTrue(self.user.rosters.count() == 1)
-        self.assertTrue(self.user.rosters.first() == self.roster)
-
-    def test_new_roster_post_success(self):
-        # assert only 1 roster exists before creation
-        self.assertTrue(len(self.rosters) == 1)
-
-        player_ids = [p.id for p in self.players]
-        post_data = {
-            "player_ids": ",".join([str(p) for p in player_ids]),
-            "roster_year": 2023
-        }
-        response = self.client.post("/api/rosters/", data=post_data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(self.query_model(Roster).count() == 2)
-
-        results = response.json()
-        expected_response = {
-            "roster_year": 2023,
-            "owner": self.user.id,
-            "league": self.query_model(LeagueSettings).get(setting_year=2023).id,
+            "league": self.query_model(LeagueSettings).get(setting_year=2024).id,
         }
         for k, v in expected_response.items():
             self.assertEqual(results[k], v)
 
     def test_get_latest_roster_success(self):
-        response = self.client.get("/api/rosters/", format="json")
+        response = self.client.get("/api/rosters/user/?latest=true", format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         results = response.json()
@@ -97,17 +67,8 @@ class TestLeagueLeadersView(BaseTestCase):
         for k, v in expected_response.items():
             self.assertEqual(results[k], v)
 
-    def test_get_latest_roster_none_existing_404(self):
+    def test_get_latest_roster_none_existing(self):
         Roster.objects.all().delete()
-        response = self.client.get("/api/rosters/", format="json")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_post_roster_invalid_roster_id_404(self):
-        non_existing_id = Roster.objects.order_by("id").last().id + 1
-        post_data = {
-            "roster_id": non_existing_id,
-            "player_ids": "1,2,3"
-        }
-        response = self.client.post("/api/rosters/", data=post_data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(response.json()["detail"], "No Roster matches the given query.")
+        response = self.client.get("/api/rosters/user/?latest=true", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json(), {})

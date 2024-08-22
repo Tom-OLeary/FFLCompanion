@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from ffl_companion.api_models.player import NFLPlayer, Player
@@ -40,4 +41,31 @@ class PlayerSearchResponseSerializer(serializers.ModelSerializer):
         model = Player
         exclude = ["nfl_teams"]
 
-    team = serializers.CharField(source="current_team.abbreviation", default=None)
+    team = serializers.CharField(source="current_team.abbreviation", default=None, read_only=True)
+
+
+class PlayerTotalsResponseSerializer(serializers.ModelSerializer):
+    _STATS_FIELDS = [
+        "pass_attempts",
+        "pass_completions",
+        "pass_yds",
+        "pass_td",
+        "interceptions",
+        "rush_attempts",
+        "rush_yds",
+        "rush_td",
+        "targets",
+        "receptions",
+        "receiving_yards",
+        "receiving_td",
+    ]
+
+    class Meta:
+        model = Player
+        exclude = ["nfl_teams"]
+
+    team = serializers.CharField(source="current_team.abbreviation", default=None, read_only=True)
+    stats = serializers.SerializerMethodField()
+
+    def get_stats(self, obj):
+        return obj.season_totals(year=settings.CURRENT_YEAR, fields=self._STATS_FIELDS)

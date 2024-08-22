@@ -10,3 +10,5 @@ ffl_companion/db_commands.py
 node_modules
 ffl_companion/api_models/static
 to_delete
+to_create_players_2024.csv
+to_update_names.csv

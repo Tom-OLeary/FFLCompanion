@@ -27,6 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
+CURRENT_YEAR = 2024  # TODO handle this more dynamically
 
 # Application definition
 
