@@ -39,7 +39,7 @@ class PlayerSearchSerializer(serializers.Serializer):
 class PlayerSearchResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        exclude = ["nfl_teams"]
+        exclude = ["nfl_teams", "common_name"]
 
     team = serializers.CharField(source="current_team.abbreviation", default=None, read_only=True)
 
@@ -68,4 +68,5 @@ class PlayerTotalsResponseSerializer(serializers.ModelSerializer):
     stats = serializers.SerializerMethodField()
 
     def get_stats(self, obj):
-        return obj.season_totals(year=settings.CURRENT_YEAR, fields=self._STATS_FIELDS)
+        totals = obj.season_totals(year=settings.CURRENT_YEAR, fields=self._STATS_FIELDS)
+        return totals or {k: 0 for k in self._STATS_FIELDS}

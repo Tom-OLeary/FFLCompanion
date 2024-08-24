@@ -5,7 +5,7 @@ from ffl_companion.api_models.roster import Roster
 
 
 class RosterImportSerializer(serializers.Serializer):
-    player_ids = serializers.CharField(required=True)
+    player_ids = serializers.ListSerializer(child=serializers.CharField(), required=True)
 
 
 class RosterDetailRequestSerializer(serializers.Serializer):

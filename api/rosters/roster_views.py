@@ -1,5 +1,5 @@
+from django.conf import settings
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from api.api_util import BaseAPIView, string_to_list
@@ -7,9 +7,6 @@ from api.rosters.roster_serializers import RosterImportSerializer, RosterSeriali
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.player import Player
 from ffl_companion.api_models.roster import Roster
-
-
-CURRENT_YEAR = 2024  # TODO create more dynamic way to determine this
 
 
 class RosterView(BaseAPIView):
@@ -40,25 +37,23 @@ class RosterView(BaseAPIView):
             return Response("One or more players not found", status.HTTP_400_BAD_REQUEST)
 
         roster = self.request.user.latest_roster
-        if roster and roster.roster_year == CURRENT_YEAR:
+        if roster and roster.roster_year == settings.CURRENT_YEAR:
             return Response("Roster already exists for current season", status.HTTP_400_BAD_REQUEST)
 
         try:
-            league = self.protected_query(LeagueSettings).get(setting_year=CURRENT_YEAR)
+            league = self.protected_query(LeagueSettings).get(setting_year=settings.CURRENT_YEAR)
         except LeagueSettings.DoesNotExist:
             return Response("Could not find league for given year", status.HTTP_400_BAD_REQUEST)
 
         roster = Roster.objects.create(
             dataset=self.request.user.dataset,
-            roster_year=CURRENT_YEAR,
+            roster_year=settings.CURRENT_YEAR,
             league=league,
             owner=self.request.user,
         )
-
         roster.players.set(players)
-        roster.refresh_from_db()
 
-        return Response(RosterSerializer(roster).data, status=status.HTTP_200_OK)
+        return Response("ok", status=status.HTTP_200_OK)
 
 
 class RosterDetailView(BaseAPIView):
@@ -87,3 +82,4 @@ class RosterDetailView(BaseAPIView):
 
         serializer = RosterSerializer(roster)
         return Response(serializer.data, status=status.HTTP_200_OK)
+

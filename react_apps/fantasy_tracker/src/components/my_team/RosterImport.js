@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Container, Stack} from '@mui/material';
 import '../../css/MyTeam.css';
 import '../../css/Progress.css';
+import '../../css/LeaderBoard.scss';
 import Item from './Item';
 import {useNavigate} from 'react-router-dom';
 import PlayerDetail from '../../stores/PlayerDetail';
@@ -82,7 +83,7 @@ function PlayerSearch() {
         return await RosterActions.createRoster(players);
     }
 
-    const save = async () => {
+    const save = () => {
         createRoster(searchData['players'])
             .then(data => {
                 (data === 'ok') ? navigate('my-team') : alert('Issue encountered saving players. Try again.')
@@ -97,9 +98,7 @@ function PlayerSearch() {
         const formJson = Object.fromEntries(formData.entries());
         document.getElementById('submit-form').reset();
 
-        (e.target['action'].value === 'searchSubmit')
-            ? search(formJson)
-            : save(formJson);
+        search(formJson);
     }
 
     const setSearchResults = (data) => {
@@ -112,10 +111,9 @@ function PlayerSearch() {
             'players': [],
         }
         data.map((player) => {
-            let {idVal, name, position, team} = player
-            let p = new PlayerDetail(idVal, name, position, team)
+            let p = new PlayerDetail(player['id'], player['name'], player['position'], player['team'])
             playerMap[p.position].push(`${p.name} ${p.team}`)
-            playerMap['players'].push(p.id)
+            playerMap['players'].push(`${p.id}`)
         })
         setSearchData(playerMap);
     }
@@ -179,14 +177,29 @@ function PlayerSearch() {
                                 ))
                             }
                             <Item>
-                                <button type="submit" name="action" value="searchSubmit">Search</button>
+                                <button
+                                    type="submit"
+                                    name="action"
+                                    value="searchSubmit"
+                                    className="button button1"
+                                >Search</button>
                             </Item>
-                            {
-                                (searchData)
-                                    ? <Item><button type="submit">Save</button></Item>
-                                    : <></>
-                            }
                         </form>
+                        {
+                            (searchData)
+                                ? <Item >
+                                    <button
+                                        type="submit"
+                                        onClick={save}
+                                        className="button button1"
+                                        style={{
+                                            marginLeft: 0
+                                        }}
+                                    >Save
+                                    </button>
+                                </Item>
+                                : <></>
+                        }
                     </Stack>
                     <Stack spacing={1} direction="row">
                     <span className="container-description">

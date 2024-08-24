@@ -13,6 +13,7 @@ from api.players.player_serializers import (
     PlayerSearchSerializer,
     PlayerSearchResponseSerializer,
 )
+from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.api_models.player import NFLPlayer, Player
 
 
@@ -93,18 +94,34 @@ class PlayerSearchView(BaseAPIView):
 
         serializer = PlayerSearchSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.validated_data.pop("players", None)
 
-        players = serializer.validated_data.pop("players", None)
-        player_map = {row["name"]: row for row in players} if players else {}
-
-        print("DATA", serializer.validated_data.values())
         qbs, rbs, wrs, tes, defenses = serializer.validated_data.values()
-        names, teams = [], []
-        for players in [qbs, rbs, wrs, tes, defenses]:
+        names, teams = [], set()
+
+        def add(player):
+            *fullname, team = player.split(" ")
+            names.append(fullname)
+            teams.add(team.upper())
+
+        for players in [qbs, rbs, wrs, tes]:
             for p in players:
-                *name, team = p.split(" ")
-                names.append(name)
-                teams.append(team.upper())
+                add(p)
+
+        for defense in defenses:
+            if len(defense) > 3:
+                # is full name, not abbreviation
+                add(defense)
+            else:
+                defense = defense.upper()
+                teams.add(defense)
+
+                try:
+                    name = NFLTeam.objects.filter(abbreviation=defense).first().name
+                    name = name.split(" ")
+                    names.append((name[0], name[1]))
+                except (AttributeError, IndexError):
+                    continue
 
         if not names:
             return Response([], status=status.HTTP_200_OK)

@@ -14,7 +14,9 @@ function MyTeam() {
         getRoster()
             .then(json => {
                 console.log(json);
-                setRoster(json);
+                (Object.keys(json).length === 0)
+                    ? setRoster(null)
+                    : setRoster(json);
             })
             .catch(err => console.log(err))
     }, []);
@@ -23,8 +25,8 @@ function MyTeam() {
         <>
             {
                 (roster)
-                    ? <RosterImport />
-                    : <Roster data={roster} />
+                    ? <Roster data={roster} />
+                    : <RosterImport />
             }
         </>
     );
