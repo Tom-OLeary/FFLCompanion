@@ -46,7 +46,7 @@
     "vm-browserify": "^1.1.2",
     "web-vitals": "^2.1.4",
     "web3": "^4.11.1",
-    "webpack": "^4.46.0"
+    "webpack": "^5.94.0"
   },
   "scripts": {
     "start": "react-dotenv && react-app-rewired start",
