@@ -28,11 +28,12 @@ tspan {
     font-weight: 500;
     font-style: normal;
     text-align: center;
-    font-size: 70px;
+    /*font-size: 70px;*/
+    font-size: 5vw;
     flex-grow: 1;
     display: flex;
     position: fixed;
-    z-index: 2;
+    z-index: 6;
     right: 40%;
     overflow-x: hidden;
     padding-top: 10px;
@@ -40,20 +41,18 @@ tspan {
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1140px) {
-    .trend-title {
-        font-size: 50px;
-    }
 
 }
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
     .trend-title {
-        font-size: 40px;
+        right: 30%;
     }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     .trend-title {
-        font-size: 20px;
+        font-size: 2em;
+        right: 28%;
     }
 }

@@ -110,11 +110,11 @@ function PlayerSearch() {
             'DEF': [],
             'players': [],
         }
-        data.map((player) => {
+        for (const player in data) {
             let p = new PlayerDetail(player['id'], player['name'], player['position'], player['team'])
             playerMap[p.position].push(`${p.name} ${p.team}`)
             playerMap['players'].push(`${p.id}`)
-        })
+        }
         setSearchData(playerMap);
     }
 
