@@ -3,18 +3,18 @@ import { DataGrid } from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import '../../css/Header.css';
 import '../../css/Stats.css';
-import {getProjections} from "../../actions/breakdown";
+import {BreakdownActions} from "../../actions/actionIndex";
 
 
 export default function PlayerStats() {
     const [data, setData] = useState([]);
 
-    const getData = async () => {
-        return await getProjections();
+    const getProjections = async () => {
+        return await BreakdownActions.getProjections();
     }
 
     useEffect(() => {
-        getData()
+        getProjections()
             .then(json => {
                 console.log(json);
                 setData(json);

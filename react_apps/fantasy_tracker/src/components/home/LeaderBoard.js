@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import {getLeaders} from "../../actions/leaders";
+import {LeaderActions} from "../../actions/actionIndex";
 
 
 export default function LeaderBoard() {
@@ -22,12 +22,12 @@ export default function LeaderBoard() {
     const [allData, setAllData] = useState([]);
     const [dataRow, setDataRow] = useState('titles');
 
-    const getData = async () => {
-        return await getLeaders();
+    const getLeaders = async () => {
+        return await LeaderActions.getLeaders();
     }
 
     useEffect(() => {
-        getData()
+        getLeaders()
             .then(json => {
                 console.log(json);
                 setRankings(json["titles"]);

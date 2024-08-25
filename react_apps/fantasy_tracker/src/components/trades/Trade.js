@@ -3,16 +3,16 @@ import '../../css/TradeCard.css';
 import '../../css/Progress.css';
 import TradeCard from "./TradeCard";
 import {useEffect, useState} from "react";
-import {getTrades} from "../../actions/trade";
+import {TradeActions} from "../../actions/actionIndex";
 
 export default function Trade() {
     const [data, setData] = useState([]);
-    const getData = async () => {
-        return await getTrades();
+    const getTrades = async () => {
+        return await TradeActions.getTrades();
     }
 
     useEffect(() => {
-        getData()
+        getTrades()
             .then(json => {
                 console.log(json);
                 setData(json);

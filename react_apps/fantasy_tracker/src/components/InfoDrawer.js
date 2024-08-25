@@ -20,7 +20,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import {useEffect, useState} from "react";
 import Main from "../menuMain";
-import {getLeagueURL} from "../actions/breakdown";
+import {BreakdownActions} from "../actions/actionIndex";
 
 const drawerWidth = 275;
 
@@ -39,12 +39,12 @@ export default function InfoDrawer() {
     const [open, setOpen] = React.useState(false);
     const [data, setData] = useState([]);
 
-    const getData = async () => {
-        return await getLeagueURL();
+    const getLeagueURL = async () => {
+        return await BreakdownActions.getLeagueURL();
     }
 
     useEffect(() => {
-        getData()
+        getLeagueURL()
             .then(json => {
                 console.log(json);
                 setData(json);

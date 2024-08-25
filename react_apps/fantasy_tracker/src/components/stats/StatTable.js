@@ -3,17 +3,17 @@ import { DataGrid } from '@mui/x-data-grid';
 import {useEffect, useState} from "react";
 import '../../css/Header.css';
 import '../../css/Stats.css';
-import {getTeamStats} from "../../actions/team";
+import {TeamActions} from "../../actions/actionIndex";
 
 export default function StatTable() {
     const [data, setData] = useState([]);
 
-    const getTeamData = async () => {
-        return await getTeamStats();
+    const getTeamStats = async () => {
+        return await TeamActions.getTeamStats();
     }
 
     useEffect(() => {
-        getTeamData()
+        getTeamStats()
             .then(json => {
                 console.log(json);
                 setData(json);

@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import Chart from "./trends/Chart";
 import TimelineIcon from '@mui/icons-material/Timeline';
 import Divider from "@mui/material/Divider";
-import {getTrends} from "../actions/breakdown";
+import {BreakdownActions} from "../actions/actionIndex";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,12 +49,12 @@ function Trends() {
     const [choices, setChoices] = useState([]);
     const [label, setLabel] = useState("total_points");
 
-    const getData = async () => {
-        return await getTrends();
+    const getTrends = async () => {
+        return await BreakdownActions.getTrends();
     }
 
     useEffect(() => {
-        getData()
+        getTrends()
             .then(json => {
                 console.log(json);
                 setStats(json['data']);

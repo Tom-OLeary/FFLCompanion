@@ -3,18 +3,18 @@ import '../../css/Header.css';
 import Paper from "@mui/material/Paper";
 import {styled} from "@mui/material/styles";
 import {Stack} from "@mui/material";
-import {getBreakdown} from "../../actions/breakdown";
+import {BreakdownActions} from "../../actions/actionIndex";
 
 
 export default function Header() {
     const [data, setData] = useState([]);
 
-    const getData = async () => {
-        return await getBreakdown();
+    const getBreakdown = async () => {
+        return await BreakdownActions.getBreakdown();
     }
 
     useEffect(() => {
-        getData()
+        getBreakdown()
             .then(json => {
                 console.log(json);
                 setData(json);
