@@ -4,9 +4,12 @@ import '../../css/MyTeam.css';
 import '../../css/Progress.css';
 import '../../css/LeaderBoard.scss';
 import Item from './Item';
-import {useNavigate} from 'react-router-dom';
 import PlayerDetail from '../../stores/PlayerDetail';
 import {RosterActions, PlayerActions} from '../../actions/actionIndex';
+import CardActions from "@mui/material/CardActions";
+import {ExpandMore} from "../layouts/layouts";
+import Collapse from "@mui/material/Collapse";
+import CardContent from "@mui/material/CardContent";
 
 const ImportRow = (props) => {
     let defaultVals = ['', '', '', '', '', ''];
@@ -74,7 +77,10 @@ const positions = [
 
 function PlayerSearch() {
     const [searchData, setSearchData] = useState(null);
-    const navigate = useNavigate();
+    const [expanded, setExpanded] = React.useState(false);
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     const searchPlayers = async (playerMap) => {
         return await PlayerActions.searchPlayers(playerMap);
@@ -86,7 +92,7 @@ function PlayerSearch() {
     const save = () => {
         createRoster(searchData['players'])
             .then(data => {
-                (data === 'ok') ? navigate('my-team') : alert('Issue encountered saving players. Try again.')
+                (data === 'ok') ? window.location.reload() : alert('Issue encountered saving players. Try again.')
             })
             .catch(err => console.log(err));
     }
@@ -110,11 +116,11 @@ function PlayerSearch() {
             'DEF': [],
             'players': [],
         }
-        for (const player in data) {
+        data.forEach(player => {
             let p = new PlayerDetail(player['id'], player['name'], player['position'], player['team'])
             playerMap[p.position].push(`${p.name} ${p.team}`)
             playerMap['players'].push(`${p.id}`)
-        }
+        });
         setSearchData(playerMap);
     }
 
@@ -155,11 +161,11 @@ function PlayerSearch() {
             >
                 <Item style={{width: 48}}/>
 
-                <Container maxWidth="775px" style={{
+                <Container maxWidth="875px" style={{
                     marginTop: 20,
                     marginBottom: 40,
                     backgroundColor: 'whitesmoke',
-                    height: '90vh',
+                    height: '110vh',
                     width: '90%',
                 }}>
                     <Stack spacing={.5} direction="row">
@@ -168,12 +174,12 @@ function PlayerSearch() {
                             method="post"
                             onSubmit={handleSubmit}
                             style={{
-                                width: '95%'
+                                width: '95%',
                             }}
                         >
                             {
                                 positions.map((pos, index) => (
-                                    <ImportRow  key={index} pos={pos} results={searchData}/>
+                                    <ImportRow key={index} pos={pos} results={searchData}/>
                                 ))
                             }
                             <Item>
@@ -182,12 +188,49 @@ function PlayerSearch() {
                                     name="action"
                                     value="searchSubmit"
                                     className="button button1"
-                                >Search</button>
+                                >Search
+                                </button>
                             </Item>
+                                                            <CardActions disableSpacing>
+                                    <ExpandMore
+                                        expand={expanded}
+                                        onClick={handleExpandClick}
+                                        aria-expanded={expanded}
+                                        aria-label="show more"
+                                    >
+                                        Search Guidelines
+                                    </ExpandMore>
+                                </CardActions>
+                                <Collapse in={expanded} timeout="auto" easing="ease-in">
+                                    <CardContent>
+                                        <Stack spacing={1}>
+
+                    <span className="container-description">
+                        <h3 style={{marginTop: 1}}>Search Guidelines</h3>
+                        <li>Enter FirstName LastName TeamAbbreviation (case insensitive, space-separated). For DEF just put the abbreviation.</li>
+                        <li>Name does not need to be exact, but the closer the better. Team abbreviation must be correct & included.</li>
+                        <li>Example: patrick mahomes kc --> Result: Patrick Mahomes KC</li>
+                        <li>Example2: pat mah kc --> Result: Patrick Mahomes KC</li>
+                        <li>Example3: patrk mahmes kc --> Result: None, name has missing letters in sequence</li>
+                    </span>
+                                            <div>
+                                                <h3 style={{marginTop: 7}}>Team Abbreviations</h3>
+                                                <div className="box">
+                                                    {
+                                                        abbreviations.map((abbreviation, index) => (
+                                                            <span key={index}>{abbreviation}</span>
+                                                        ))
+                                                    }
+                                                </div>
+                                            </div>
+                                        </Stack>
+                                    </CardContent>
+                                </Collapse>
                         </form>
+
                         {
                             (searchData)
-                                ? <Item >
+                                ? <Item>
                                     <button
                                         type="submit"
                                         onClick={save}
@@ -201,26 +244,14 @@ function PlayerSearch() {
                                 : <></>
                         }
                     </Stack>
-                    <Stack spacing={1} direction="row">
-                    <span className="container-description">
-                        <h3 style={{marginTop: 7}}>Search Guidelines</h3>
-                        <li>Enter FirstName LastName TeamAbbreviation (case insensitive, space-separated). For DEF just put the abbreviation.</li>
-                        <li>Name does not need to be exact, but the closer the better. Team abbreviation must be correct & included.</li>
-                        <li>Example: patrick mahomes kc --> Result: Patrick Mahomes KC</li>
-                        <li>Example2: pat mah kc --> Result: Patrick Mahomes KC</li>
-                        <li>Example3: patrk mahmes kc --> Result: None, name has missing letters in sequence</li>
-                    </span>
-                        <div >
-                            <h3 style={{marginTop: 7}}>Team Abbreviations</h3>
-                            <div className="box">
-                                {
-                                    abbreviations.map((abbreviation, index) => (
-                                        <span key={index} >{abbreviation}</span>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    </Stack>
+                        {
+                            (expanded)
+                                ? <></>
+                                : <p className="container-label">
+                                    Import Roster.
+                                    If you'd like to initialize a roster and add players individually later,
+                                    simply search for a single player and click save. Click Search Guidelines for more info.</p>
+                        }
                 </Container>
             </Stack>
         </>

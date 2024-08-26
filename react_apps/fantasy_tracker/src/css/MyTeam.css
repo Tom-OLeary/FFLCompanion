@@ -9,6 +9,7 @@
     li {
         font-family: "Bai Jamjuree", sans-serif;
         font-size: 16px;
+        text-align: center;
     }
 }
 
@@ -22,6 +23,13 @@
     flex: 1 1 100px;
 }
 
+.container-label {
+    font-family: Graduate, sans-serif;
+    text-align: center;
+    font-size: 4vmin;
+    color: #a31a1a;
+    margin-top: 40px;
+}
 
 @media only screen and (min-width: 960px) and (max-width: 1140px) {
 

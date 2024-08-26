@@ -7,7 +7,7 @@ from api.owners.owner_serializers import OwnerSerializer
 from owner.models import Owner
 
 
-class TeamOwnerListView(BaseAPIView):
+class OwnerListView(BaseAPIView):
     model = Owner
 
     def get(self, request):
@@ -18,7 +18,7 @@ class TeamOwnerListView(BaseAPIView):
         return Response(OwnerSerializer(owners, many=True).data, status=status.HTTP_200_OK)
 
 
-class TeamOwnerDetailView(BaseAPIView):
+class OwnerDetailView(BaseAPIView):
     queryset = Owner.objects.all()
     model = Owner
     lookup_field = "id"

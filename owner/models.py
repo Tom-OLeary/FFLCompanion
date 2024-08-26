@@ -63,10 +63,10 @@ class Owner(AbstractBaseUser, BaseModel, PermissionsMixin):
     def latest_roster(self):
         return self.rosters.order_by("-roster_year").first()
 
-    # @property
-    # def championships(self):
-    #     return self.team_stats.filter(won_finals=True)
-    #
+    @property
+    def championships(self):
+        return self.stats.filter(won_finals=True)
+
     # @property
     # def finals_appearances(self):
     #     return self.team_stats.filter(made_finals=True)

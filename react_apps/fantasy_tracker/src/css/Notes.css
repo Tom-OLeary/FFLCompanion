@@ -10,7 +10,7 @@
     flex-grow: 1;
     display: flex;
     position: fixed;
-    z-index: 2;
+    z-index: 6;
     top: 0;
     right: 45%;
     overflow-x: hidden;

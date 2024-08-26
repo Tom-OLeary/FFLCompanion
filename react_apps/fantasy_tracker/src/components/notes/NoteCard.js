@@ -10,17 +10,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import '../../css/Header.css';
 import '../../css/Notes.css';
-
-const ExpandMore = styled((props) => {
-  const {expand, ...other} = props;
-  return <IconButton {...other} />;
-})(({theme, expand}) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import {ExpandMore} from "../layouts/layouts";
 
 
 export default function NoteCard(props) {
