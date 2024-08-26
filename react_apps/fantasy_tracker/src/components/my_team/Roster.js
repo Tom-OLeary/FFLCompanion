@@ -4,6 +4,7 @@ import '../../css/MyTeam.css';
 import '../../css/Progress.css';
 import '../../css/LeaderBoard.scss';
 import Item from "./Item";
+import {RosterActions} from "../../actions/actionIndex";
 
 export default function Roster(props) {
     const pages = [
@@ -70,8 +71,22 @@ export default function Roster(props) {
         });
     }
 
+    const deleteRoster = async () => {
+        return await RosterActions.deleteRoster(props.data['id'])
+    }
+
     const handleClick = (e) => {
-        alert('Feature currently in progress. Expected to be live before week 1 begins.');
+        switch(e.target.id){
+            case 'Clear Roster':
+                deleteRoster()
+                    .then(res => {
+                        (res === 'deleted') ? window.location.reload() : alert('Failed to Delete Roster');
+                    })
+                    .catch(err => alert(`Failed to Delete Roster with Error: ${err}`));
+                break;
+            default:
+                alert('Feature currently in progress. Expected to be live before week 1 begins.');
+        }
     }
 
     return (
@@ -84,7 +99,7 @@ export default function Roster(props) {
             >
                 <Item style={{width: 100}}>
                     <Stack spacing={2} marginTop={4}>
-                        {pages.map((pos, index) => (
+                        {pages.map((p, index) => (
                             <button
                                 key={index}
                                 className="button button1"
@@ -93,8 +108,9 @@ export default function Roster(props) {
                                     height: 40,
                                 }}
                                 onClick={handleClick}
+                                id={p}
                             >
-                                {pos}
+                                {p}
                             </button>
                         ))}
                     </Stack>
@@ -121,7 +137,6 @@ export default function Roster(props) {
                         </div>
                         {
                             players.map((player, index) => (
-
                                 <Item key={index} style={{
                                     marginTop: 3,
                                 }}>

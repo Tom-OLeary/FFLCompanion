@@ -83,3 +83,20 @@ class RosterDetailView(BaseAPIView):
         serializer = RosterSerializer(roster)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def delete(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
+        if not (roster_id := request.GET.get("roster_id")):
+            return Response("Roster ID required", status.HTTP_400_BAD_REQUEST)
+
+        try:
+            roster = self.protected_query(Roster).get(id=roster_id)
+        except Roster.DoesNotExist:
+            return Response(f"Roster not found with id {roster_id}", status.HTTP_404_NOT_FOUND)
+
+        if roster.owner != self.request.user:
+            return Response(f"Roster {roster_id} cannot be deleted by this owner", status.HTTP_403_FORBIDDEN)
+
+        roster.delete()
+        return Response("deleted", status=status.HTTP_200_OK)

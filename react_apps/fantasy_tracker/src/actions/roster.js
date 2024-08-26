@@ -20,3 +20,9 @@ export const getLeagueRosters = async () => {
     const {data} = await api.get('rosters/');
     return data;
 }
+
+
+export const deleteRoster = async (roster_id) => {
+    const { data } = await api.delete(`rosters/user/?roster_id=${roster_id}`);
+    return data;
+}
