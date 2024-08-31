@@ -4,18 +4,12 @@ import '../../css/MyTeam.css';
 import '../../css/Progress.css';
 import '../../css/LeaderBoard.scss';
 import Item from "./Item";
-import {RosterActions} from "../../actions/actionIndex";
+import {PlayerActions, RosterActions} from "../../actions/actionIndex";
+import Waiver from "./Waiver";
+import {useNavigate} from "react-router-dom";
 
-export default function Roster(props) {
-    const pages = [
-        'Add / Drop',
-        'Totals',
-        'Splits',
-        'Advanced',
-        'Rankings',
-        'Lineups',
-        'Clear Roster'
-    ];
+
+function DefaultRoster(players) {
     const columns = [
         // 'Player',
         // 'Team',
@@ -34,21 +28,55 @@ export default function Roster(props) {
         'Rush Att.',
         // 'FPts.'
     ];
-    const statColumns = [
-        'pass_yds',
-        'pass_td',
-        'pass_attempts',
-        'pass_completions',
-        'interceptions',
-        'receiving_yards',
-        'receiving_td',
-        'receptions',
-        'targets',
-        'rush_yds',
-        'rush_td',
-        'rush_attempts',
-    ]
+    const statColumns = []
+    for (const k in players[0]['stats']) {statColumns.push(k)}
 
+    return (
+        <>
+            <Container maxWidth="875px" style={{
+                marginTop: 20,
+                marginBottom: 40,
+                backgroundColor: 'whitesmoke',
+                height: '130vh',
+                width: '90%',
+            }}>
+                <Stack spacing={.5}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginBottom: 5,
+                    }}>
+                        <span style={{marginLeft: 50, marginRight: 50, fontWeight: 'bold'}}>Player</span>
+                        {columns.map((column, index) => (
+                            <span key={index} style={{fontWeight: 'bold'}}>
+                                    {column}
+                                </span>
+                        ))}
+                    </div>
+                    {
+                        players.map((player, index) => (
+                            <Item key={index} style={{
+                                marginTop: 3,
+                            }}>
+                                <span key={index} style={{width: 130}}>{player['name']}</span>
+                                {
+                                    statColumns.map((column, index) => (
+                                        <span key={index}>
+                                                {player['stats'][column]}
+                                            </span>
+                                    ))
+                                }
+                            </Item>
+                        ))
+                    }
+                </Stack>
+            </Container>
+        </>
+    );
+}
+
+export default function Roster(props) {
+    // const navigate = useNavigate();
     const players = props.data['players'];
     const emptyRows = props.data['player_limit'] - players.length;
     for (let i = 0; i < emptyRows; i++) {
@@ -70,13 +98,31 @@ export default function Roster(props) {
             }
         });
     }
+    const [activeComponent, setActiveComponent] = React.useState(DefaultRoster(players));
 
     const deleteRoster = async () => {
-        return await RosterActions.deleteRoster(props.data['id'])
+        return await RosterActions.deleteRoster(props.data['id']);
     }
 
+    const getWaivers = async () => {
+        return await PlayerActions.getWaivers();
+    }
+
+    const getPlayerSplits = async () => {
+        return await PlayerActions.getPlayerStats(props.data['id'], 'splits')
+    }
+
+    const pages = [
+        'Add Players',
+        'Totals',
+        'Splits',
+        'Advanced',
+        'Rankings',
+        'Lineups',
+        'Clear Roster'
+    ];
     const handleClick = (e) => {
-        switch(e.target.id){
+        switch (e.target.id) {
             case 'Clear Roster':
                 deleteRoster()
                     .then(res => {
@@ -84,6 +130,16 @@ export default function Roster(props) {
                     })
                     .catch(err => alert(`Failed to Delete Roster with Error: ${err}`));
                 break;
+            // case 'Splits':
+            //     getPlayerSplits()
+            //         .then(res => {
+            //             setActiveComponent(DefaultRoster(res));
+            //         })
+            //         .catch(err => alert(`Failed to Get Player Splits with Error: ${err}`));
+            //     break;
+            // case 'Add Players':
+            //     navigate('waivers');
+            //     break;
             default:
                 alert('Feature currently in progress. Expected to be live before week 1 begins.');
         }
@@ -115,44 +171,7 @@ export default function Roster(props) {
                         ))}
                     </Stack>
                 </Item>
-                <Container maxWidth="875px" style={{
-                    marginTop: 20,
-                    marginBottom: 40,
-                    backgroundColor: 'whitesmoke',
-                    height: '130vh',
-                    width: '90%',
-                }}>
-                    <Stack spacing={.5}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            marginBottom: 5,
-                        }}>
-                            <span style={{marginLeft: 50, marginRight: 50, fontWeight: 'bold'}}>Player</span>
-                            {columns.map((column, index) => (
-                                <span key={index} style={{fontWeight: 'bold'}}>
-                                    {column}
-                                </span>
-                            ))}
-                        </div>
-                        {
-                            players.map((player, index) => (
-                                <Item key={index} style={{
-                                    marginTop: 3,
-                                }}>
-                                    <span key={index} style={{width: 130}}>{player['name']}</span>
-                                    {
-                                        statColumns.map((column, index) => (
-                                            <span key={index}>
-                                                {player['stats'][column]}
-                                            </span>
-                                        ))
-                                    }
-                                </Item>
-                            ))
-                        }
-                    </Stack>
-                </Container>
+                {activeComponent}
             </Stack>
         </>
     );

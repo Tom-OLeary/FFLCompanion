@@ -7,13 +7,14 @@ from api.leagues.league_views import LeagueSettingsView
 from api.leaders.leader_views import LeagueLeadersView
 from api.breakdowns.breakdown_views import LeagueBreakdownView, YearlyStatsView
 from api.owners.owner_views import OwnerListView, OwnerDetailView
-from api.players.player_views import ProjectionListView, PlayerDetailView, PlayerSearchView, WaiverView
+from api.players.player_views import ProjectionListView, PlayerDetailView, PlayerSearchView, WaiverView, PlayerStatsView
 from api.trends.team_trend_views import TeamTrendView
 
 urlpatterns = [
     re_path(r"^players/(?P<player_id>[0-9]+)/$", PlayerDetailView.as_view()),
     re_path(r"^projections/$", ProjectionListView.as_view()),
     re_path(r"^player-search/$", PlayerSearchView.as_view()),
+    re_path(r"^player-stats/$", PlayerStatsView.as_view()),
     re_path(r"^owners/(?P<owner_id>[0-9]+)/$", OwnerDetailView.as_view()),
     re_path(r"^owners/$", OwnerListView.as_view()),
     re_path(r"^breakdown/$", LeagueBreakdownView.as_view()),

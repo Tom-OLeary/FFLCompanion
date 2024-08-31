@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import serializers
 
-from ffl_companion.api_models.player import NFLPlayer, Player
+from ffl_companion.api_models.player import NFLPlayer, Player, PlayerStatsWeekly
 
 
 class PlayerRequestSerializer(serializers.Serializer):
@@ -70,3 +70,27 @@ class PlayerTotalsResponseSerializer(serializers.ModelSerializer):
     def get_stats(self, obj):
         totals = obj.season_totals(year=settings.CURRENT_YEAR, fields=self._STATS_FIELDS)
         return totals or {k: 0 for k in self._STATS_FIELDS}
+
+
+class PlayerStatsRequestSerializer(serializers.Serializer):
+    roster_id = serializers.IntegerField(required=False)
+    player_ids = serializers.CharField(required=False)
+    split_type = serializers.CharField(required=False, default="total")
+
+    def is_valid(self, *, raise_exception=False):
+        if not (self.initial_data.get("roster_id") or self.initial_data.get("player_ids")):
+            raise serializers.ValidationError("Request must include roster_id or player_ids")
+
+        return super(PlayerStatsRequestSerializer, self).is_valid(raise_exception=raise_exception)
+
+
+class PlayerStatsSplitsResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerStatsWeekly
+        exclude = ["game_date", "game_week", "opponent", "player"]
+
+    player_id = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_player_id(obj):
+        return obj["stats_weekly__player_id"]

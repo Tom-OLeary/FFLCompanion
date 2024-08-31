@@ -1,10 +1,10 @@
 from rest_framework import status
 
-from api.tests.util.fixtures import LEAGUE_SETTINGS, TEAM_OWNERS, PLAYERS, ROSTERS, NFL_TEAMS
+from api.tests.util.fixtures import LEAGUE_SETTINGS, TEAM_OWNERS, PLAYERS, ROSTERS, NFL_TEAMS, PLAYER_STATS
 from api.tests.util.util import BaseTestCase
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.nfl_team import NFLTeam
-from ffl_companion.api_models.player import Player
+from ffl_companion.api_models.player import Player, PlayerStatsWeekly
 from ffl_companion.api_models.roster import Roster
 from owner.models import Owner
 
@@ -16,14 +16,18 @@ class TestPlayerViews(BaseTestCase):
         ("owners", Owner, TEAM_OWNERS),
         ("players", Player, PLAYERS),
         ("rosters", Roster, ROSTERS),
-        ("nfl_teams", NFLTeam, NFL_TEAMS)
+        ("nfl_teams", NFLTeam, NFL_TEAMS),
     ]
 
     nfl_teams: list[NFLTeam]
     roster: Roster = None
     league: LeagueSettings = None
 
-    def test_get_latest_roster_success(self):
+    def generate_data(self):
+        super().generate_data()
+        self.link_player_stats()
+
+    def test_get_waivers(self):
         unavailable1 = Player.objects.create(name="Player1", position="DEF")
         unavailable2 = Player.objects.create(name="Player2", position="RB")
         player_ids1 = [unavailable1.id, unavailable2.id]
@@ -51,3 +55,9 @@ class TestPlayerViews(BaseTestCase):
         result_ids = [row["id"] for row in results]
         for player in unavailable_players:
             self.assertNotIn(player.id, result_ids)
+
+    def test_get_player_stats(self):
+        query_params = {"split_type": "splits", "player_ids": ",".join([str(p.id) for p in self.players])}
+        response = self.client.get("/api/player-stats/", query_params, format="json")
+        print("--------------", response.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

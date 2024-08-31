@@ -1,8 +1,12 @@
+from collections import defaultdict
+
+from django.db import IntegrityError
 from rest_framework.test import APITestCase
 
+from api.tests.util.fixtures import PLAYER_STATS
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
-from ffl_companion.api_models.player import Player
+from ffl_companion.api_models.player import Player, PlayerStatsWeekly
 from ffl_companion.api_models.roster import Roster
 from owner.models import Owner
 
@@ -14,6 +18,7 @@ class BaseTestCase(APITestCase):
     stats: list[FantasyTeamStats] = None
     players: list[Player] = None
     rosters: list[Roster] = None
+    player_stats: list[PlayerStatsWeekly] = None
 
     @classmethod
     def setUpTestData(cls):
@@ -52,6 +57,20 @@ class BaseTestCase(APITestCase):
             for owner, stat in zip(owners, stats):
                 stat.owner = owner
                 stat.save()
+
+    def link_player_stats(self):
+        current_week, i = 0, 0
+        player = self.players[0]
+        for stat in PLAYER_STATS:
+            if stat["game_week"] < current_week:
+                i += 1
+                try:
+                    player = self.players[i]
+                except IndexError:
+                    continue
+            current_week = stat["game_week"]
+            stat["player_id"] = player.id
+            PlayerStatsWeekly.objects.create(**stat)
 
     @staticmethod
     def query_model(model):

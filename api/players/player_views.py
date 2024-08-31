@@ -1,7 +1,7 @@
 import operator
 
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, QuerySet, Sum, Avg, Max
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
@@ -12,10 +12,10 @@ from api.players.player_serializers import (
     PlayerRequestSerializer,
     PlayerSerializer,
     PlayerSearchSerializer,
-    PlayerSearchResponseSerializer,
+    PlayerSearchResponseSerializer, PlayerStatsRequestSerializer, PlayerStatsSplitsResponseSerializer,
 )
 from ffl_companion.api_models.nfl_team import NFLTeam
-from ffl_companion.api_models.player import NFLPlayer, Player
+from ffl_companion.api_models.player import NFLPlayer, Player, PlayerStatsWeekly
 from ffl_companion.api_models.roster import Roster
 
 
@@ -153,6 +153,74 @@ class WaiverView(BaseAPIView):
         ).values_list("players__id")
 
         unavailable_player_ids = [p[0] for p in unavailable_players] if unavailable_players else []
-        available_players = self.get_queryset().exclude(id__in=unavailable_player_ids)
+        available_players = self.get_queryset().exclude(id__in=unavailable_player_ids).order_by("id")
         serializer = PlayerSearchResponseSerializer(available_players, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PlayerStatsGenerator:
+    STATS = [
+        *PlayerStatsWeekly.PASSING,
+        *PlayerStatsWeekly.RECEIVING,
+        *PlayerStatsWeekly.RUSHING,
+    ]
+
+    def __init__(self, players: QuerySet[Player], split_type: str):
+        self._players = players
+        self._split_type = split_type
+        self._split_key_map = {
+            "total": {
+                "agg": [(k, Sum) for k in self.STATS],
+                "group_key": ("stats_weekly__player_id",)
+            },
+            "advanced": [],
+            "splits": {
+                "agg": [(k, Avg) for k in self.STATS],
+                "group_key": ("stats_weekly__player_id", "stats_weekly__day_of_week")
+            }
+        }
+
+    def generate(self) -> QuerySet:
+        key = self._split_key_map[self._split_type]
+        agg = {f"{k[0]}": k[1](f"stats_weekly__{k[0]}") for k in key["agg"]}
+        return self._players.select_related("stats_weekly").values(*key["group_key"]).annotate(
+            **agg,
+            **{k.split("__")[-1]: Max(k) for k in key["group_key"]},
+        )
+
+
+class PlayerStatsView(BaseAPIView):
+    model = PlayerStatsWeekly
+
+    SERIALIZER_MAP = {
+        "total": None,  # TODO
+        "advanced": None,  # TODO
+        "splits": PlayerStatsSplitsResponseSerializer,
+    }
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = PlayerStatsRequestSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+
+        split_type = serializer.validated_data.get("split_type") or "total"
+        if split_type not in self.SERIALIZER_MAP:
+            return Response(f"Split type {split_type} not found", status=status.HTTP_400_BAD_REQUEST)
+
+        # roster_id takes priority over player_ids if both are included
+        if roster_id := serializer.validated_data.get("roster_id"):
+            try:
+                roster = self.protected_query(Roster).get(id=roster_id)
+            except Roster.DoesNotExist:
+                return Response(f"Roster {roster_id} not found", status=status.HTTP_404_NOT_FOUND)
+
+            players = roster.players.all()
+        else:
+            player_ids = string_to_list(serializer.validated_data.get("player_ids", []))
+            players = Player.objects.filter(id__in=player_ids)
+
+        generator = PlayerStatsGenerator(players=players, split_type=split_type)
+        serializer = self.SERIALIZER_MAP[split_type](generator.generate(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
