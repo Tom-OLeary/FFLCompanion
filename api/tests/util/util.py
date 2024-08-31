@@ -34,7 +34,12 @@ class BaseTestCase(APITestCase):
         self.generate_data()
 
     def generate_data(self):
-        return
+        self.link_leagues()
+        self.roster = self.query_model(Roster).get(roster_year=2024)
+        self.league = self.query_model(LeagueSettings).get(setting_year=2024)
+        self.roster.owner = self.user
+        self.roster.league = self.league
+        self.roster.save()
 
     def link_leagues(self):
         for league in self.leagues:

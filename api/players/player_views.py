@@ -1,5 +1,6 @@
 import operator
 
+from django.conf import settings
 from django.db.models import Q
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
@@ -15,6 +16,7 @@ from api.players.player_serializers import (
 )
 from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.api_models.player import NFLPlayer, Player
+from ffl_companion.api_models.roster import Roster
 
 
 class ProjectionListView(BaseAPIView):
@@ -135,4 +137,22 @@ class PlayerSearchView(BaseAPIView):
             return Response([], status=status.HTTP_200_OK)
 
         serializer = PlayerSearchResponseSerializer(results, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class WaiverView(BaseAPIView):
+    model = Player
+
+    def get(self, request):
+        """Returns list of all available players for user's current league"""
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
+
+        unavailable_players = self.protected_query(Roster).prefetch_related("players").filter(
+            roster_year=settings.CURRENT_YEAR
+        ).values_list("players__id")
+
+        unavailable_player_ids = [p[0] for p in unavailable_players] if unavailable_players else []
+        available_players = self.get_queryset().exclude(id__in=unavailable_player_ids)
+        serializer = PlayerSearchResponseSerializer(available_players, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

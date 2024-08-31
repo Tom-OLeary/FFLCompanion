@@ -149,6 +149,9 @@ class Player(models.Model):
     def current_team(self):
         return self.nfl_teams.order_by("-season_year").first()
 
+    def is_available(self, dataset: str):
+        return not self.player_rosters.filter(roster_year=settings.CURRENT_YEAR, dataset=dataset).exists()
+    
     def weekly_stats_by_year(self, year: int) -> QuerySet:
         return self.stats_weekly.filter(season_start_year=year)
 

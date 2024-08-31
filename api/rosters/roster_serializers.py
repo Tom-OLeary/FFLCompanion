@@ -8,7 +8,7 @@ class RosterImportSerializer(serializers.Serializer):
     player_ids = serializers.ListSerializer(child=serializers.CharField(), required=True)
 
 
-class RosterDetailRequestSerializer(serializers.Serializer):
+class LatestRosterRequestSerializer(serializers.Serializer):
     latest = serializers.BooleanField(required=False)
     roster_id = serializers.IntegerField(required=False)
 
@@ -20,3 +20,8 @@ class RosterSerializer(serializers.ModelSerializer):
 
     player_limit = serializers.IntegerField(default=0, read_only=True)
     players = PlayerTotalsResponseSerializer(many=True, read_only=True)
+
+
+class RosterUpdateRequestSerializer(serializers.Serializer):
+    player_add_ids = serializers.ListSerializer(child=serializers.CharField(), required=False)
+    player_drop_ids = serializers.ListSerializer(child=serializers.CharField(), required=False)

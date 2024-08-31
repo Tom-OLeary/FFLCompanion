@@ -44,4 +44,6 @@ class BaseAPIView(GenericAPIView):
         obj = super().get_object()
         if hasattr(obj, "dataset") and obj.dataset == self.request.user.dataset:
             return obj
+        else:
+            raise self.model.DoesNotExist()
 

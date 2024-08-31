@@ -23,6 +23,12 @@ export const getLeagueRosters = async () => {
 
 
 export const deleteRoster = async (roster_id) => {
-    const { data } = await api.delete(`rosters/user/?roster_id=${roster_id}`);
+    const { data } = await api.delete('rosters/${roster_id}/');
+    return data;
+}
+
+
+export const updateRoster = async (roster_id, player_updates) => {
+    const { data } = await api.post('rosters/${roster_id}/', {...player_updates});
     return data;
 }
