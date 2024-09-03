@@ -1,4 +1,8 @@
+from collections import defaultdict
+from typing import Union
+
 from django.conf import settings
+from django.db.models import QuerySet
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -126,3 +130,42 @@ class RosterDetailView(BaseAPIView):
 
         roster.delete()
         return Response("deleted", status=status.HTTP_200_OK)
+
+
+class RosterBreakdownView(BaseAPIView):
+    model = Roster
+    lookup_field = "id"
+    lookup_url_kwarg = "roster_id"
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
+
+        roster = self.get_object()
+        league_rosters = self.protected_query(Roster).filter(roster_year=settings.CURRENT_YEAR).exclude(id=roster.id)
+        opposing_players = _pos_points_map([p for r in league_rosters for p in r.players.all()])
+        roster_players = _pos_points_map(roster.players.all())
+
+        results = {
+            **_get_counts(opposing_players, league_rosters.count()),
+            "roster": _get_counts(roster_players)
+        }
+        return Response(results, status=status.HTTP_200_OK)
+
+
+def _pos_points_map(qs: Union[QuerySet, list]) -> dict:
+    position_splits = defaultdict(list)
+    for player in qs:
+        position_splits[player.position].append(player.fantasy_points)
+
+    return position_splits
+
+
+def _get_counts(position_splits: dict, roster_count: int = 1) -> dict:
+    totals = {"counts": {}, "points": {}}
+    for pos, player_points in position_splits.items():
+        pos = "RB" if pos == "FB" else pos
+        totals["counts"][pos] = len(player_points) / roster_count
+        totals["points"][pos] = sum(player_points) / roster_count
+
+    return totals

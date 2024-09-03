@@ -149,6 +149,22 @@ class Player(models.Model):
     def current_team(self):
         return self.nfl_teams.order_by("-season_year").first()
 
+    @property
+    def fantasy_points(self):
+        """Calculate total fantasy points for this player during given week"""
+        roster = self.player_rosters.filter(roster_year=settings.CURRENT_YEAR).first()
+        if roster is None:
+            return 0
+
+        total = 0
+        scoring = roster.league.scoring.all()
+        for stat in self.stats_weekly.filter(season_start_year=settings.CURRENT_YEAR):
+            for s in scoring:
+                stat_value = getattr(stat, s.stat_name)
+                total += stat_value * s.point_value
+
+        return total
+
     def is_available(self, dataset: str):
         return not self.player_rosters.filter(roster_year=settings.CURRENT_YEAR, dataset=dataset).exists()
     
@@ -371,7 +387,7 @@ class PlayerStatsWeekly(models.Model):
     @property
     def fantasy_points(self):
         """Calculate total fantasy points for this player during given week"""
-        roster = self.player.rosters.filter(roster_year=self.season_start_year).first()
+        roster = self.player.player_rosters.filter(roster_year=self.season_start_year).first()
         if roster is None:
             return 0
 

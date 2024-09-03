@@ -1,36 +1,83 @@
+from enum import Enum
+
 import pandas as pd
 from django.db.models import F
 from rest_framework import status
 from rest_framework.response import Response
 
 from api.api_util import BaseAPIView
-from api.leaders.leader_serializers import LeagueLeadersSerializer
+from ffl_companion.constants import FrameAgg, enum, R2
+from api.leaders.leader_serializers import LeagueLeaderSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
+
+
+GENERATE_LEADER = "_generate_leader"
+GENERATE_MAX_TOTAL = "_generate_max_total"
+OWNER_ID = "owner_id"
+YEARS_COUNT = "years_count"
+
+
+OperationKey = enum(
+    WON_FINALS="won_finals",
+    MADE_PLAYOFFS="made_playoffs",
+    MADE_FINALS="made_finals",
+    TOTAL_POINTS="total_points",
+    WINS="wins",
+    PPG="ppg",
+)
+
+
+CategoryKey = enum(
+    TITLES_SUM="titles_sum",
+    POINTS_YR="points_yr",
+    WINS_YR="wins_yr",
+    TOTAL_POINTS="total_points",
+    WINS="wins",
+    PPG_YR="ppg_yr",
+    PLAYOFF_APP="playoff_appearances",
+    FINALS_APP="finals_appearances",
+    PLAYOFF_RATE="playoff_rate",
+)
+
+
+class OutputKey(Enum):
+    # Response Serializer Fields
+    titles = (CategoryKey.TITLES_SUM, GENERATE_LEADER)
+    playoffs = (CategoryKey.PLAYOFF_APP, GENERATE_LEADER)
+    finals = (CategoryKey.FINALS_APP, GENERATE_LEADER)
+    points = (CategoryKey.POINTS_YR, GENERATE_LEADER)
+    wins = (CategoryKey.WINS_YR, GENERATE_LEADER)
+    ppg = (CategoryKey.PPG_YR, GENERATE_LEADER)
+    playoff_rate = (CategoryKey.PLAYOFF_RATE, GENERATE_LEADER)
+    # -------------- max totals, these results rely upon the specific row the data comes from
+    points_max = (CategoryKey.TOTAL_POINTS, GENERATE_MAX_TOTAL)
+    wins_max = (CategoryKey.WINS, GENERATE_MAX_TOTAL)
 
 
 class LeagueLeadersView(BaseAPIView):
     model = FantasyTeamStats
 
     CATEGORY_MAP = {
-        "titles_sum": ("Total", "Titles"),
-        "points_yr": ("Avg", "Points"),
-        "wins_yr": ("Avg", "Wins"),
-        "total_points": ("Total", "Points"),
-        "wins": ("Total", "Wins"),
-        "ppg_yr": ("Avg", "PPG"),
-        "playoff_appearances": ("Total", "Playoffs"),
-        "finals_appearances": ("Total", "Finals"),
-        "playoff_rate": ("Rate", "Playoffs"),
+        # Leaderboard Display Titles
+        CategoryKey.TITLES_SUM: ("Total", "Titles"),
+        CategoryKey.POINTS_YR: ("Avg", "Points"),
+        CategoryKey.WINS_YR: ("Avg", "Wins"),
+        CategoryKey.TOTAL_POINTS: ("Total", "Points"),
+        CategoryKey.WINS: ("Total", "Wins"),
+        CategoryKey.PPG_YR: ("Avg", "PPG"),
+        CategoryKey.PLAYOFF_APP: ("Total", "Playoffs"),
+        CategoryKey.FINALS_APP: ("Total", "Finals"),
+        CategoryKey.PLAYOFF_RATE: ("Rate", "Playoffs"),
     }
 
     OPERATION_MAP = {
-        "titles_sum": ("won_finals", "sum"),
-        "playoff_appearances": ("made_playoffs", "sum"),
-        "finals_appearances": ("made_finals", "sum"),
-        "points_yr": ("total_points", "mean"),
-        "wins_yr": ("wins", "mean"),
-        "ppg_yr": ("ppg", "mean"),
-        "playoff_rate": ("made_playoffs", "mean"),
+        CategoryKey.TITLES_SUM: (OperationKey.WON_FINALS, FrameAgg.SUM),
+        CategoryKey.PLAYOFF_APP: (OperationKey.MADE_PLAYOFFS, FrameAgg.SUM),
+        CategoryKey.FINALS_APP: (OperationKey.MADE_FINALS, FrameAgg.SUM),
+        CategoryKey.POINTS_YR: (OperationKey.TOTAL_POINTS, FrameAgg.MEAN),
+        CategoryKey.WINS_YR: (OperationKey.WINS, FrameAgg.MEAN),
+        CategoryKey.PPG_YR: (OperationKey.PPG, FrameAgg.MEAN),
+        CategoryKey.PLAYOFF_RATE: (OperationKey.MADE_PLAYOFFS, FrameAgg.MEAN),
     }
 
     QUERY_VALUES = [
@@ -51,14 +98,14 @@ class LeagueLeadersView(BaseAPIView):
 
     def _generate_leader(self, rank_df: pd.DataFrame, key: str):
         group_key, operation = self.OPERATION_MAP[key]
-        rank_df[key] = rank_df.groupby("owner_id")[group_key].transform(operation).round(2)
-        rank_df.sort_values(by=[key, "owner_id", "season_start_year"], inplace=True, ascending=False)
+        rank_df[key] = rank_df.groupby(OWNER_ID)[group_key].transform(operation).round(R2)
+        rank_df.sort_values(by=[key, OWNER_ID, "season_start_year"], inplace=True, ascending=False)
         return rank_df
 
     @staticmethod
     def _generate_max_total(df: pd.DataFrame, key: str):
-        _idx = df.groupby("owner_id")[key].transform("max") == df[key]
-        return df[_idx].sort_values(by=[key, "years_count"], ascending=False).round(2)
+        _idx = df.groupby(OWNER_ID)[key].transform(FrameAgg.MAX) == df[key]
+        return df[_idx].sort_values(by=[key, YEARS_COUNT], ascending=False).round(R2)
 
     def _generate_rank(self, df: pd.DataFrame, key: str, func: str):
         if df.empty:
@@ -66,7 +113,7 @@ class LeagueLeadersView(BaseAPIView):
 
         rank_df = df.copy()
         rank_df["category_type"], rank_df["category"] = self.CATEGORY_MAP[key]
-        rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=["owner_id", key], keep="first").rename(columns={key: "total"})
+        rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=[OWNER_ID, key], keep="first").rename(columns={key: "total"})
         return rank_df.to_dict("records")
 
     def get(self, request):
@@ -82,23 +129,8 @@ class LeagueLeadersView(BaseAPIView):
             return Response([], status=status.HTTP_200_OK)
 
         stats_df = pd.DataFrame(stats)
-        stats_df["years_count"] = stats_df.groupby("owner_id")["owner_id"].transform("count")
+        stats_df[YEARS_COUNT] = stats_df.groupby(OWNER_ID)[OWNER_ID].transform(FrameAgg.COUNT)
         stats_df.fillna(0, inplace=True)
 
-        serializer = LeagueLeadersSerializer(
-            dict(
-                # -------------- counts/rates
-                titles=self._generate_rank(stats_df, "titles_sum", "_generate_leader"),
-                playoffs=self._generate_rank(stats_df, "playoff_appearances", "_generate_leader"),
-                finals=self._generate_rank(stats_df, "finals_appearances", "_generate_leader"),
-                points=self._generate_rank(stats_df, "points_yr", "_generate_leader"),
-                wins=self._generate_rank(stats_df, "wins_yr", "_generate_leader"),
-                ppg=self._generate_rank(stats_df, "ppg_yr", "_generate_leader"),
-                playoff_rate=self._generate_rank(stats_df, "playoff_rate", "_generate_leader"),
-                # -------------- max totals, these results rely upon the specific row the data comes from
-                points_max=self._generate_rank(stats_df, "total_points", "_generate_max_total"),
-                wins_max=self._generate_rank(stats_df, "wins", "_generate_max_total"),
-                # net_rating_max=self._generate_rank(stats_df, "net_rating", "_generate_max_total"),
-            )
-        )
+        serializer = LeagueLeaderSerializer({k.name: self._generate_rank(stats_df, *k.value) for k in OutputKey})
         return Response(serializer.data, status=status.HTTP_200_OK)

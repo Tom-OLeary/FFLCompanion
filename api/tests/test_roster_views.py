@@ -140,3 +140,13 @@ class TestRosterViews(BaseTestCase):
         response = self.client.post(f"/api/rosters/{roster2.id}/", data=post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.json(), "One or more players not available")
+
+    def test_roster_breakdown_response(self):
+        self.generate_rosters()
+        self.roster.players.set(self.players)  # user roster
+
+        response = self.client.get(f"/api/rosters/{self.roster.id}/breakdown/", format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        results = response.json()
+        print("------------", results)

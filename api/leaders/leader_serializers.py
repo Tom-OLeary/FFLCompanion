@@ -23,7 +23,7 @@ class LeaderPayloadSerializer(serializers.Serializer):
     season_start_year = serializers.IntegerField(required=True)
 
 
-class LeagueLeadersSerializer(serializers.Serializer):
+class LeagueLeaderSerializer(serializers.Serializer):
     titles = LeaderPayloadSerializer(many=True)
     points = LeaderPayloadSerializer(many=True)
     wins = LeaderPayloadSerializer(many=True)
