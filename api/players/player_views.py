@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from functools import reduce
 
 from api.api_util import string_to_list, get_queryset_filters, BaseAPIView
+from api.decorators import require_token
 from api.players.player_serializers import (
     PlayerRequestSerializer,
     PlayerSerializer,
@@ -23,14 +24,12 @@ class ProjectionListView(BaseAPIView):
     schema_keys = list(PlayerRequestSerializer.__dict__["_declared_fields"].keys())
     model = NFLPlayer
 
+    @require_token
     @extend_schema(
         parameters=[OpenApiParameter(name=k, location="query", type=str) for k in schema_keys],
         responses={"200": PlayerSerializer(many=True)},
     )
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         serializer = PlayerRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
@@ -60,26 +59,22 @@ class PlayerDetailView(BaseAPIView):
     lookup_field = "id"
     lookup_url_kwarg = "player_id"
 
+    @require_token
     @extend_schema(
         parameters=[OpenApiParameter(name="player_id", location="path", type=str)],
         responses={"200": PlayerSerializer},
     )
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         player = self.get_object()
         return Response(PlayerSerializer(player).data, status=status.HTTP_200_OK)
 
+    @require_token
     @extend_schema(
         request=PlayerSerializer,
         parameters=[OpenApiParameter(name="player_id", location="path", type=str)],
         responses={"200": PlayerSerializer},
     )
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         player = self.get_object()
         serializer = PlayerSerializer(player, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -90,10 +85,8 @@ class PlayerDetailView(BaseAPIView):
 class PlayerSearchView(BaseAPIView):
     model = Player
 
+    @require_token
     def post(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         serializer = PlayerSearchSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.validated_data.pop("players", None)
@@ -143,11 +136,9 @@ class PlayerSearchView(BaseAPIView):
 class WaiverView(BaseAPIView):
     model = Player
 
+    @require_token
     def get(self, request):
         """Returns list of all available players for user's current league"""
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         unavailable_players = self.protected_query(Roster).prefetch_related("players").filter(
             roster_year=settings.CURRENT_YEAR
         ).values_list("players__id")
@@ -198,10 +189,8 @@ class PlayerStatsView(BaseAPIView):
         "splits": PlayerStatsSplitsResponseSerializer,
     }
 
+    @require_token
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         serializer = PlayerStatsRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 

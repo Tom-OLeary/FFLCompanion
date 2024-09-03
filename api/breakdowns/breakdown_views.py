@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from api.api_util import BaseAPIView
 from api.breakdowns.breakdown_serializers import YearlyStatsSerializer
+from api.decorators import require_token
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from owner.models import Owner
@@ -33,10 +34,8 @@ class LeagueBreakdown:
 class LeagueBreakdownView(BaseAPIView):
     model = LeagueSettings
 
+    @require_token
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         leagues = self.get_queryset().order_by("-setting_year")
         owners = self.protected_query(Owner)
         if league_name := request.GET.get("name"):
@@ -49,10 +48,8 @@ class LeagueBreakdownView(BaseAPIView):
 class YearlyStatsView(BaseAPIView):
     model = FantasyTeamStats
 
+    @require_token
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         stats = self.get_queryset()
         serializer = YearlyStatsSerializer(stats, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

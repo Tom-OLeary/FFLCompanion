@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from api.api_util import BaseAPIView
+from api.decorators import require_token
 from ffl_companion.constants import FrameAgg, enum, R2
 from api.leaders.leader_serializers import LeagueLeaderSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
@@ -116,10 +117,8 @@ class LeagueLeadersView(BaseAPIView):
         rank_df = getattr(self, func)(rank_df, key).drop_duplicates(subset=[OWNER_ID, key], keep="first").rename(columns={key: "total"})
         return rank_df.to_dict("records")
 
+    @require_token
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         stats = self.get_queryset().select_related("owner").annotate(
             name=F("owner__name"),
             is_active=F("owner__is_active"),

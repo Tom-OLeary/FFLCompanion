@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from api.api_util import BaseAPIView, string_to_list
+from api.decorators import require_token
 from api.rosters.roster_serializers import (
     RosterImportSerializer,
     RosterSerializer,
@@ -21,10 +22,8 @@ from ffl_companion.api_models.roster import Roster
 class RosterView(BaseAPIView):
     model = Player
 
+    @require_token
     def get(self, request):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
-
         rosters = self.protected_query(Roster)
         if not rosters:
             return Response([], status.HTTP_200_OK)
@@ -32,11 +31,9 @@ class RosterView(BaseAPIView):
         serializer = RosterSerializer(rosters, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @require_token
     def post(self, request):
         """Create new Roster for current year"""
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
-
         serializer = RosterImportSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -68,10 +65,8 @@ class RosterView(BaseAPIView):
 class LatestRosterView(BaseAPIView):
     model = Roster
 
+    @require_token
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
-
         serializer = LatestRosterRequestSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
 
@@ -98,10 +93,8 @@ class RosterDetailView(BaseAPIView):
     lookup_field = "id"
     lookup_url_kwarg = "roster_id"
 
+    @require_token
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
-
         serializer = RosterUpdateRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -120,10 +113,8 @@ class RosterDetailView(BaseAPIView):
         roster.players.set(player_ids)
         return Response("ok", status=status.HTTP_200_OK)
 
+    @require_token
     def delete(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status=status.HTTP_401_UNAUTHORIZED)
-
         roster = self.get_object()
         if roster.owner != self.request.user:
             return Response(f"Roster cannot be deleted by this owner", status.HTTP_403_FORBIDDEN)
@@ -137,10 +128,8 @@ class RosterBreakdownView(BaseAPIView):
     lookup_field = "id"
     lookup_url_kwarg = "roster_id"
 
+    @require_token
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return Response(self.AUTHENTICATION_MSG, status.HTTP_401_UNAUTHORIZED)
-
         roster = self.get_object()
         league_rosters = self.protected_query(Roster).filter(roster_year=settings.CURRENT_YEAR).exclude(id=roster.id)
         opposing_players = _pos_points_map([p for r in league_rosters for p in r.players.all()])

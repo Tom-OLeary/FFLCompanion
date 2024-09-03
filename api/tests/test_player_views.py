@@ -59,5 +59,5 @@ class TestPlayerViews(BaseTestCase):
     def test_get_player_stats(self):
         query_params = {"split_type": "splits", "player_ids": ",".join([str(p.id) for p in self.players])}
         response = self.client.get("/api/player-stats/", query_params, format="json")
-        print("--------------", response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # TODO ADD TESTS
