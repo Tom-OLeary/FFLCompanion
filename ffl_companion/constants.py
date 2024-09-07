@@ -1,5 +1,6 @@
 from django.db.models import Sum, Min, Max, Avg
 
+from ffl_companion.constant_manager import PlayerBase, PlayerStats, FantasyStats
 
 # Rounding
 R2 = 2
@@ -7,7 +8,6 @@ R2 = 2
 
 # Enums
 def enum(**enums):
-    # avoids requiring the additional call to '.value'
     return type("Enum", (), enums)
 
 
@@ -27,3 +27,7 @@ QueryAgg = enum(
     AVG=Avg,
 )
 
+
+PLAYER_BASE = PlayerBase()
+PLAYER_STATS = PlayerStats()
+FANTASY_TEAM_STATS = FantasyStats()

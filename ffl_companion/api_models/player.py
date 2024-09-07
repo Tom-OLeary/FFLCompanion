@@ -11,6 +11,7 @@ from django.db.models import QuerySet, Sum
 from ffl_companion.api_models.choices import WeekdayChoices, PositionChoices
 from ffl_companion.api_models.nfl_team import NFLTeam
 from ffl_companion.util import format_date_str
+from ffl_companion.constants import PLAYER_STATS as PS
 from owner.models import Owner
 
 
@@ -239,6 +240,7 @@ class PlayerStatsManager(models.Manager):
         },
     }
 
+    # mapping is unique to this importer
     TEAM_MAPPING = {
         "NYG": "NYG",
         "PHI": "PHI",
@@ -336,24 +338,24 @@ class PlayerStatsWeekly(models.Model):
         db_table = "player_stats_weekly"
         unique_together = (("player_id", "season_start_year", "game_week"),)
 
-    PASSING = [
-        "pass_yds",
-        "pass_td",
-        "pass_attempts",
-        "pass_completions",
-        "interceptions",
-    ]
-    RECEIVING = [
-        "targets",
-        "receptions",
-        "receiving_yards",
-        "receiving_td",
-    ]
-    RUSHING = [
-        "rush_yds",
-        "rush_td",
-        "rush_attempts",
-    ]
+    PASSING: tuple = (
+        PS.PASS_YDS,
+        PS.PASS_TD,
+        PS.PASS_ATTEMPTS,
+        PS.PASS_COMPLETIONS,
+        PS.INTERCEPTIONS,
+    )
+    RECEIVING: tuple = (
+        PS.TARGETS,
+        PS.RECEPTIONS,
+        PS.RECEIVING_YDS,
+        PS.RECEIVING_TD,
+    )
+    RUSHING: tuple = (
+        PS.RUSH_YDS,
+        PS.RUSH_TD,
+        PS.RUSH_ATTEMPTS,
+    )
 
     player = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="stats_weekly")
     season_start_year = models.IntegerField(default=2024, db_index=True)

@@ -1,8 +1,6 @@
-from collections import defaultdict
 from datetime import date
 
 from django.conf import settings
-from django.db import IntegrityError
 from rest_framework.test import APITestCase
 
 from api.tests.util.fixtures import PLAYER_STATS
@@ -61,15 +59,17 @@ class BaseTestCase(APITestCase):
                 stat.save()
 
     def link_player_stats(self):
-        current_week, i = 0, 0
-        player = self.players[0]
+        current_week = 0
+        gen = player_gen(self.players)
+        player = next(gen)
         for stat in PLAYER_STATS:
             if stat["game_week"] < current_week:
-                i += 1
+                # ensure game weeks are not duplicated for same player
                 try:
-                    player = self.players[i]
-                except IndexError:
-                    continue
+                    player = next(gen)
+                except StopIteration:
+                    break
+
             current_week = stat["game_week"]
             stat["player_id"] = player.id
             PlayerStatsWeekly.objects.create(**stat)
@@ -93,6 +93,11 @@ class BaseTestCase(APITestCase):
 def bulk_create(model, rows):
     to_create = [model(**r) for r in rows]
     return model.objects.bulk_create(to_create)
+
+
+def player_gen(players):
+    for player in players:
+        yield player
 
 
 class MockStats:
