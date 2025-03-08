@@ -98,8 +98,11 @@ class PlayerSearchView(BaseAPIView):
 
         def add(player):
             *fullname, team = player.split(" ")
-            names.append(fullname)
-            teams.add(team.upper())
+            if fullname and len(fullname) == 2:
+                names.append(fullname)
+
+            if team:
+                teams.add(team.upper())
 
         for players in [qbs, rbs, wrs, tes]:
             for p in players:

@@ -26,6 +26,9 @@ class TestPlayerViews(BaseTestCase):
     def generate_data(self):
         super().generate_data()
         self.link_player_stats()
+        self.team = NFLTeam.objects.first()
+        for p in self.players:
+            p.nfl_teams.add(self.team)
 
     def test_get_waivers(self):
         unavailable1 = Player.objects.create(name="Player1", position="DEF")
@@ -61,3 +64,20 @@ class TestPlayerViews(BaseTestCase):
         response = self.client.get("/api/player-stats/", query_params, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # TODO ADD TESTS
+
+    def test_player_search_view(self):
+        request_data = {
+            "QB": [f"Matt Lein {self.team.abbreviation}"],
+            "RB": [f"Dan Kreider {self.team.abbreviation}"],
+            "WR": ["nobody"],
+            "TE": [],
+            "DEF": [],
+        }
+        response = self.client.post("/api/player-search/", request_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        results = response.json()
+        self.assertEqual(len(results), 2)
+
+        names = [row["name"] for row in results]
+        self.assertTrue(n in names for n in ["Matt Leinart", "Dan Kreider"])

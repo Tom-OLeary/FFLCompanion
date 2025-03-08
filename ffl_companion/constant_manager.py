@@ -25,16 +25,16 @@ class ConstantManager(object):
         if len(self._fields) != len(self.__slots__):
             raise AttributeError(f"{self.__class__.__name__} must have same number of fields and __slots__")
 
-        for key, f in zip(self.__slots__, self._fields):
-            super().__setattr__(key, f)
+        for key in zip(self.__slots__, self._fields):
+            super().__setattr__(*key)
 
     def __setattr__(self, key, value):
         raise ImmutableObjException(f"Cannot change values of this class")
 
     @property
-    def choices(self):
+    def choices(self) -> list:
         # fallback if field choices are unclear
-        return [(key, f) for key, f in zip(self.__slots__, self._fields)]
+        return list(zip(self.__slots__, self._fields))
 
 
 # ---------------- PLAYER ----------------

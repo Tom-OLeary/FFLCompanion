@@ -19,22 +19,23 @@ from api.leaders.categories import (
 )
 from api.leaders.leader_serializers import LeagueLeaderSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
+from ffl_companion.constants import FANTASY_TEAM_STATS as FTS
 
 
 class LeagueLeadersView(BaseAPIView):
     model = FantasyTeamStats
 
     QUERY_VALUES = [
-        "owner_id",
-        "wins",
-        "total_points",
-        "ppg",
-        "net_rating",
-        "won_finals",
-        "made_playoffs",
-        "made_finals",
-        "season_start_year",
-        "team_name",
+        FTS.OWNER_ID,
+        FTS.WINS,
+        FTS.TOTAL_POINTS,
+        FTS.PPG,
+        FTS.NET_RATING,
+        FTS.WON_FINALS,
+        FTS.MADE_PLAYOFFS,
+        FTS.MADE_FINALS,
+        FTS.SEASON_START_YEAR,
+        FTS.TEAM_NAME,
         "name",
         "is_active",
         "image",
@@ -54,7 +55,7 @@ class LeagueLeadersView(BaseAPIView):
 
     @require_token
     def get(self, request):
-        stats = self.get_queryset().select_related("owner").annotate(
+        stats = self.get_queryset().select_related(FTS.OWNER).annotate(
             name=F("owner__name"),
             is_active=F("owner__is_active"),
             image=F("owner__image")

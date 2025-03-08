@@ -8,6 +8,7 @@ from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
 from ffl_companion.api_models.league_settings import LeagueSettings
 from ffl_companion.api_models.player import Player, PlayerStatsWeekly
 from ffl_companion.api_models.roster import Roster
+from ffl_companion.constants import PLAYER_STATS as PS
 from owner.models import Owner
 
 
@@ -101,53 +102,33 @@ def player_gen(players):
 
 
 class MockStats:
-    _QB = [
-        "pass_yds",
-        "pass_td",
-        "pass_attempts",
-        "pass_completions",
-        "interceptions",
-        "pass_completion_pct",
-        "pass_rating",
-    ]
-    _REC = [
-        "targets",
-        "receptions",
-        "receiving_yards",
-        "receiving_td",
-    ]
-    _RUSH = [
-        "rush_yds",
-        "rush_td",
-        "rush_attempts",
-    ]
     _MODIFIERS = {
         100: [
-            "pass_yds",
-            "receiving_yards",
+            PS.PASS_YDS,
+            PS.RECEIVING_YDS,
         ],
         10: [
-            "pass_attempts",
-            "pass_completions",
-            "pass_completion_pct",
-            "pass_rating",
-            "rush_yds",
-            "rush_attempts"
+            PS.PASS_ATTEMPTS,
+            PS.PASS_COMPLETIONS,
+            PS.PASS_COMPLETION_PCT,
+            PS.PASS_RATING,
+            PS.RUSH_YDS,
+            PS.RUSH_ATTEMPTS
         ],
         1: [
-            "pass_td",
-            "interceptions",
-            "targets",
-            "receptions",
-            "receiving_td",
-            "rush_td",
+            PS.PASS_TD,
+            PS.INTERCEPTIONS,
+            PS.TARGETS,
+            PS.RECEPTIONS,
+            PS.RECEIVING_TD,
+            PS.RUSH_TD,
         ],
     }
     STAT_KEYS = {
-        "QB": _QB,
-        "RB": _RUSH,
-        "WR": _REC,
-        "TE": _REC,
+        "QB": PS.passing,
+        "RB": PS.rushing,
+        "WR": PS.receiving,
+        "TE": PS.receiving,
         "DEF": [],
     }
 

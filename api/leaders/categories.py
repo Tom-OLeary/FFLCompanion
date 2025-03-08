@@ -2,19 +2,22 @@ from typing import Type
 
 import pandas as pd
 
-from ffl_companion.constants import FrameAgg, enum, R2
+from ffl_companion.constants import FrameAgg, enum, R2, FANTASY_TEAM_STATS as FTS
 
-OWNER_ID = "owner_id"
+OWNER_ID = FTS.OWNER_ID
 YEARS_COUNT = "years_count"
+TOTAL = "Total"
+AVERAGE = "Avg"
+RATE = "Rate"
 
 
 OperationKey = enum(
-    WON_FINALS="won_finals",
-    MADE_PLAYOFFS="made_playoffs",
-    MADE_FINALS="made_finals",
-    TOTAL_POINTS="total_points",
-    WINS="wins",
-    PPG="ppg",
+    WON_FINALS=FTS.WON_FINALS,
+    MADE_PLAYOFFS=FTS.MADE_PLAYOFFS,
+    MADE_FINALS=FTS.MADE_FINALS,
+    TOTAL_POINTS=FTS.TOTAL_POINTS,
+    WINS=FTS.WINS,
+    PPG=FTS.PPG,
 )
 
 CategoryKey = enum(
@@ -54,9 +57,8 @@ class GenerateLeader:
         ALL_TIME="_generate_all_time_leader",
         YEAR_SPECIFIC="_generate_year_specific_leader",
     )
-
-    CATEGORY_TYPE: str = None  # Title displayed on Leaderboard
     CATEGORY: str = None  # Category displayed on Leaderboard
+    CATEGORY_TYPE: str = None  # Title displayed on Leaderboard
 
     CATEGORY_KEY: CategoryKey = None
     METHOD: str = None
@@ -96,7 +98,7 @@ class GenerateLeader:
             raise LeaderRankingException(f"Subclass Missing One or More Operation Attributes")
 
         self._stats_df[self.CATEGORY_KEY] = self._stats_df.groupby(OWNER_ID)[self.GROUP_KEY].transform(self.OPERATION).round(R2)
-        self._stats_df.sort_values(by=[self.CATEGORY_KEY, OWNER_ID, "season_start_year"], inplace=True, ascending=False)
+        self._stats_df.sort_values(by=[self.CATEGORY_KEY, OWNER_ID, FTS.SEASON_START_YEAR], inplace=True, ascending=False)
 
     def _generate_year_specific_leader(self):
         """
@@ -108,8 +110,8 @@ class GenerateLeader:
 
 
 class TotalTitles(GenerateLeader):
-    CATEGORY_TYPE = "Total"
     CATEGORY = "Titles"
+    CATEGORY_TYPE = TOTAL
     CATEGORY_KEY = CategoryKey.TITLES_SUM
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.SUM
@@ -118,8 +120,8 @@ class TotalTitles(GenerateLeader):
 
 
 class AvgPoints(GenerateLeader):
-    CATEGORY_TYPE = "Avg"
     CATEGORY = "Points"
+    CATEGORY_TYPE = AVERAGE
     CATEGORY_KEY = CategoryKey.POINTS_YR
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.MEAN
@@ -128,8 +130,8 @@ class AvgPoints(GenerateLeader):
 
 
 class AvgWins(GenerateLeader):
-    CATEGORY_TYPE = "Avg"
     CATEGORY = "Wins"
+    CATEGORY_TYPE = AVERAGE
     CATEGORY_KEY = CategoryKey.WINS_YR
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.MEAN
@@ -138,8 +140,8 @@ class AvgWins(GenerateLeader):
 
 
 class AvgPPG(GenerateLeader):
-    CATEGORY_TYPE = "Avg"
     CATEGORY = "PPG"
+    CATEGORY_TYPE = AVERAGE
     CATEGORY_KEY = CategoryKey.PPG_YR
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.MEAN
@@ -148,8 +150,8 @@ class AvgPPG(GenerateLeader):
 
 
 class TotalPlayoffs(GenerateLeader):
-    CATEGORY_TYPE = "Total"
     CATEGORY = "Playoffs"
+    CATEGORY_TYPE = TOTAL
     CATEGORY_KEY = CategoryKey.PLAYOFF_APP
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.SUM
@@ -158,8 +160,8 @@ class TotalPlayoffs(GenerateLeader):
 
 
 class TotalFinals(GenerateLeader):
-    CATEGORY_TYPE = "Total"
     CATEGORY = "Finals"
+    CATEGORY_TYPE = TOTAL
     CATEGORY_KEY = CategoryKey.FINALS_APP
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.SUM
@@ -168,8 +170,8 @@ class TotalFinals(GenerateLeader):
 
 
 class PlayoffRate(GenerateLeader):
-    CATEGORY_TYPE = "Rate"
     CATEGORY = "Playoffs"
+    CATEGORY_TYPE = RATE
     CATEGORY_KEY = CategoryKey.PLAYOFF_RATE
     METHOD = GenerateLeader.METHODS.ALL_TIME
     OPERATION = FrameAgg.MEAN
@@ -178,16 +180,16 @@ class PlayoffRate(GenerateLeader):
 
 
 class MaxPoints(GenerateLeader):
-    CATEGORY_TYPE = "Total"
     CATEGORY = "Points"
+    CATEGORY_TYPE = TOTAL
     CATEGORY_KEY = CategoryKey.TOTAL_POINTS
     METHOD = GenerateLeader.METHODS.YEAR_SPECIFIC
     OUTPUT_KEY = OutputKey.POINTS_MAX
 
 
 class MaxWins(GenerateLeader):
-    CATEGORY_TYPE = "Total"
     CATEGORY = "Wins"
+    CATEGORY_TYPE = TOTAL
     CATEGORY_KEY = CategoryKey.WINS
     METHOD = GenerateLeader.METHODS.YEAR_SPECIFIC
     OUTPUT_KEY = OutputKey.WINS_MAX
