@@ -7,15 +7,7 @@ from api.api_util import BaseAPIView
 from api.decorators import require_token
 from api.leaders.categories import (
     Rank,
-    TotalTitles,
-    AvgPoints,
-    AvgWins,
-    AvgPPG,
-    TotalPlayoffs,
-    TotalFinals,
-    PlayoffRate,
-    MaxPoints,
-    MaxWins
+    LeaderMetaclass
 )
 from api.leaders.leader_serializers import LeagueLeaderSerializer
 from ffl_companion.api_models.fantasy_tracker import FantasyTeamStats
@@ -41,18 +33,6 @@ class LeagueLeadersView(BaseAPIView):
         "image",
     ]
 
-    CATEGORIES = (
-        TotalTitles,
-        AvgPoints,
-        AvgWins,
-        AvgPPG,
-        TotalPlayoffs,
-        TotalFinals,
-        PlayoffRate,
-        MaxPoints,
-        MaxWins,
-    )
-
     @require_token
     def get(self, request):
         stats = self.get_queryset().select_related(FTS.OWNER).annotate(
@@ -64,7 +44,7 @@ class LeagueLeadersView(BaseAPIView):
             return Response([], status=status.HTTP_200_OK)
 
         generator = Rank(pd.DataFrame(stats))
-        for category in self.CATEGORIES:
+        for _, category in LeaderMetaclass.registry.items():
             generator.register(category)
 
         serializer = LeagueLeaderSerializer(generator.run())

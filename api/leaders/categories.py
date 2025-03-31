@@ -52,7 +52,20 @@ class LeaderRankingException(Exception):
     pass
 
 
-class GenerateLeader:
+class LeaderMetaclass(type):
+    registry = {}
+
+    def __new__(cls, name, bases, attrs):
+        new_cls = super().__new__(cls, name, bases, attrs)
+
+        # avoid registering the base class
+        if bases != ():
+            LeaderMetaclass.registry[name] = new_cls
+
+        return new_cls
+
+
+class GenerateLeader(metaclass=LeaderMetaclass):
     METHODS = enum(
         ALL_TIME="_generate_all_time_leader",
         YEAR_SPECIFIC="_generate_year_specific_leader",
