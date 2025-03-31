@@ -53,6 +53,7 @@ class LeaderRankingException(Exception):
 
 
 class LeaderMetaclass(type):
+    """Automatically register subclass categories for use in the LeadersView API"""
     registry = {}
 
     def __new__(cls, name, bases, attrs):
